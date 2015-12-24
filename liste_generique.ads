@@ -1,5 +1,3 @@
-
-
 generic
    type Element is private;
 

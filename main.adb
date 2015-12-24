@@ -5,22 +5,36 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Math; use Math;
 
 procedure Main is
-   Segments : Liste_Points.Liste;
-   Facettes : Liste_Facettes.Liste;
+    Segments : Liste_Points.Liste;
+    Facettes : Liste_Facettes.Liste;
+
+    -- Quelques variables de test
+    P1, C1, C2, P2 : Point2D;
+    Points : Liste_Points.Liste;
 begin
 
-   if Argument_Count /= 2 then
-      Put_Line(Standard_Error,
-               "usage : " & Command_Name &
-               " fichier_entree.svg fichier_sortie.stl");
-      Set_Exit_Status(Failure);
-      return;
-   end if;
+    if Argument_Count /= 2 then
+        Put_Line(Standard_Error,
+        "usage : " & Command_Name &
+        " fichier_entree.svg fichier_sortie.stl");
+        Set_Exit_Status(Failure);
+        return;
+    end if;
 
-   --on charge la courbe de bezier et la convertit en segments
-   Chargement_Bezier(Argument(1), Segments);
-   --on convertit en facettes par rotation
-   Creation(Segments, Facettes);
-   --on sauvegarde le modele obtenu
-   Sauvegarder(Argument(2), Facettes);
+    --on charge la courbe de bezier et la convertit en segments
+    Chargement_Bezier(Argument(1), Segments);
+    --on convertit en facettes par rotation
+    Creation(Segments, Facettes);
+    --on sauvegarde le modele obtenu
+    Sauvegarder(Argument(2), Facettes);
+
+
+    -- TESTS
+    P1 := (100.0, 100.0);
+    C1 := (130.0, 60.0);
+    C2 := (180.0, 60.0);
+    P2 := (200.0, 100.0);
+
+    Bezier(P1, C1, C2, P2, 15, Points);
+    Afficher(Points);
 end;
