@@ -27,6 +27,8 @@ package body Liste_Generique is
         else
             L.Debut := new Cellule'(Contenu => E, Suivant => L.Debut);
         end if;
+
+        L.Taille := L.Taille + 1;
     end;
 
     procedure Insertion_Queue(L : in out Liste ; E : Element) is
@@ -40,6 +42,8 @@ package body Liste_Generique is
             L.Fin.Suivant := Ptr_Cellule;
             L.Fin := Ptr_Cellule;
         end if;
+
+        L.Taille := L.Taille + 1;
     end;
 
     procedure Parcourir (L : Liste) is
@@ -64,7 +68,16 @@ package body Liste_Generique is
 
     procedure Fusion(L1 : in out Liste ; L2 : in out Liste) is
     begin
-        null;
+        if L1.Taille /= 0 then
+            L1.Fin.Suivant := L2.Debut;
+        else
+            L1.Debut := L2.Debut;
+        end if;
+        L1.Fin := L2.Fin;
+        L1.Taille := L1.Taille + L2.Taille;
+        L2.Debut := null;
+        L2.Fin := null;
+        L2.Taille := 0;
     end;
 
     function Taille(L : Liste) return Natural is

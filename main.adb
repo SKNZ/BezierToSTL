@@ -11,6 +11,7 @@ procedure Main is
     -- Quelques variables de test
     P1, C1, C2, P2 : Point2D;
     Points : Liste_Points.Liste;
+    Points2 : Liste_Points.Liste;
 begin
 
     if Argument_Count /= 2 then
@@ -36,5 +37,9 @@ begin
     P2 := (200.0, 100.0);
 
     Bezier(P1, C1, C2, P2, 15, Points);
+    Bezier(P1, C1, P2, 15, Points2);
     Afficher(Points);
+    New_Line;
+    Liste_Points.Fusion(Points, Points2);    
+    Afficher(Points2);
 end;
