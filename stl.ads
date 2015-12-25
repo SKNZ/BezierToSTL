@@ -1,10 +1,17 @@
 -- TODO Prétraitement : décalage de xmin et ymin
 with Liste_Generique;
 with Math; use Math;
+with Ada.Numerics;
+use Ada.Numerics;
+with Ada.Numerics.Elementary_Functions;
+use Ada.Numerics.Elementary_Functions;
 
 package STL is
     -- Pas de la rotation
     M : constant Positive := 30;
+
+    -- Angle de la rotation en radian
+    Alpha : constant Float := (2.0 * PI)/Float(M);
 
     subtype Point3D is Vecteur(1..3);
 
@@ -14,17 +21,16 @@ package STL is
 
     package Liste_Facettes is new Liste_Generique(Facette);
 
-    --prend une liste de segments et cree l'objet 3d par rotations
+    -- Prend une liste de segments et cree l'objet 3d par rotations
     -- Requiert Taille(Segments) > 0
     procedure Creation(Segments : in out Liste_Points.Liste ;
         Facettes : out Liste_Facettes.Liste);
 
-    --sauvegarde le fichier stl
+    -- Sauvegarde le fichier stl
     procedure Sauvegarder(Nom_Fichier : String ;
         Facettes : Liste_Facettes.Liste);
 
 private
-    -- Crée un point 3D à partir d'un point 2D et d'un angle de rotation
-    -- Requiert un angle en radian
-    function Decaler(P : Point2D; Angle_Radian : Float) return Point3D;
+    -- Affiche le code STL pour une facette
+    procedure Display_Facette_STL(Triplet : in out Facette);
 end;
