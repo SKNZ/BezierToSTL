@@ -5,7 +5,6 @@ package body STL is
 
     procedure Creation(Segments : in out Liste_Points.Liste ;
         Facettes : out Liste_Facettes.Liste) is
-        Premier_Point : Point3D;
 
         -- Crée un "cercle" de facettes
         procedure Creer_Facette(P_Cour, P_Suiv : in Point2D) is
@@ -15,7 +14,7 @@ package body STL is
                 -- (i.e. 3 points 3D)
                 -- TODO pas très swag tout ça -> faire quelque chose !
                 Liste_Facettes.Insertion_Queue(Facettes,
-                                               (1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
+                                               ((1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
                                                 2 => P_Suiv(P_Suiv'Last),
                                                 3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas) * Angle_Radian)),
                                                (1 => P_Cour(P_Cour'First) * Cos(Float(Pas) * Angle_Radian),
@@ -23,10 +22,10 @@ package body STL is
                                                 3 => P_Cour(P_Cour'First) * Sin(Float(Pas) * Angle_Radian)),
                                                (1 => P_Cour(P_Cour'First) * Cos(Float(Pas+1) * Angle_Radian),
                                                 2 => P_Cour(P_Cour'Last),
-                                                3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian)));
+                                                3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian))));
                 -- On ajoute la deuxième facette
                 Liste_Facettes.Insertion_Queue(Facettes,
-                                               (1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
+                                               ((1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
                                                 2 => P_Suiv(P_Suiv'Last),
                                                 3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas) * Angle_Radian)),
                                                (1 => P_Cour(P_Cour'First) * Cos(Float(Pas+1) * Angle_Radian),
@@ -34,7 +33,7 @@ package body STL is
                                                 3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian)),
                                                (1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas+1) * Angle_Radian),
                                                 2 => P_Suiv(P_Suiv'Last),
-                                                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas+1) * Angle_Radian)));
+                                                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas+1) * Angle_Radian))));
             end loop;
         end;
 
@@ -59,12 +58,18 @@ package body STL is
         New_Line;
         Put("outer loop");
         New_Line;
-        for Point in Triplet loop
-            Put("vertex " & Float'Image(Point(Point'First)) &
-                " " & Float'Image(Point(Point'First+1)) &
-                " " & Float'Image(Point(Point'First+2)));
-            New_Line;
-        end loop;
+        Put("vertex " & Float'Image(Triplet.P1(Triplet.P1'First)) &
+        " " & Float'Image(Triplet.P1(Triplet.P1'First+1)) &
+        " " & Float'Image(Triplet.P1(Triplet.P1'First+2)));
+        New_Line;
+        Put("vertex " & Float'Image(Triplet.P2(Triplet.P2'First)) &
+        " " & Float'Image(Triplet.P2(Triplet.P2'First+1)) &
+        " " & Float'Image(Triplet.P2(Triplet.P2'First+2)));
+        New_Line;
+        Put("vertex " & Float'Image(Triplet.P3(Triplet.P3'First)) &
+        " " & Float'Image(Triplet.P3(Triplet.P3'First+1)) &
+        " " & Float'Image(Triplet.P3(Triplet.P3'First+2)));
+        New_Line;
         Put("endloop");
         New_Line;
         Put("endfacet");
@@ -76,7 +81,10 @@ package body STL is
         procedure Affiche_Code_STL is new Liste_Facettes.Parcourir(Traiter => Display_Facette_STL);
     begin
         -- On affiche le code STL sur la sortie standard
-        -- TODO Créer le fichier Nom_Fichier.stl
+        -- TODO Créer le fichier Nom_Fichier
+        Put("solid " & Nom_Fichier);
+        New_Line;
         Affiche_Code_STL(Facettes);
+        Put("endsolid " & Nom_Fichier);
     end;
 end;

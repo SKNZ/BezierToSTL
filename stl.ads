@@ -11,7 +11,7 @@ package STL is
     M : constant Positive := 30;
 
     -- Angle de la rotation en radian
-    Alpha : constant Float := (2.0 * PI)/Float(M);
+    Angle_Radian : constant Float := (2.0 * PI)/Float(M);
 
     subtype Point3D is Vecteur(1..3);
 

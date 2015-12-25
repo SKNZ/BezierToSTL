@@ -22,12 +22,12 @@ begin
         return;
     end if;
 
-    --on charge la courbe de bezier et la convertit en segments
-    Chargement_Bezier(Argument(1), Segments);
-    --on convertit en facettes par rotation
-    Creation(Segments, Facettes);
-    --on sauvegarde le modele obtenu
-    Sauvegarder(Argument(2), Facettes);
+    ----on charge la courbe de bezier et la convertit en segments
+    --Chargement_Bezier(Argument(1), Segments);
+    ----on convertit en facettes par rotation
+    --Creation(Segments, Facettes);
+    ----on sauvegarde le modele obtenu
+    --Sauvegarder(Argument(2), Facettes);
 
 
     -- TESTS
@@ -38,8 +38,7 @@ begin
 
     Bezier(P1, C1, C2, P2, 15, Points);
     Bezier(P1, C1, P2, 15, Points2);
-    Afficher(Points);
-    New_Line;
     Liste_Points.Fusion(Points, Points2);    
-    Afficher(Points2);
+    Creation(Points, Facettes);
+    Sauvegarder("fichier.stl", Facettes); 
 end;
