@@ -57,34 +57,33 @@ package body Parser_Svg is
         null;
     end;
 
-    procedure Curve_To(P1, C1, C2, P2 : Point2D; L : in out Liste) is
+    procedure Curve_To(C1, C2, P : Point2D; L : in out Liste) is
     begin
         null;
     end;
 
-    procedure Quadratic_Curve_To(P1, C, P2 : Point2D; L : in out Liste) is
+    procedure Quadratic_Curve_To(C, P : Point2D; L : in out Liste) is
     begin
         null;
     end;
 
+    -- Avance jusqu'au prochain séparateur et récupère le contenu
     -- Requiert Position = 1 ou Ligne_D (Position) = Separateur
-    function Voir_Au_Separateur(
+    function Avancer_Au_Separateur(
         Ligne_D : String;
-        Position : in Integer;
-        Fin_Position : out Integer)
+        Position : in out Integer)
         return String
     is
+        Fin_Position : Integer := Position + 1;
         Contenu_Deb, Contenu_Fin : Integer := Ligne_D'First;
     begin
-        Fin_Position := Position + 1;
-
         -- On vérifie que le car. courant est bien un séparateur
         -- On est supposé traiter la chaine de séparateur en séparateur
         -- Cas particulier: quand position = début, on ignore ce test
         if Position /= Ligne_D'First
             and then Ligne_D (Position) /= Separateur
         then
-            raise Courbe_Illisible with "Mauvais positionnement (courant /= séparateur)";
+            raise Courbe_Illisible with "Mauvais positionnement (courant /= séparateur);
         end if;
 
         -- On avance jusqu'à trouver le prochain séparateur
@@ -111,31 +110,17 @@ package body Parser_Svg is
             Contenu_Deb := Contenu_Deb + 1;
         end if;
 
+        -- On avance jusqu'au séparateur suivant
+        Position := Fin_Position;
+
         return Ligne_D (Contenu_Deb .. Contenu_Fin);
-    end;
 
-    -- Avance jusqu'au prochain séparateur et récupère le contenu
-    -- Requiert Position = 1 ou Ligne_D (Position) = Separateur
-    function Avancer_Au_Separateur(
-        Ligne_D : String;
-        Position : in out Integer)
-        return String
-    is
-        Fin_Position : Integer;
-    begin
-        declare
-            Contenu : String := Voir_Au_Separateur (Ligne_D, Position, Fin_Position);
-        begin
-            Position := Position + Fin_Position;
-
-            return Contenu;
-        end;
     end;
 
     procedure Lire_Point2D(
         Ligne_D : String;
         Position : in out Integer;
-        Point : in out Point2D)
+        Point : out Point2D)
     is
         Contenu : String := Avancer_Au_Separateur(Ligne_D,  Position);
 
@@ -161,7 +146,7 @@ package body Parser_Svg is
             -- et il manque une information
             if Separateur_Position = Contenu'Last 
                 or else Separateur_Position = Contenu'First then
-                raise Courbe_Illisible with "Manque deuxième coordonnée";
+                raise Courbe_Illisible;
             end if;
 
             declare
@@ -176,11 +161,11 @@ package body Parser_Svg is
             exception
                 when Constraint_Error =>
                     -- Si les nombres sont mal formés...
-                    raise Courbe_Illisible with "Nombre flottant mal formé";
+                    raise Courbe_Illisible;
             end;
         end;
 
-        Point := (1 => Point(1) + X, 2 => Point(2) + Y);        
+        Point := (1 => X, 2 => Y);        
     end;
 
     function Lire_Coord(
@@ -202,7 +187,7 @@ package body Parser_Svg is
         Ligne_D : String;
         Position : in out Integer;
         Op_Abs : out Op_Code_Absolute;
-        Relatif_Vers_Absolu : out Boolean)
+        Relative_To_Absolute : out Boolean)
     is
         Contenu : String := Avancer_Au_Separateur(Ligne_D, Position);
         Op : Op_Code;
@@ -211,41 +196,34 @@ package body Parser_Svg is
 
         if Contenu'Length /= 1 then
             -- L'opcode est composé d'une seule lettre
-            raise Courbe_Illisible with "Instruction SVG mal formée (longeur > 1): " & Contenu;
+            raise Courbe_Illisible with "Instruction SVG mal formée (longeur > 1)";
         end if;
 
-        declare
-            Last : Positive;
-
-            -- https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
-            package Op_Code_IO is new Enumeration_IO (Op_Code);
         begin
             -- On convertit la chaine en opcode
-            -- On ajoute des quotes pour que le parser sache
-            -- que c'est un enum caractère
-            Op_Code_IO.Get("'" & Contenu & "'", Op, Last);
+            Op := Op_Code'Value(Contenu);
         exception
-            when Data_Error =>
+            when Constraint_Error =>
                 -- Si opcode non supporté
-                raise Courbe_Illisible with "Instruction SVG non supportée: " & Contenu & " " & Positive'Image(Contenu'Length);
+                raise Courbe_Illisible with "Instruction SVG non supportée";
         end;
 
         -- Si l'opcode est en minuscule (coord. relatives)
         -- On indique travailler en relatif
-        Relatif_Vers_Absolu := Op in Op_Code_Relative;
+        Relative_To_Absolute := Op in Op_Code_Relative;
 
         -- Et on le convertit en majuscule (coord. absolues)
         Op_Abs := Op_Code'Value(To_Upper (Op_Code'Image(Op)));
     end;
 
     function Point_Relatif (
-        Point_Base : Point2D;
-        Relatif_Vers_Absolu : Boolean)
+        L : in Liste;
+        Relative_To_Absolute : Boolean)
         return Point2D
     is
     begin
-        if Relatif_Vers_Absolu then
-            return Point_Base;
+        if Relative_To_Absolute then
+            return Queue (L);
         else
             return (others => 0.0);
         end if;
@@ -256,75 +234,60 @@ package body Parser_Svg is
         Position : in out Integer;
         Op : Op_Code_Absolute;
         L : in out Liste;
-        Relatif_Vers_Absolu : Boolean)
+        Relative_To_Absolute : Boolean)
     is
-        Point_Base : Point2D := (others => 0.0);
     begin
-        Put_Line ("Gestion opcode" & Op_Code'Image(Op));
-        if Relatif_Vers_Absolu and then Taille (L) /= 0  then
-            Point_Base := Queue (L);
-        end if;
-
         case Op is
             when 'M' =>
                 declare
-                    P : Point2D;
+                    P : Point2D := Point_Relatif (L, Relative_To_Absolute);
                 begin
                     Lire_Point2D(Ligne_D, Position, P);
-                    P := P + Point_Base;
-
                     Move_To(P, L);
                 end;
             when 'L' =>
                 declare
-                    P : Point2D;
+                    P : Point2D := Point_Relatif (L, Relative_To_Absolute);
                 begin
                     Lire_Point2D(Ligne_D, Position, P);
-                    P := P + Point_Base;
-
                     Line_To(P, L);
                 end;
             when 'H' =>
                 declare
-                    X : Float := Lire_Coord(Ligne_D, Position) + Point_Base (1);
+                    X : Float := Lire_Coord(Ligne_D, Position);
                 begin
+                    if Relative_To_Absolute then
+                        X := X + Queue(L) (1);
+                    end if;
+
                     Horizontal_Line_To(X, L);
                 end;
             when 'V' =>
                 declare
-                    Y : Float := Lire_Coord(Ligne_D, Position) + Point_Base (2);
+                    Y : Float := Lire_Coord(Ligne_D, Position);
                 begin
+                    if Relative_To_Absolute then
+                        Y := Y + Queue(L) (2);
+                    end if;
+
                     Horizontal_Line_To(Y, L);
                 end;
             when 'C' => 
                 declare
-                    P1, C1, C2, P2 : Point2D;
+                    C1, C2, P : Point2D := Point_Relatif (L, Relative_To_Absolute);
                 begin
-                    Lire_Point2D(Ligne_D, Position, P1);
                     Lire_Point2D(Ligne_D, Position, C1);
                     Lire_Point2D(Ligne_D, Position, C2);
-                    Lire_Point2D(Ligne_D, Position, P2);
-
-                    P1 := P1 + Point_Base;
-                    C1 := C1 + Point_Base;
-                    C2 := C2 + Point_Base;
-                    P2 := P2 + Point_Base;
-
-                    Curve_To(P1, C1, C2, P2, L);    
+                    Lire_Point2D(Ligne_D, Position, P);
+                    Curve_To(C1, C2, P, L);    
                 end;
             when 'Q' =>
                 declare
-                    P1, C, P2 : Point2D;
+                    C, P : Point2D;
                 begin
-                    Lire_Point2D(Ligne_D, Position, P1);
                     Lire_Point2D(Ligne_D, Position, C);
-                    Lire_Point2D(Ligne_D, Position, P2);
-
-                    P1 := P1 + Point_Base;
-                    C := C + Point_Base;
-                    P2 := P2 + Point_Base;
-
-                    Quadratic_Curve_To(P1, C, P2, L);
+                    Lire_Point2D(Ligne_D, Position, P);
+                    Quadratic_Curve_To(C, P, L);
                 end;
         end case;
     end;
@@ -336,18 +299,19 @@ package body Parser_Svg is
         Position : Integer := Ligne_D'First;
 
         Op_Abs : Op_Code_Absolute;
-        Relatif_Vers_Absolu : Boolean;
+        Relative_To_Absolute : Boolean;
     begin
+
         -- analyse de cette même ligne en gérant
         -- les différents opcode (mlhvcq et MLHVCQ)
 
         -- Tant qu'on est pas à la fin de la ligne
         while Position <= Ligne_D'Last loop
             -- Lecture de l'opcode L,
-            Lire_OpCode (Ligne_D, Position, Op_Abs, Relatif_Vers_Absolu);
+            Lire_OpCode (Ligne_D, Position, Op_Abs, Relative_To_Absolute);
 
             -- Traitement de l'opcode
-            Gerer_OpCode (Ligne_D, Position, Op_Abs, L, Relatif_Vers_Absolu);
+            Gerer_OpCode (Ligne_D, Position, Op_Abs, L, Relative_To_Absolute);
         end loop;
     end;
 end;

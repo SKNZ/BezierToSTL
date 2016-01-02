@@ -13,8 +13,12 @@ package Parser_Svg is
 
     private
 
-    Marqueur_Ligne : constant String := "d=";
+    Marqueur_Ligne : constant String := "d=""";
     Separateur : constant Character := ' ';
     Separateur_Coord : constant Character := ',';
     Separateur_Decimal : constant Character := '.';
+
+    type Op_Code is ('m', 'l', 'h', 'v', 'c', 'q', 'M', 'L', 'H', 'V', 'C', 'Q'); 
+    subtype Op_Code_Relative is Op_Code range 'm' .. 'q'; 
+    subtype Op_Code_Absolute is Op_Code range 'M' .. 'Q'; 
 end;

@@ -3,6 +3,7 @@ with STL; use STL;
 with Parser_Svg; use Parser_Svg;
 with Ada.Text_IO; use Ada.Text_IO;
 with Math; use Math;
+with Ada.Exceptions; use Ada.Exceptions;
 
 procedure Main is
     Segments : Liste_Points.Liste;
@@ -23,7 +24,7 @@ begin
     end if;
 
     ----on charge la courbe de bezier et la convertit en segments
-    --Chargement_Bezier(Argument(1), Segments);
+    Chargement_Bezier(Argument(1), Segments);
     ----on convertit en facettes par rotation
     --Creation(Segments, Facettes);
     ----on sauvegarde le modele obtenu
@@ -41,4 +42,13 @@ begin
     Liste_Points.Fusion(Points, Points2);    
     Creation(Points, Facettes);
     Sauvegarder("fichier.stl", Facettes); 
+exception
+    when Courbe_Abs =>
+        Put_Line (Standard_Error,
+        "Le fichier source ne contenait pas de courbe.");
+        Set_Exit_Status (Failure);
+    when e: Courbe_Illisible =>
+        Put_Line (Standard_Error,
+        "Le fichier source est mal formé: " & exception_message (e));
+        Set_Exit_Status (Failure);
 end;
