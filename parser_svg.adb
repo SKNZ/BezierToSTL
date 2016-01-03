@@ -1,5 +1,5 @@
-with Ada.Text_IO, Ada.Float_Text_IO, Ada.Characters.Handling, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded;
-use Ada.Text_IO, Ada.Float_Text_IO, Ada.Characters.Handling, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded;
+with Ada.Text_IO, Ada.Float_Text_IO, Ada.Characters.Handling, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded, math;
+use Ada.Text_IO, Ada.Float_Text_IO, Ada.Characters.Handling, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded, math;
 
 package body Parser_Svg is
     function Get_Ligne_D(
@@ -37,77 +37,53 @@ package body Parser_Svg is
         return To_String (Ligne_D);
     end;
 
-    procedure Move_To(Point : Point2D; L : in out Liste) is
-    begin
-        null;
-    end;
-
-    procedure Line_To(Point : Point2D; L : in out Liste) is
-    begin
-        null;
-    end;
-
-    procedure Horizontal_Line_To(X : Float; L : in out Liste) is
-    begin
-        null;
-    end;
-
-    procedure Vertical_Line_To(Y : Float; L : in out Liste) is
-    begin
-        null;
-    end;
-
-    procedure Curve_To(P1, C1, C2, P2 : Point2D; L : in out Liste) is
-    begin
-        null;
-    end;
-
-    procedure Quadratic_Curve_To(P1, C, P2 : Point2D; L : in out Liste) is
-    begin
-        null;
-    end;
-
-    -- Requiert Position = 1 ou Ligne_D (Position) = Separateur
+    -- Obtient le texte entre le séparateur courant et le suivant
+    -- Sans avancer le curseur
+    -- Requiert Curseur = 1 ou Ligne_D (Curseur) = Separateur
     function Voir_Au_Separateur(
         Ligne_D : String;
-        Position : in Integer;
-        Fin_Position : out Integer)
+        Curseur : in Positive;
+        Fin_Curseur : out Positive)
         return String
     is
-        Contenu_Deb, Contenu_Fin : Integer := Ligne_D'First;
+        Contenu_Deb, Contenu_Fin : Positive := Ligne_D'First;
     begin
-        Fin_Position := Position + 1;
+        if Curseur > Ligne_D'Length then
+            return "";
+        end if;
+
+        Fin_Curseur := Curseur + 1;
 
         -- On vérifie que le car. courant est bien un séparateur
-        -- On est supposé traiter la chaine de séparateur en séparateur
-        -- Cas particulier: quand position = début, on ignore ce test
-        if Position /= Ligne_D'First
-            and then Ligne_D (Position) /= Separateur
+        -- On traite la chaine de séparateur en séparateur
+        -- Cas particulier: quand Curseur = début, on ignore ce test
+        if Curseur /= Ligne_D'First
+            and then Ligne_D (Curseur) /= Separateur
         then
-            raise Courbe_Illisible with "Mauvais positionnement (courant /= séparateur)";
+            raise Courbe_Illisible with "Mauvais Curseurnement (courant /= séparateur): L(" & Positive'Image(Curseur) & ") = " & Ligne_D (Curseur) & " /= " & Separateur;
         end if;
 
         -- On avance jusqu'à trouver le prochain séparateur
         -- ou jusqu'à la fin de la chaine
-        while Fin_Position <= Ligne_D'Last
-            and then Ligne_D (Fin_Position) /= Separateur loop
-            Fin_Position := Fin_Position + 1;
+        while Fin_Curseur <= Ligne_D'Last
+            and then Ligne_D (Fin_Curseur) /= Separateur loop
+            Fin_Curseur := Fin_Curseur + 1;
         end loop;
 
-        Contenu_Deb := Position;
-        Contenu_Fin := Fin_Position;
+        Contenu_Deb := Curseur;
+        Contenu_Fin := Fin_Curseur;
 
         -- Si on n'est pas à la fin de la chaîne
         -- alors la fin du contenu est
         -- 1 car. avant le séparateur suivant
-        if Fin_Position /= Ligne_D'Last then
+        if Fin_Curseur /= Ligne_D'Last then
             Contenu_Fin := Contenu_Fin - 1;
         end if;
 
         -- Si on n'est pas au début de la chaîne
         -- alors le début du contenu est
         -- 1 car. après le séparateur précedent
-        if Position /= Ligne_D'First then
+        if Curseur /= Ligne_D'First then
             Contenu_Deb := Contenu_Deb + 1;
         end if;
 
@@ -115,60 +91,56 @@ package body Parser_Svg is
     end;
 
     -- Avance jusqu'au prochain séparateur et récupère le contenu
-    -- Requiert Position = 1 ou Ligne_D (Position) = Separateur
+    -- Requiert Curseur = 1 ou Ligne_D (Curseur) = Separateur
     function Avancer_Au_Separateur(
         Ligne_D : String;
-        Position : in out Integer)
+        Curseur : in out Positive)
         return String
     is
-        Fin_Position : Integer;
+        Fin_Curseur : Positive;
+        Contenu : String := Voir_Au_Separateur (Ligne_D, Curseur, Fin_Curseur);
     begin
-        declare
-            Contenu : String := Voir_Au_Separateur (Ligne_D, Position, Fin_Position);
-        begin
-            Position := Position + Fin_Position;
+        Curseur := Fin_Curseur;
 
-            return Contenu;
-        end;
+        return Contenu;
     end;
 
     procedure Lire_Point2D(
         Ligne_D : String;
-        Position : in out Integer;
+        Curseur : in out Positive;
         Point : in out Point2D)
     is
-        Contenu : String := Avancer_Au_Separateur(Ligne_D,  Position);
+        Contenu : String := Avancer_Au_Separateur(Ligne_D,  Curseur);
 
         X, Y : Float;
     begin
-
-        -- On cherche la position du
+        -- On cherche la Curseur du
         -- séparateur d'un jeu de coordonnées
         declare
-            Separateur_Position : Positive := Contenu'First;
+            Separateur_Curseur : Positive := Contenu'First;
         begin
             -- On cherche le séparateur
             -- On s'arrête si on est à la fin de la chaine
             -- ou si on trouve le séparateur
-            while Separateur_Position <= Contenu'Last
-                and then Contenu (Separateur_Position) /= Separateur_Coord loop
+            while Separateur_Curseur <= Contenu'Last
+                and then Contenu (Separateur_Curseur) /= Separateur_Coord loop
                 -- On avance
-                Separateur_Position := Separateur_Position + 1;
+                Separateur_Curseur := Separateur_Curseur + 1;
             end loop;
 
             -- Le séparateur est à la fin ou au début
             -- il n'y a rien après
             -- et il manque une information
-            if Separateur_Position = Contenu'Last 
-                or else Separateur_Position = Contenu'First then
+            if Separateur_Curseur = Contenu'Last 
+                or else Separateur_Curseur = Contenu'First then
                 raise Courbe_Illisible with "Manque deuxième coordonnée";
             end if;
 
             declare
                 -- On récupère la première coordonnée
-                X_Text : String := Contenu (Contenu'First .. Separateur_Position - 1);
+                X_Text : String := Contenu (Contenu'First .. Separateur_Curseur - 1);
                 -- On récupère la deuxième coordonnée
-                Y_Text : String := Contenu (Separateur_Position + 1 .. Contenu'Last);
+                Y_Text : String := Contenu (Separateur_Curseur + 1 .. Contenu'Last);
             begin
                 -- Conversion en flottant
                 X := Float'Value (X_Text);
@@ -185,10 +157,10 @@ package body Parser_Svg is
 
     function Lire_Coord(
         Ligne_D : String;
-        Position : in out Integer)
+        Curseur : in out Positive)
         return Float
     is
-        Contenu : String := Avancer_Au_Separateur(Ligne_D, Position);
+        Contenu : String := Avancer_Au_Separateur(Ligne_D, Curseur);
     begin
         -- On transforme le contenu en flottant
         return Float'Value (Contenu);
@@ -200,11 +172,11 @@ package body Parser_Svg is
 
     procedure Lire_OpCode (
         Ligne_D : String;
-        Position : in out Integer;
+        Curseur : in out Positive;
         Op_Abs : out Op_Code_Absolute;
         Relatif_Vers_Absolu : out Boolean)
     is
-        Contenu : String := Avancer_Au_Separateur(Ligne_D, Position);
+        Contenu : String := Avancer_Au_Separateur(Ligne_D, Curseur);
         Op : Op_Code;
     begin
         -- On avance au séparateur
@@ -253,7 +225,8 @@ package body Parser_Svg is
     
     procedure Gerer_OpCode (
         Ligne_D : String;
-        Position : in out Integer;
+        Curseur : in out Positive;
+        Position_Courante : in out Point2D;
         Op : Op_Code_Absolute;
         L : in out Liste;
         Relatif_Vers_Absolu : Boolean)
@@ -262,78 +235,99 @@ package body Parser_Svg is
     begin
         Put_Line ("Gestion opcode" & Op_Code'Image(Op));
         if Relatif_Vers_Absolu and then Taille (L) /= 0  then
-            Point_Base := Queue (L);
+            Point_Base := Position_Courante;
         end if;
 
         case Op is
             when 'M' =>
-                declare
-                    P : Point2D;
-                begin
-                    Lire_Point2D(Ligne_D, Position, P);
-                    P := P + Point_Base;
-
-                    Move_To(P, L);
-                end;
+                Lire_Point2D(Ligne_D, Curseur, Position_Courante);
+                Position_Courante := Position_Courante + Point_Base;
             when 'L' =>
                 declare
                     P : Point2D;
                 begin
-                    Lire_Point2D(Ligne_D, Position, P);
+                    Lire_Point2D(Ligne_D, Curseur, P);
                     P := P + Point_Base;
 
-                    Line_To(P, L);
+                    Insertion_Queue (L, Position_Courante);
+                    Insertion_Queue (L, P);
                 end;
             when 'H' =>
                 declare
-                    X : Float := Lire_Coord(Ligne_D, Position) + Point_Base (1);
+                    P : Point2D := Point_Base;
                 begin
-                    Horizontal_Line_To(X, L);
+                    P (1) := P (1) + Lire_Coord(Ligne_D, Curseur);
+
+                    Insertion_Queue (L, Position_Courante);
+                    Insertion_Queue (L, P);
                 end;
             when 'V' =>
                 declare
-                    Y : Float := Lire_Coord(Ligne_D, Position) + Point_Base (2);
+                    P : Point2D := Point_Base;
                 begin
-                    Horizontal_Line_To(Y, L);
+                    P (2) := P (2) + Lire_Coord(Ligne_D, Curseur);
+
+                    Insertion_Queue (L, Position_Courante);
+                    Insertion_Queue (L, P);
                 end;
             when 'C' => 
-                declare
-                    P1, C1, C2, P2 : Point2D;
-                begin
-                    Lire_Point2D(Ligne_D, Position, P1);
-                    Lire_Point2D(Ligne_D, Position, C1);
-                    Lire_Point2D(Ligne_D, Position, C2);
-                    Lire_Point2D(Ligne_D, Position, P2);
+                loop
+                    declare
+                        C1, C2, P : Point2D;
+                    begin
+                        Lire_Point2D(Ligne_D, Curseur, C1);
+                        Lire_Point2D(Ligne_D, Curseur, C2);
+                        Lire_Point2D(Ligne_D, Curseur, P);
 
-                    P1 := P1 + Point_Base;
-                    C1 := C1 + Point_Base;
-                    C2 := C2 + Point_Base;
-                    P2 := P2 + Point_Base;
+                        C1 := C1 + Point_Base;
+                        C2 := C2 + Point_Base;
+                        P := P + Point_Base;
 
-                    Curve_To(P1, C1, C2, P2, L);    
-                end;
+                        Bezier(Position_Courante, C1, C2, P, Nombre_Facettes, L);
+                    end;
+
+                    -- On look-ahead pour voir si on a encore un jeu de coordonnées
+                    -- ou si on a on un opcode
+                    declare
+                        Fin_Curseur : Positive;
+                        Contenu_Suivant : String := Voir_Au_Separateur (Ligne_D, Curseur, Fin_Curseur);
+                    begin
+                        -- On sort si on a un opcode ou plus rien
+                        exit when Contenu_Suivant'Length <= 1;
+                    end;
+                end loop;
             when 'Q' =>
                 declare
-                    P1, C, P2 : Point2D;
+                    C, P : Point2D;
                 begin
-                    Lire_Point2D(Ligne_D, Position, P1);
-                    Lire_Point2D(Ligne_D, Position, C);
-                    Lire_Point2D(Ligne_D, Position, P2);
+                    Lire_Point2D(Ligne_D, Curseur, C);
+                    Lire_Point2D(Ligne_D, Curseur, P);
 
-                    P1 := P1 + Point_Base;
                     C := C + Point_Base;
-                    P2 := P2 + Point_Base;
+                    P := P + Point_Base;
 
-                    Quadratic_Curve_To(P1, C, P2, L);
+                    Bezier(Position_Courante, C, P, Nombre_Facettes, L);
                 end;
         end case;
+
+        -- Tous les opcodes dessinent en modifiant la liste
+        -- sauf M, qui se contente de déplacer le point courant
+        -- mais ne dessine rien
+        -- On récupère donc la position courante pour tous les autres
+        -- en regardant le dernier point ajouté par ceux-ci
+        -- L'opcode M modifie directement la position courante
+        if Op /= 'M' then
+            Position_Courante := Queue (L);
+        end if;
     end;
 
     procedure Chargement_Bezier(Nom_Fichier : String; L : out Liste) is
         -- on charge le fichier svg
         Ligne_D : String := Get_Ligne_D(Nom_Fichier);
 
-        Position : Integer := Ligne_D'First;
+        Curseur : Positive := Ligne_D'First;
+
+        Position_Courante : Point2D := (others => 0.0);
 
         Op_Abs : Op_Code_Absolute;
         Relatif_Vers_Absolu : Boolean;
@@ -342,12 +336,12 @@ package body Parser_Svg is
         -- les différents opcode (mlhvcq et MLHVCQ)
 
         -- Tant qu'on est pas à la fin de la ligne
-        while Position <= Ligne_D'Last loop
+        while Curseur <= Ligne_D'Last loop
             -- Lecture de l'opcode L,
-            Lire_OpCode (Ligne_D, Position, Op_Abs, Relatif_Vers_Absolu);
+            Lire_OpCode (Ligne_D, Curseur, Op_Abs, Relatif_Vers_Absolu);
 
             -- Traitement de l'opcode
-            Gerer_OpCode (Ligne_D, Position, Op_Abs, L, Relatif_Vers_Absolu);
+            Gerer_OpCode (Ligne_D, Curseur, Position_Courante, Op_Abs, L, Relatif_Vers_Absolu);
         end loop;
     end;
 end;

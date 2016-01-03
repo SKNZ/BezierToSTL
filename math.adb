@@ -46,7 +46,7 @@ package body Math is
     end;
 
     procedure Bezier(P1, C1, C2, P2 : Point2D ; Nb_Points : Positive ;
-        Points : out Liste) is
+        Points : in out Liste) is
     begin
         -- La courbe commence en P1
         Insertion_Queue(Points, P1);
@@ -59,7 +59,7 @@ package body Math is
     end;
 
     procedure Bezier(P1, C, P2 : Point2D ; Nb_Points : Positive ;
-        Points : out Liste) is
+        Points : in out Liste) is
     begin
         -- La courbe commence en P1
         Insertion_Queue(Points, P1);
