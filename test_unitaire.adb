@@ -60,6 +60,25 @@ procedure test_unitaire is
         Sauvegarder(Argument(2), Facettes);
     end;
 
+    procedure Test_Bezier_Cub is
+        Segments : Liste_Points.Liste;
+        Facettes : Liste_Facettes.Liste;
+    begin
+        Bezier((0.0, 0.0),
+               (200.0, 180.0),
+               (200.0, 200.0),
+               (0.0, 200.0),
+               Nombre_Points, Segments);
+
+        --on convertit en facettes par rotation
+        Creation(Segments, Facettes);
+        --on sauvegarde le modele obtenu
+        Sauvegarder(Argument(2), Facettes);
+
+        -- Sauvegarde en svg pour debug
+        Sauve_SVG(Segments);
+    end;
+
     procedure Test_Bezier_Quad is
         Segments : Liste_Points.Liste;
         Facettes : Liste_Facettes.Liste;
@@ -77,6 +96,33 @@ procedure test_unitaire is
         -- Sauvegarde en svg pour debug
         Sauve_SVG(Segments);
     end;
+
+    procedure Test_Fusion is
+        Segments : Liste_Points.Liste;
+        Segments_2 : Liste_Points.Liste;
+        Facettes : Liste_Facettes.Liste;
+    begin
+        Bezier((0.0, 0.0),
+               (200.0, 100.0),
+               (100.0, 200.0),
+               Nombre_Points, Segments);
+
+        Bezier((100.0, 200.0),
+               (200.0, 380.0),
+               (200.0, 400.0),
+               (0.0, 400.0),
+               Nombre_Points, Segments_2);
+
+        Liste_Points.Fusion(Segments, Segments_2);
+
+        --on convertit en facettes par rotation
+        Creation(Segments, Facettes);
+        --on sauvegarde le modele obtenu
+        Sauvegarder(Argument(2), Facettes);
+
+        -- Sauvegarde en svg pour debug
+        Sauve_SVG(Segments);
+    end;
 begin
-    Test_Bezier_Quad;
+    Test_Fusion;
 end;
