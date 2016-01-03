@@ -310,7 +310,7 @@ package body Parser_Svg is
                 Fin_Curseur : Positive;
                 Contenu_Suivant : String := Voir_Au_Separateur (Ligne_D, Curseur, Fin_Curseur);
             begin
-                -- On sort si on a un opcode ou plus rien
+                -- On sort si plus rien
                 exit when Contenu_Suivant'Length = 0;
 
                 -- On a potentiellement un OpCode, on vérifie
@@ -337,6 +337,7 @@ package body Parser_Svg is
                     end;
                 end if;
             end;
+            Put_Line("Arguments supplémentaires trouvés.");
         end loop;
 
         -- Tous les opcodes dessinent en modifiant la liste

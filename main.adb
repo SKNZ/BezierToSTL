@@ -29,6 +29,8 @@ begin
     --on sauvegarde le modele obtenu
     Sauvegarder(Argument(2), Facettes);
 
+    Vider(Segments);
+    Vider(Facettes);
 
     -- TESTS
     -- P1 := (100.0, 100.0);
