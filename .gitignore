@@ -4,7 +4,7 @@
 # Ada Library Information
 *.ali
 
-main
+./main
 test.stl
 *.log
 *.fls
