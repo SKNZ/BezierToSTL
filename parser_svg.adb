@@ -110,7 +110,7 @@ package body Parser_Svg is
     procedure Lire_Point2D(
         Ligne_D : String;
         Curseur : in out Positive;
-        Point : in out Point2D)
+        Point : out Point2D)
     is
         Contenu : String := Avancer_Au_Separateur(Ligne_D,  Curseur);
 
@@ -156,7 +156,7 @@ package body Parser_Svg is
             end;
         end;
 
-        Point := (1 => Point(1) + X, 2 => Point(2) + Y);        
+        Point := (1 => X, 2 => Y);        
     end;
 
     function Lire_Coord(
@@ -214,19 +214,6 @@ package body Parser_Svg is
         Op_Abs := Op_Code'Value(To_Upper (Op_Code'Image(Op)));
     end;
 
-    function Point_Relatif (
-        Point_Base : Point2D;
-        Relatif_Vers_Absolu : Boolean)
-        return Point2D
-    is
-    begin
-        if Relatif_Vers_Absolu then
-            return Point_Base;
-        else
-            return (others => 0.0);
-        end if;
-    end;
-    
     procedure Gerer_OpCode (
         Ligne_D : String;
         Curseur : in out Positive;
@@ -237,17 +224,22 @@ package body Parser_Svg is
     is
         Point_Base : Point2D := (others => 0.0);
     begin
-        Put_Line ("Gestion opcode" & Op_Code'Image(Op));
+        Put_Line ("Gestion opcode " & Op_Code'Image(Op) & "; relatif=" & Boolean'Image(Relatif_Vers_Absolu));
         
         loop
-            if Relatif_Vers_Absolu and then Taille (L) /= 0  then
+            if Relatif_Vers_Absolu then
                 Point_Base := Position_Courante;
             end if;
+
+            Put_Line("NbP: " & Integer'Image(Taille(L)));
+            Put_Line("PB(X => " & Float'Image(Point_Base (1)) & "; Y => " & Float'Image(Point_Base (2)) & ")");
 
             case Op is
                 when 'M' =>
                     Lire_Point2D(Ligne_D, Curseur, Position_Courante);
                     Position_Courante := Position_Courante + Point_Base;
+
+                    Insertion_Queue(L, Position_Courante);
                 when 'L' =>
                     declare
                         P : Point2D;
@@ -283,6 +275,7 @@ package body Parser_Svg is
                         Lire_Point2D(Ligne_D, Curseur, C1);
                         Lire_Point2D(Ligne_D, Curseur, C2);
                         Lire_Point2D(Ligne_D, Curseur, P);
+                        
 
                         C1 := C1 + Point_Base;
                         C2 := C2 + Point_Base;
@@ -303,6 +296,18 @@ package body Parser_Svg is
                         Bezier(Position_Courante, C, P, Nombre_Points, L);
                     end;
             end case;
+
+            -- Tous les opcodes dessinent en modifiant la liste
+            -- sauf M, qui se contente de déplacer le point courant
+            -- mais ne dessine rien
+            -- On récupère donc la position courante pour tous les autres
+            -- en regardant le dernier point ajouté par ceux-ci
+            -- L'opcode M modifie directement la position courante
+            if Op /= 'M' then
+                Position_Courante := Queue (L);
+            end if;
+
+            Put_Line("PC(X => " & Float'Image(Position_Courante (1)) & "; Y => " & Float'Image(Position_Courante (2)) & ")");
 
             -- On look-ahead pour voir si on a encore des coordonnées
             -- ou si on a on un opcode
@@ -337,18 +342,9 @@ package body Parser_Svg is
                     end;
                 end if;
             end;
+
             Put_Line("Arguments supplémentaires trouvés.");
         end loop;
-
-        -- Tous les opcodes dessinent en modifiant la liste
-        -- sauf M, qui se contente de déplacer le point courant
-        -- mais ne dessine rien
-        -- On récupère donc la position courante pour tous les autres
-        -- en regardant le dernier point ajouté par ceux-ci
-        -- L'opcode M modifie directement la position courante
-        if Op /= 'M' then
-            Position_Courante := Queue (L);
-        end if;
     end;
 
     procedure Chargement_Bezier(Nom_Fichier : String; L : out Liste) is
@@ -374,5 +370,7 @@ package body Parser_Svg is
             -- Traitement de l'opcode
             Gerer_OpCode (Ligne_D, Curseur, Position_Courante, Op_Abs, L, Relatif_Vers_Absolu);
         end loop;
+
+        Put_Line("NbP: " & Integer'Image(Taille(L)));
     end;
 end;
