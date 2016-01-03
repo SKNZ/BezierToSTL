@@ -9,6 +9,7 @@ package body Parser_Svg is
         Ligne_D : Unbounded_String := Null_Unbounded_String;
         Fichier : Ada.Text_IO.File_Type;
     begin
+        Put_Line("Recherche de la courbe dans le fichier " & Nom_Fichier);
         -- On ouvre le fichier
         Ada.Text_IO.Open (Fichier, Ada.Text_IO.In_File, Nom_Fichier);
 
@@ -34,6 +35,7 @@ package body Parser_Svg is
             raise Courbe_Abs;
         end if;
 
+        Put_Line("Courbe trouvée");
         return To_String (Ligne_D);
     end;
 
@@ -145,6 +147,8 @@ package body Parser_Svg is
                 -- Conversion en flottant
                 X := Float'Value (X_Text);
                 Y := Float'Value (Y_Text);
+
+                Put_Line("(X => " & Float'Image(X) & "; Y => " & Float'Image(Y) & ")");
             exception
                 when Constraint_Error =>
                     -- Si les nombres sont mal formés...
@@ -234,44 +238,45 @@ package body Parser_Svg is
         Point_Base : Point2D := (others => 0.0);
     begin
         Put_Line ("Gestion opcode" & Op_Code'Image(Op));
-        if Relatif_Vers_Absolu and then Taille (L) /= 0  then
-            Point_Base := Position_Courante;
-        end if;
+        
+        loop
+            if Relatif_Vers_Absolu and then Taille (L) /= 0  then
+                Point_Base := Position_Courante;
+            end if;
 
-        case Op is
-            when 'M' =>
-                Lire_Point2D(Ligne_D, Curseur, Position_Courante);
-                Position_Courante := Position_Courante + Point_Base;
-            when 'L' =>
-                declare
-                    P : Point2D;
-                begin
-                    Lire_Point2D(Ligne_D, Curseur, P);
-                    P := P + Point_Base;
+            case Op is
+                when 'M' =>
+                    Lire_Point2D(Ligne_D, Curseur, Position_Courante);
+                    Position_Courante := Position_Courante + Point_Base;
+                when 'L' =>
+                    declare
+                        P : Point2D;
+                    begin
+                        Lire_Point2D(Ligne_D, Curseur, P);
+                        P := P + Point_Base;
 
-                    Insertion_Queue (L, Position_Courante);
-                    Insertion_Queue (L, P);
-                end;
-            when 'H' =>
-                declare
-                    P : Point2D := Point_Base;
-                begin
-                    P (1) := P (1) + Lire_Coord(Ligne_D, Curseur);
+                        Insertion_Queue (L, Position_Courante);
+                        Insertion_Queue (L, P);
+                    end;
+                when 'H' =>
+                    declare
+                        P : Point2D := Point_Base;
+                    begin
+                        P (1) := P (1) + Lire_Coord(Ligne_D, Curseur);
 
-                    Insertion_Queue (L, Position_Courante);
-                    Insertion_Queue (L, P);
-                end;
-            when 'V' =>
-                declare
-                    P : Point2D := Point_Base;
-                begin
-                    P (2) := P (2) + Lire_Coord(Ligne_D, Curseur);
+                        Insertion_Queue (L, Position_Courante);
+                        Insertion_Queue (L, P);
+                    end;
+                when 'V' =>
+                    declare
+                        P : Point2D := Point_Base;
+                    begin
+                        P (2) := P (2) + Lire_Coord(Ligne_D, Curseur);
 
-                    Insertion_Queue (L, Position_Courante);
-                    Insertion_Queue (L, P);
-                end;
-            when 'C' => 
-                loop
+                        Insertion_Queue (L, Position_Courante);
+                        Insertion_Queue (L, P);
+                    end;
+                when 'C' => 
                     declare
                         C1, C2, P : Point2D;
                     begin
@@ -285,30 +290,54 @@ package body Parser_Svg is
 
                         Bezier(Position_Courante, C1, C2, P, Nombre_Points, L);
                     end;
-
-                    -- On look-ahead pour voir si on a encore un jeu de coordonnées
-                    -- ou si on a on un opcode
+                when 'Q' =>
                     declare
-                        Fin_Curseur : Positive;
-                        Contenu_Suivant : String := Voir_Au_Separateur (Ligne_D, Curseur, Fin_Curseur);
+                        C, P : Point2D;
                     begin
-                        -- On sort si on a un opcode ou plus rien
-                        exit when Contenu_Suivant'Length <= 1;
+                        Lire_Point2D(Ligne_D, Curseur, C);
+                        Lire_Point2D(Ligne_D, Curseur, P);
+
+                        C := C + Point_Base;
+                        P := P + Point_Base;
+
+                        Bezier(Position_Courante, C, P, Nombre_Points, L);
                     end;
-                end loop;
-            when 'Q' =>
-                declare
-                    C, P : Point2D;
-                begin
-                    Lire_Point2D(Ligne_D, Curseur, C);
-                    Lire_Point2D(Ligne_D, Curseur, P);
+            end case;
 
-                    C := C + Point_Base;
-                    P := P + Point_Base;
+            -- On look-ahead pour voir si on a encore des coordonnées
+            -- ou si on a on un opcode
+            declare
+                Fin_Curseur : Positive;
+                Contenu_Suivant : String := Voir_Au_Separateur (Ligne_D, Curseur, Fin_Curseur);
+            begin
+                -- On sort si on a un opcode ou plus rien
+                exit when Contenu_Suivant'Length = 0;
 
-                    Bezier(Position_Courante, C, P, Nombre_Points, L);
-                end;
-        end case;
+                -- On a potentiellement un OpCode, on vérifie
+                if Contenu_Suivant'Length = 1 then
+                    declare
+                        Last : Positive;
+
+                        Op : Op_Code;
+
+                        -- https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
+                        package Op_Code_IO is new Enumeration_IO (Op_Code);
+                    begin
+                        -- On convertit la chaine en opcode
+                        -- On ajoute des quotes pour que le parser sache
+                        -- que c'est un enum caractère
+                        Op_Code_IO.Get("'" & Contenu_Suivant & "'", Op, Last);
+
+                        -- Si ça marche, on sort de la boucle car on a un opcode
+                        exit;
+                    exception
+                        when Data_Error =>
+                            -- On continue la boucle si ce n'est pas un opcode
+                            null;
+                    end;
+                end if;
+            end;
+        end loop;
 
         -- Tous les opcodes dessinent en modifiant la liste
         -- sauf M, qui se contente de déplacer le point courant
@@ -332,6 +361,7 @@ package body Parser_Svg is
         Op_Abs : Op_Code_Absolute;
         Relatif_Vers_Absolu : Boolean;
     begin
+        Put_Line("Lecture de la courbe");
         -- analyse de cette même ligne en gérant
         -- les différents opcode (mlhvcq et MLHVCQ)
 

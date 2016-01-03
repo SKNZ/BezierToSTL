@@ -1,0 +1,65 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage{fourier} % Adobe Utopia
+\usepackage[french]{babel}
+% \usepackage{amsmath,amsfonts,amsthm}
+
+\usepackage{sectsty}
+\allsectionsfont{\normalfont\scshape} 
+
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead{}
+\fancyfoot[L]{} 
+\fancyfoot[C]{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{14.6pt}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} 
+
+\title{
+    \normalfont \normalsize
+    \textsc{École nationale supérieure d'informatique et de mathématiques appliquées de Grenoble} \\ [25pt]
+    \horrule{0.5pt} \\[0.4cm]
+    \huge BezierToSTL \\
+    \horrule{2pt} \\[0.5cm]
+}
+
+\author{Robin VINCENT-DELEUZE \& Floran NARENJI-SHESHKALANI} 
+
+\date{\normalsize\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Fonctionnement}
+
+\subsection{Parser SVG}
+
+\subsubsection{Types \& Constantes}
+
+Les constantes suivantes sont définies:
+\begin{itemize}
+    \item Séparateur (espace): sépare les mots
+    \item Séparateur coordonnées (virgule): sépare les deux coordonnées d'un jeu de coordonées
+    \item Séparateur décimal (point): sépare la partie entière de la partie flottante d'un nombre décimal
+\end{itemize}
+
+
+Le parser\_svg ouvre le fichier et cherche une ligne commençant par un marqueur définit dans une constante ("d="").
+Les espaces blancs en début et fin de la ligne sont ignorés à l'aide de la fonction Ada.Strings.Unbounded.Trim.
+Une fois cette ligne obtenue, le parser parcourt celle-ci à l'aide d'un curseur en la découpant de mot en mot.
+Un mot comme étant un ensemble de caractères séparé par une constante (ici un espace).
+
+
+\section{Choix techniques}
+
+\subsection{Gestion de version}
+
+Nous utilisons le système de gestion de version \textbf{git} sur la plateforme \textbf{github} afin de maintenir l'historique de nos modifications et de synchroniser le code entre les différents lieux et membres de l'équipe.
+
+\end{document}
