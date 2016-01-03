@@ -6,3 +6,7 @@
 
 main
 test.stl
+*.log
+*.fls
+*.fdb_latexmk
+*.aux
