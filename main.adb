@@ -29,8 +29,8 @@ begin
     --on sauvegarde le modele obtenu
     Sauvegarder(Argument(2), Facettes);
 
-    Vider(Segments);
-    Vider(Facettes);
+    Liste_Points.Vider(Segments);
+    Liste_Facettes.Vider(Facettes);
 
     -- TESTS
     -- P1 := (100.0, 100.0);
