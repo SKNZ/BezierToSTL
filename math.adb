@@ -48,26 +48,20 @@ package body Math is
     procedure Bezier(P1, C1, C2, P2 : Point2D ; Nb_Points : Positive ;
         Points : in out Liste) is
     begin
-        -- La courbe commence en P1
-        Insertion_Queue(Points, P1);
-
-        -- Variation de 0 à 1 d'où le reverse
-        for N in reverse 1 .. Nb_Points loop
-            Insertion_Queue(Points, Bezier_Cub(P1, C1, C2, P2, 1.0/Float(N)));
+        for N in 0..Nb_Points loop
+            Insertion_Queue(Points, Bezier_Cub(P1, C1, C2, P2, Float(N)/Float(Nb_Points)));
         end loop;
-        -- Remarque : on atteint bien P2 lorsque N = 1
+        -- Remarque : la courbe commence bien en P1 pour N=0
+        --            et finit bien en P2 pour N=Nb_Points
     end;
 
     procedure Bezier(P1, C, P2 : Point2D ; Nb_Points : Positive ;
         Points : in out Liste) is
     begin
-        -- La courbe commence en P1
-        Insertion_Queue(Points, P1);
-
-        -- Variation de 0 à 1 d'où le reverse
-        for N in reverse 1 .. Nb_Points loop
-            Insertion_Queue(Points, Bezier_Quad(P1, C, P2, 1.0/Float(N)));
+        for N in 0..Nb_Points loop
+            Insertion_Queue(Points, Bezier_Quad(P1, C, P2, Float(N)/Float(Nb_Points)));
         end loop;
-        -- Remarque : on atteint bien P2 lorsque N = 1
+        -- Remarque : la courbe commence bien en P1 pour N=0
+        --            et finit bien en P2 pour N=Nb_Points
     end;
 end;

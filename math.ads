@@ -1,7 +1,7 @@
 with Liste_Generique;
 
 package Math is
-    Nombre_Points : constant Positive := 6;
+    Nombre_Points : constant Positive := 100;
 
     type Vecteur is array(Positive range<>) of Float;
     subtype Point2D is Vecteur(1..2);

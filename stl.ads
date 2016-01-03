@@ -8,7 +8,7 @@ use Ada.Numerics.Elementary_Functions;
 
 package STL is
     -- Pas de la rotation
-    M : constant Positive := 30;
+    M : constant Positive := 50;
 
     -- Angle de la rotation en radian
     Angle_Radian : constant Float := (2.0 * PI)/Float(M);

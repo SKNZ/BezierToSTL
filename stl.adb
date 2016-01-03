@@ -38,7 +38,6 @@ package body STL is
         end;
 
         -- Construit l'image 3D
-        -- A TESTER !!!!!!!!
         procedure Construire_STL is new Liste_Points.Parcourir_Par_Couples(Traiter => Creer_Facette);
 
     begin
