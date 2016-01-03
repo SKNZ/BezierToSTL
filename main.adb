@@ -14,7 +14,6 @@ procedure Main is
     Points : Liste_Points.Liste;
     Points2 : Liste_Points.Liste;
 begin
-
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
         "usage : " & Command_Name &

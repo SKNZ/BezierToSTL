@@ -29,8 +29,4 @@ package STL is
     -- Sauvegarde le fichier stl
     procedure Sauvegarder(Nom_Fichier : String ;
         Facettes : Liste_Facettes.Liste);
-
-private
-    -- Affiche le code STL pour une facette
-    procedure Display_Facette_STL(Triplet : in out Facette);
 end;
