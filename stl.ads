@@ -13,6 +13,10 @@ package STL is
     -- Angle de la rotation en radian
     Angle_Radian : constant Float := (2.0 * PI)/Float(M);
 
+    -- Abscisses et ordonnées minimales nécessaires
+    -- pour le pré-traitement
+    X_Min, Y_Min : Float;
+
     subtype Point3D is Vecteur(1..3);
 
     type Facette is record
@@ -29,4 +33,9 @@ package STL is
     -- Sauvegarde le fichier stl
     procedure Sauvegarder(Nom_Fichier : String ;
         Facettes : Liste_Facettes.Liste);
+
+    -- Pré-traitement :
+    -- Calcule abscisse et ordonnée minimales
+    -- Rajoute un point en début/fin de liste si nécessaire
+    procedure Pre_Traitement(Segments : in out Liste_Points.Liste);
 end;

@@ -123,6 +123,35 @@ procedure test_unitaire is
         -- Sauvegarde en svg pour debug
         Sauve_SVG(Segments);
     end;
+
+    -- Test pour savoir si le parser bugge
+    procedure Toupie is
+        Segments : Liste_Points.Liste;
+        Segments_2 : Liste_Points.Liste;
+        Facettes : Liste_Facettes.Liste;
+    begin
+        Bezier((68.690373 + 321.228507, 289.69701 + 7.07107),
+               (68.690373 + 321.228507, 289.69701 + 7.07107),
+               (68.690373 + 321.228507 - 15.15229, 289.69701 + 7.07107 + 127.27922),
+               (68.690373 + 321.228507 + 23.23351, 289.69701 + 7.07107 + 157.5838),
+               Nombre_Points, Segments);
+
+        Bezier((68.690373 + 321.228507 + 23.23351, 289.69701 + 7.07107 + 157.5838),
+               (68.690373 + 321.228507 + 23.23351 + 38.3858, 289.69701 + 7.07107 + 157.5838 + 30.30457),
+               (68.690373 + 321.228507 + 23.23351 + 171.72593, 289.69701 + 7.07107 + 157.5838 - 155.5635),
+               (68.690373 + 321.228507 + 23.23351 +171.72593, 289.69701 + 7.07107 + 157.5838 - 155.5635),
+               Nombre_Points, Segments_2);
+
+        Liste_Points.Fusion(Segments, Segments_2);
+
+        --on convertit en facettes par rotation
+        Creation(Segments, Facettes);
+        --on sauvegarde le modele obtenu
+        Sauvegarder(Argument(2), Facettes);
+
+        -- Sauvegarde en svg pour debug
+        Sauve_SVG(Segments);
+    end;
 begin
-    Test_Fusion;
+    Toupie;
 end;
