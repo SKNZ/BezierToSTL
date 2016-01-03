@@ -283,7 +283,7 @@ package body Parser_Svg is
                         C2 := C2 + Point_Base;
                         P := P + Point_Base;
 
-                        Bezier(Position_Courante, C1, C2, P, Nombre_Facettes, L);
+                        Bezier(Position_Courante, C1, C2, P, Nombre_Points, L);
                     end;
 
                     -- On look-ahead pour voir si on a encore un jeu de coordonnées
@@ -306,7 +306,7 @@ package body Parser_Svg is
                     C := C + Point_Base;
                     P := P + Point_Base;
 
-                    Bezier(Position_Courante, C, P, Nombre_Facettes, L);
+                    Bezier(Position_Courante, C, P, Nombre_Points, L);
                 end;
         end case;
 

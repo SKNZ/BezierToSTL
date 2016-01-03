@@ -52,39 +52,50 @@ package body STL is
         Construire_STL(Segments);
     end;
 
-    procedure Display_Facette_STL(Triplet : in out Facette) is
-    begin
-        Put("facet");
-        New_Line;
-        Put("outer loop");
-        New_Line;
-        Put("vertex " & Float'Image(Triplet.P1(Triplet.P1'First)) &
-        " " & Float'Image(Triplet.P1(Triplet.P1'First+1)) &
-        " " & Float'Image(Triplet.P1(Triplet.P1'First+2)));
-        New_Line;
-        Put("vertex " & Float'Image(Triplet.P2(Triplet.P2'First)) &
-        " " & Float'Image(Triplet.P2(Triplet.P2'First+1)) &
-        " " & Float'Image(Triplet.P2(Triplet.P2'First+2)));
-        New_Line;
-        Put("vertex " & Float'Image(Triplet.P3(Triplet.P3'First)) &
-        " " & Float'Image(Triplet.P3(Triplet.P3'First+1)) &
-        " " & Float'Image(Triplet.P3(Triplet.P3'First+2)));
-        New_Line;
-        Put("endloop");
-        New_Line;
-        Put("endfacet");
-        New_Line;
-    end;
 
-    procedure Sauvegarder(Nom_Fichier : String ;
-        Facettes : Liste_Facettes.Liste) is
+    procedure Sauvegarder(
+        Nom_Fichier : String ;
+        Facettes : Liste_Facettes.Liste)
+    is
+        Fichier : File_Type;
+
+        -- Affiche le code STL pour une facette
+        procedure Display_Facette_STL(Triplet : in out Facette) is
+        begin
+            Put(Fichier, "facet");
+            New_Line (Fichier);
+            Put(Fichier, "outer loop");
+            New_Line (Fichier);
+            Put(Fichier, "vertex " & Float'Image(Triplet.P1(Triplet.P1'First)) &
+            " " & Float'Image(Triplet.P1(Triplet.P1'First+1)) &
+            " " & Float'Image(Triplet.P1(Triplet.P1'First+2)));
+            New_Line (Fichier);
+            Put(Fichier, "vertex " & Float'Image(Triplet.P2(Triplet.P2'First)) &
+            " " & Float'Image(Triplet.P2(Triplet.P2'First+1)) &
+            " " & Float'Image(Triplet.P2(Triplet.P2'First+2)));
+            New_Line (Fichier);
+            Put(Fichier, "vertex " & Float'Image(Triplet.P3(Triplet.P3'First)) &
+            " " & Float'Image(Triplet.P3(Triplet.P3'First+1)) &
+            " " & Float'Image(Triplet.P3(Triplet.P3'First+2)));
+            New_Line (Fichier);
+            Put(Fichier, "endloop");
+            New_Line (Fichier);
+            Put(Fichier, "endfacet");
+            New_Line (Fichier);
+        end;
+
         procedure Affiche_Code_STL is new Liste_Facettes.Parcourir(Traiter => Display_Facette_STL);
     begin
-        -- On affiche le code STL sur la sortie standard
-        -- TODO Créer le fichier Nom_Fichier
-        Put("solid " & Nom_Fichier);
-        New_Line;
+        begin
+            Open (Fichier, Out_File, Nom_Fichier);
+        exception
+            when Name_Error => 
+                -- Si le fichier n'existe pas
+                Create (Fichier, Out_File, Nom_Fichier);
+        end;
+        Put(Fichier, "solid " & Nom_Fichier);
+        New_Line (Fichier);
         Affiche_Code_STL(Facettes);
-        Put("endsolid " & Nom_Fichier);
+        Put(Fichier, "endsolid " & Nom_Fichier);
     end;
 end;
