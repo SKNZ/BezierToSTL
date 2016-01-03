@@ -14,26 +14,26 @@ package body STL is
                 -- (i.e. 3 points 3D)
                 -- TODO pas très swag tout ça -> faire quelque chose !
                 Liste_Facettes.Insertion_Queue(Facettes,
-                                              ((1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => P_Suiv(P_Suiv'Last),
-                                                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => P_Cour(P_Cour'First) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => P_Cour(P_Cour'Last),
-                                                3 => P_Cour(P_Cour'First) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => P_Cour(P_Cour'First) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => P_Cour(P_Cour'Last),
-                                                3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian))));
+                ((1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
+                2 => P_Suiv(P_Suiv'Last),
+                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas) * Angle_Radian)),
+                (1 => P_Cour(P_Cour'First) * Cos(Float(Pas) * Angle_Radian),
+                2 => P_Cour(P_Cour'Last),
+                3 => P_Cour(P_Cour'First) * Sin(Float(Pas) * Angle_Radian)),
+                (1 => P_Cour(P_Cour'First) * Cos(Float(Pas+1) * Angle_Radian),
+                2 => P_Cour(P_Cour'Last),
+                3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian))));
                 -- On ajoute la deuxième facette
                 Liste_Facettes.Insertion_Queue(Facettes,
-                                              ((1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => P_Suiv(P_Suiv'Last),
-                                                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => P_Cour(P_Cour'First) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => P_Cour(P_Cour'Last),
-                                                3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian)),
-                                               (1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => P_Suiv(P_Suiv'Last),
-                                                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas+1) * Angle_Radian))));
+                ((1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
+                2 => P_Suiv(P_Suiv'Last),
+                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas) * Angle_Radian)),
+                (1 => P_Cour(P_Cour'First) * Cos(Float(Pas+1) * Angle_Radian),
+                2 => P_Cour(P_Cour'Last),
+                3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian)),
+                (1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas+1) * Angle_Radian),
+                2 => P_Suiv(P_Suiv'Last),
+                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas+1) * Angle_Radian))));
             end loop;
         end;
 
@@ -48,7 +48,7 @@ package body STL is
         -- (Pn + k*alpha, Pn-1 + k*alpha, Pn-1 + (k+1)*alpha)
         -- et
         -- (Pn + k*alpha, Pn-1 + (k+1)*alpha, Pn + (k+1)*alpha)
-        
+
         Construire_STL(Segments);
     end;
 

@@ -2,7 +2,34 @@ with Ada.Text_IO, Ada.Float_Text_IO, Ada.Characters.Handling, Ada.Strings, Ada.S
 use Ada.Text_IO, Ada.Float_Text_IO, Ada.Characters.Handling, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded, math;
 
 package body Parser_Svg is
-    function Get_Ligne_D(
+    procedure Chargement_Bezier(Nom_Fichier : String; L : out Liste) is
+        -- on charge le fichier svg
+        Ligne_D : String := Trouver_Ligne_D(Nom_Fichier);
+
+        Curseur : Positive := Ligne_D'First;
+
+        Position_Courante : Point2D := (others => 0.0);
+
+        Op_Abs : Op_Code_Absolute;
+        Relatif_Vers_Absolu : Boolean;
+    begin
+        Put_Line("Lecture de la courbe");
+        -- analyse de cette même ligne en gérant
+        -- les différents opcode (mlhvcq et MLHVCQ)
+
+        -- Tant qu'on est pas à la fin de la ligne
+        while Curseur <= Ligne_D'Last loop
+            -- Lecture de l'opcode L,
+            Lire_OpCode (Ligne_D, Curseur, Op_Abs, Relatif_Vers_Absolu);
+
+            -- Traitement de l'opcode
+            Gerer_OpCode (Ligne_D, Curseur, Position_Courante, Op_Abs, L, Relatif_Vers_Absolu);
+        end loop;
+
+        Put_Line("Nb. Pts. " & Integer'Image(Taille(L)));
+    end;
+
+    function Trouver_Ligne_D(
         Nom_Fichier : String)
         return String
     is
@@ -42,7 +69,7 @@ package body Parser_Svg is
     -- Obtient le texte entre le séparateur courant et le suivant
     -- Sans avancer le curseur
     -- Requiert Curseur = 1 ou Ligne_D (Curseur) = Separateur
-    function Voir_Au_Separateur(
+    function Lire_Mot_Suivant(
         Ligne_D : String;
         Curseur : in Positive;
         Fin_Curseur : out Positive)
@@ -94,13 +121,13 @@ package body Parser_Svg is
 
     -- Avance jusqu'au prochain séparateur et récupère le contenu
     -- Requiert Curseur = 1 ou Ligne_D (Curseur) = Separateur
-    function Avancer_Au_Separateur(
+    function Avancer_Mot_Suivant(
         Ligne_D : String;
         Curseur : in out Positive)
         return String
     is
         Fin_Curseur : Positive;
-        Contenu : String := Voir_Au_Separateur (Ligne_D, Curseur, Fin_Curseur);
+        Contenu : String := Lire_Mot_Suivant (Ligne_D, Curseur, Fin_Curseur);
     begin
         Curseur := Fin_Curseur;
 
@@ -112,7 +139,7 @@ package body Parser_Svg is
         Curseur : in out Positive;
         Point : out Point2D)
     is
-        Contenu : String := Avancer_Au_Separateur(Ligne_D,  Curseur);
+        Contenu : String := Avancer_Mot_Suivant(Ligne_D,  Curseur);
 
         X, Y : Float;
     begin
@@ -147,8 +174,6 @@ package body Parser_Svg is
                 -- Conversion en flottant
                 X := Float'Value (X_Text);
                 Y := Float'Value (Y_Text);
-
-                Put_Line("(X => " & Float'Image(X) & "; Y => " & Float'Image(Y) & ")");
             exception
                 when Constraint_Error =>
                     -- Si les nombres sont mal formés...
@@ -156,7 +181,8 @@ package body Parser_Svg is
             end;
         end;
 
-        Point := (1 => X, 2 => Y);        
+        Point := (Point'First => X, Point'Last => Y);        
+        Put_Line("Arg" & To_String (Point));
     end;
 
     function Lire_Coord(
@@ -164,7 +190,7 @@ package body Parser_Svg is
         Curseur : in out Positive)
         return Float
     is
-        Contenu : String := Avancer_Au_Separateur(Ligne_D, Curseur);
+        Contenu : String := Avancer_Mot_Suivant(Ligne_D, Curseur);
     begin
         -- On transforme le contenu en flottant
         return Float'Value (Contenu);
@@ -180,7 +206,7 @@ package body Parser_Svg is
         Op_Abs : out Op_Code_Absolute;
         Relatif_Vers_Absolu : out Boolean)
     is
-        Contenu : String := Avancer_Au_Separateur(Ligne_D, Curseur);
+        Contenu : String := Avancer_Mot_Suivant(Ligne_D, Curseur);
         Op : Op_Code;
     begin
         -- On avance au séparateur
@@ -214,6 +240,46 @@ package body Parser_Svg is
         Op_Abs := Op_Code'Value(To_Upper (Op_Code'Image(Op)));
     end;
 
+    function Mot_Suivant_Est_Op_Code_Ou_Vide (
+        Ligne_D : String;
+        Curseur : Positive)
+        return Boolean
+    is
+        Fin_Curseur : Positive;
+        Contenu_Suivant : String := Lire_Mot_Suivant (Ligne_D, Curseur, Fin_Curseur);
+    begin
+        -- On sort si plus rien
+        if Contenu_Suivant'Length = 0 then
+            return true;
+        end if;
+
+        -- On a potentiellement un OpCode, on vérifie
+        if Contenu_Suivant'Length = 1 then
+            declare
+                Last : Positive;
+
+                Op : Op_Code;
+
+                -- https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
+                package Op_Code_IO is new Enumeration_IO (Op_Code);
+            begin
+                -- On convertit la chaine en opcode
+                -- On ajoute des quotes pour que le parser sache
+                -- que c'est un enum caractère
+                Op_Code_IO.Get("'" & Contenu_Suivant & "'", Op, Last);
+
+                -- Si la lecture n'a pas planté..
+                return true;
+            exception
+                when Data_Error =>
+                    -- On continue la boucle si ce n'est pas un opcode
+                    null;
+            end;
+        end if;
+
+        return false;
+    end;
+
     procedure Gerer_OpCode (
         Ligne_D : String;
         Curseur : in out Positive;
@@ -222,22 +288,23 @@ package body Parser_Svg is
         L : in out Liste;
         Relatif_Vers_Absolu : Boolean)
     is
-        Point_Base : Point2D := (others => 0.0);
+        Offset_Relatif : Point2D := (others => 0.0);
     begin
+        Put_Line ("==================================");
         Put_Line ("Gestion opcode " & Op_Code'Image(Op) & "; relatif=" & Boolean'Image(Relatif_Vers_Absolu));
         
         loop
             if Relatif_Vers_Absolu then
-                Point_Base := Position_Courante;
+                Offset_Relatif := Position_Courante;
             end if;
 
-            Put_Line("NbP: " & Integer'Image(Taille(L)));
-            Put_Line("PB(X => " & Float'Image(Point_Base (1)) & "; Y => " & Float'Image(Point_Base (2)) & ")");
+            Put_Line("Nb. Pts. " & Integer'Image(Taille(L)));
+            Put_Line("Off" & To_String (Offset_Relatif));
 
             case Op is
                 when 'M' =>
                     Lire_Point2D(Ligne_D, Curseur, Position_Courante);
-                    Position_Courante := Position_Courante + Point_Base;
+                    Position_Courante := Position_Courante + Offset_Relatif;
 
                     Insertion_Queue(L, Position_Courante);
                 when 'L' =>
@@ -245,25 +312,25 @@ package body Parser_Svg is
                         P : Point2D;
                     begin
                         Lire_Point2D(Ligne_D, Curseur, P);
-                        P := P + Point_Base;
+                        P := P + Offset_Relatif;
 
                         Insertion_Queue (L, Position_Courante);
                         Insertion_Queue (L, P);
                     end;
                 when 'H' =>
                     declare
-                        P : Point2D := Point_Base;
+                        P : Point2D := Offset_Relatif;
                     begin
-                        P (1) := P (1) + Lire_Coord(Ligne_D, Curseur);
+                        P (P'First) := P (P'First) + Lire_Coord(Ligne_D, Curseur);
 
                         Insertion_Queue (L, Position_Courante);
                         Insertion_Queue (L, P);
                     end;
                 when 'V' =>
                     declare
-                        P : Point2D := Point_Base;
+                        P : Point2D := Offset_Relatif;
                     begin
-                        P (2) := P (2) + Lire_Coord(Ligne_D, Curseur);
+                        P (P'Last) := P (P'Last) + Lire_Coord(Ligne_D, Curseur);
 
                         Insertion_Queue (L, Position_Courante);
                         Insertion_Queue (L, P);
@@ -277,11 +344,11 @@ package body Parser_Svg is
                         Lire_Point2D(Ligne_D, Curseur, P);
                         
 
-                        C1 := C1 + Point_Base;
-                        C2 := C2 + Point_Base;
-                        P := P + Point_Base;
+                        C1 := C1 + Offset_Relatif;
+                        C2 := C2 + Offset_Relatif;
+                        P := P + Offset_Relatif;
 
-                        Bezier(Position_Courante, C1, C2, P, Nombre_Points, L);
+                        Bezier(Position_Courante, C1, C2, P, Nombre_Points_Bezier, L);
                     end;
                 when 'Q' =>
                     declare
@@ -290,10 +357,10 @@ package body Parser_Svg is
                         Lire_Point2D(Ligne_D, Curseur, C);
                         Lire_Point2D(Ligne_D, Curseur, P);
 
-                        C := C + Point_Base;
-                        P := P + Point_Base;
+                        C := C + Offset_Relatif;
+                        P := P + Offset_Relatif;
 
-                        Bezier(Position_Courante, C, P, Nombre_Points, L);
+                        Bezier(Position_Courante, C, P, Nombre_Points_Bezier, L);
                     end;
             end case;
 
@@ -307,70 +374,14 @@ package body Parser_Svg is
                 Position_Courante := Queue (L);
             end if;
 
-            Put_Line("PC(X => " & Float'Image(Position_Courante (1)) & "; Y => " & Float'Image(Position_Courante (2)) & ")");
+            Put_Line("Pos" & To_String (Position_Courante));
 
             -- On look-ahead pour voir si on a encore des coordonnées
-            -- ou si on a on un opcode
-            declare
-                Fin_Curseur : Positive;
-                Contenu_Suivant : String := Voir_Au_Separateur (Ligne_D, Curseur, Fin_Curseur);
-            begin
-                -- On sort si plus rien
-                exit when Contenu_Suivant'Length = 0;
+            -- si on a on un opcode
+            exit when Mot_Suivant_Est_Op_Code_Ou_Vide (Ligne_D, Curseur);
 
-                -- On a potentiellement un OpCode, on vérifie
-                if Contenu_Suivant'Length = 1 then
-                    declare
-                        Last : Positive;
-
-                        Op : Op_Code;
-
-                        -- https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
-                        package Op_Code_IO is new Enumeration_IO (Op_Code);
-                    begin
-                        -- On convertit la chaine en opcode
-                        -- On ajoute des quotes pour que le parser sache
-                        -- que c'est un enum caractère
-                        Op_Code_IO.Get("'" & Contenu_Suivant & "'", Op, Last);
-
-                        -- Si ça marche, on sort de la boucle car on a un opcode
-                        exit;
-                    exception
-                        when Data_Error =>
-                            -- On continue la boucle si ce n'est pas un opcode
-                            null;
-                    end;
-                end if;
-            end;
-
+            Put_Line("||||||||||||||||||||||||||||||||||");
             Put_Line("Arguments supplémentaires trouvés.");
         end loop;
-    end;
-
-    procedure Chargement_Bezier(Nom_Fichier : String; L : out Liste) is
-        -- on charge le fichier svg
-        Ligne_D : String := Get_Ligne_D(Nom_Fichier);
-
-        Curseur : Positive := Ligne_D'First;
-
-        Position_Courante : Point2D := (others => 0.0);
-
-        Op_Abs : Op_Code_Absolute;
-        Relatif_Vers_Absolu : Boolean;
-    begin
-        Put_Line("Lecture de la courbe");
-        -- analyse de cette même ligne en gérant
-        -- les différents opcode (mlhvcq et MLHVCQ)
-
-        -- Tant qu'on est pas à la fin de la ligne
-        while Curseur <= Ligne_D'Last loop
-            -- Lecture de l'opcode L,
-            Lire_OpCode (Ligne_D, Curseur, Op_Abs, Relatif_Vers_Absolu);
-
-            -- Traitement de l'opcode
-            Gerer_OpCode (Ligne_D, Curseur, Position_Courante, Op_Abs, L, Relatif_Vers_Absolu);
-        end loop;
-
-        Put_Line("NbP: " & Integer'Image(Taille(L)));
     end;
 end;
