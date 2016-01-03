@@ -18,11 +18,11 @@
 \renewcommand{\footrulewidth}{0pt}
 \setlength{\headheight}{14.6pt}
 
-\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} 
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
 
 \title{
     \normalfont \normalsize
-    \textsc{École nationale supérieure d'informatique et de mathématiques appliquées de Grenoble} \\ [25pt]
+    \textsc{École nationale supérieure d'informatique et d mathématiques appliquées de Grenoble} \\ [25pt]
     \horrule{0.5pt} \\[0.4cm]
     \huge BezierToSTL \\
     \horrule{2pt} \\[0.5cm]
@@ -38,6 +38,8 @@
 
 \section{Fonctionnement}
 
+Le programme accepte deux arguments: un fichier SVG d'entrée et un fichier STL de sortie.
+
 \subsection{Parser SVG}
 
 \subsubsection{Types \& Constantes}
@@ -49,16 +51,39 @@ Les constantes suivantes sont définies:
     \item Séparateur décimal (point): sépare la partie entière de la partie flottante d'un nombre décimal
 \end{itemize}
 
+Le type \texttt{Op\_Code} est une énumération de toutes les instructions supportées de la balise \texttt{<path>} (MLHCQVmlhcqv).
+On utilise ici une énumération de \texttt{character}, ce qui 
+complexifie la conversion depuis un \texttt{string} (ajout d'apostrophes) mais nous permet d'avoir la sensibilité à la casse.
+On définit deux sous types, \texttt{Op\_Code\_Absolute} (pour les majuscules) et \texttt{Op\_Code\_Relative} (pour les minuscules).
+
+\subsubsection{Algorithme}
 
 Le parser\_svg ouvre le fichier et cherche une ligne commençant par un marqueur définit dans une constante ("d="").
 Les espaces blancs en début et fin de la ligne sont ignorés à l'aide de la fonction Ada.Strings.Unbounded.Trim.
 Une fois cette ligne obtenue, le parser parcourt celle-ci à l'aide d'un curseur en la découpant de mot en mot.
-Un mot comme étant un ensemble de caractères séparé par une constante (ici un espace).
+Un mot est un ensemble de caractères séparé par une constante (définie ci-dessus).
+L'analyse de la courbe est un cycle:
+\begin{enumerate}
+    \item \label{E1} Lecture d'un opcode
+    \item \label{E2} Selon l'opcode, lecture de N arguments (flottant seul ou pair de deux flottants, séparés selon les constantes ci-dessus)
+    \item Traitement de l'opcode (à l'aide du package \texttt{math})
+    \item Si il y a encore des arguments, aller à l'étape~\ref{E2}
+    \item Si il y a encore des mots, aller à l'étape~\ref{E1}
+\end{enumerate}
 
+Pour gérer le positionnement relatif, on convertit les opcode relatifs en opcode absolus et on met un booléen à vrai. Ce booléen indique alors qu'il faut ajouter à toutes les coordonnées lues les coordonnées de la dernière position.
 
-\section{Choix techniques}
+\subsection{Courbes de Bézier}
 
-\subsection{Gestion de version}
+Les courbes de Bézier sont calculées dans le package \texttt{math}.
+
+\subsection{Génération STL}
+
+Le package \texttt{stl} permet le calcul des facettes à partir des segments et leur export dans un fichier.
+
+Si le fichier de sortie n'existe pas, il est crée. S'il existe, il est écrasé.
+
+\section{Gestion de version}
 
 Nous utilisons le système de gestion de version \textbf{git} sur la plateforme \textbf{github} afin de maintenir l'historique de nos modifications et de synchroniser le code entre les différents lieux et membres de l'équipe.
 

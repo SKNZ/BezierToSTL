@@ -41,6 +41,7 @@ package body STL is
         procedure Construire_STL is new Liste_Points.Parcourir_Par_Couples(Traiter => Creer_Facette);
 
     begin
+        Put_Line ("Construction du STL");
         -- IDEE :
         -- On prend n dans 1..Taille(Segments) et on considère Pn un Point2D
         -- Chaque pas k (k dans (0,M-1)) de l'angle de rotation alpha génère un couple de Facettes (en 3D)
@@ -85,6 +86,7 @@ package body STL is
 
         procedure Affiche_Code_STL is new Liste_Facettes.Parcourir(Traiter => Display_Facette_STL);
     begin
+        Put_Line ("Écriture du STL " & Nom_Fichier);
         begin
             Open (Fichier, Out_File, Nom_Fichier);
         exception
