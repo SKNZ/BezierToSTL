@@ -2,79 +2,82 @@ with Ada.Text_IO;
 use Ada.Text_IO;
 
 package body STL is
-
-    procedure Pre_Traitement(Segments : in out Liste_Points.Liste) is
-        Point_Tete : Point2D := Liste_Points.Tete(Segments);
-        Point_Queue : Point2D := Liste_Points.Queue(Segments);
-
-        -- Met à jour les minima X_Min et Y_Min
-        procedure Comparer_Min(P : in out Point2D) is
-        begin
-            -- On compare X_Min et l'abscisse du point P
-            if P(P'First) > X_Min then
-                X_Min := P(P'First);
-            end if;
-
-            -- On compare Y_Min et l'ordonnée du point P
-            if P(P'Last) > Y_Min then
-                Y_Min := P(P'Last);
-            end if;
-        end;
-
-        procedure Chercher_Min is new Liste_Points.Parcourir(Traiter => Comparer_Min);
-    begin
-        -- On instancie les minima
-        X_Min := Point_Tete(Point_Tete'First);
-        Y_Min := Point_Tete(Point_Tete'Last);
-
-        -- On calcule les minima
-        Chercher_Min(Segments);
-
-        -- Si la coord. Y de début n'est pas sur -Y_Min, on
-        -- rajoute une coord. au début
-        if Point_Tete(Point_Tete'Last) /= -Y_Min then
-            Liste_Points.Insertion_Tete(Segments, (Point_Tete(Point_Tete'First), 0.0));
-        end if;
-
-        -- Si la coord. Y de fin n'est pas sur -X_Min, on
-        -- rajoute une coord. à la fin
-        if Point_Queue(Point_Queue'Last) /= -X_Min then
-            Liste_Points.Insertion_Queue(Segments, (Point_Queue(Point_Queue'First), 0.0));
-        end if;
-    end;
-
     procedure Creation(Segments : in out Liste_Points.Liste ;
         Facettes : out Liste_Facettes.Liste) is
 
+        -- Abscisses et ordonnées minimales nécessaires
+        -- pour le pré-traitement
+        X_Min, Y_Min : Float;
+
+        procedure Pre_Traitement(Segments : in out Liste_Points.Liste) is
+            Point_Tete : Point2D := Liste_Points.Tete(Segments);
+            Point_Queue : Point2D := Liste_Points.Queue(Segments);
+
+            -- Met à jour les minima X_Min et Y_Min
+            procedure Comparer_Min(P : in out Point2D) is
+            begin
+                -- On compare X_Min et l'abscisse du point P
+                if P(P'First) > X_Min then
+                    X_Min := P(P'First);
+                end if;
+
+                -- On compare Y_Min et l'ordonnée du point P
+                if P(P'Last) > Y_Min then
+                    Y_Min := P(P'Last);
+                end if;
+            end;
+
+            procedure Chercher_Min is new Liste_Points.Parcourir(Traiter => Comparer_Min);
+        begin
+            -- On instancie les minima
+            X_Min := Point_Tete(Point_Tete'First);
+            Y_Min := Point_Tete(Point_Tete'Last);
+
+            -- On calcule les minima
+            Chercher_Min(Segments);
+
+            -- Si la coord. Y de début n'est pas sur -Y_Min, on
+            -- rajoute une coord. au début
+            if Point_Tete(Point_Tete'Last) /= -Y_Min then
+                Liste_Points.Insertion_Tete(Segments, (Point_Tete(Point_Tete'First), 0.0));
+            end if;
+
+            -- Si la coord. Y de fin n'est pas sur -X_Min, on
+            -- rajoute une coord. à la fin
+            if Point_Queue(Point_Queue'Last) /= -X_Min then
+                Liste_Points.Insertion_Queue(Segments, (Point_Queue(Point_Queue'First), 0.0));
+            end if;
+        end;
+
         -- Crée un "cercle" de facettes
         procedure Creer_Facette(P_Cour, P_Suiv : in Point2D) is
+            function Calculer_Point(P : Point2D; Pas : Integer) return Point3D is
+            begin
+                return
+                    (
+                        1 => (P(P'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
+                        2 => (P(P'Last) - Y_Min),
+                        3 => (P(P'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)
+                        );
+            end;
         begin
             for Pas in 0..M loop
                 -- On ajoute une facette dans la liste (i.e. 3 points 3D)
                 -- On en profite pour décaler tout les points d'un cran
                 -- (de X_Min et de Y_Min)
-                -- TODO pas très swag tout ça -> faire quelque chose !
                 Liste_Facettes.Insertion_Queue(Facettes,
-                ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
+                (
+                    (Calculer_Point (P_Suiv, Pas)),
+                    (Calculer_Point (P_Cour, Pas)),
+                    (Calculer_Point (P_Cour, Pas + 1))
+                    ));
                 -- On ajoute la deuxième facette
                 Liste_Facettes.Insertion_Queue(Facettes,
-                ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian)),
-                (1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
+                (
+                    (Calculer_Point (P_Suiv, Pas + 1)),
+                    (Calculer_Point (P_Suiv, Pas)),
+                    (Calculer_Point (P_Cour, Pas + 1))
+                    ));
             end loop;
         end;
 
@@ -89,14 +92,13 @@ package body STL is
         -- (Pn + k*alpha, Pn-1 + k*alpha, Pn-1 + (k+1)*alpha)
         -- et
         -- (Pn + k*alpha, Pn-1 + (k+1)*alpha, Pn + (k+1)*alpha)
-        
+
         -- On procède au pré-traitement tout d'abord
         Pre_Traitement(Segments);
 
         -- Ensuite on construit les facettes
         Construire_STL(Segments);
     end;
-
 
     procedure Sauvegarder(
         Nom_Fichier : String ;

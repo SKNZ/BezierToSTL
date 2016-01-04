@@ -1,7 +1,7 @@
 with Liste_Generique;
 
 package Math is
-    Nombre_Points_Bezier : constant Positive := 60;
+    Nombre_Points_Bezier : constant Positive := 15;
 
     type Vecteur is array(Positive range<>) of Float;
     subtype Point2D is Vecteur(1..2);
