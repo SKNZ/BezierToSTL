@@ -3,55 +3,6 @@ use Ada.Text_IO;
 
 package body STL is
 
-    procedure Creation(Segments : in out Liste_Points.Liste ;
-        Facettes : out Liste_Facettes.Liste) is
-
-        -- Crée un "cercle" de facettes
-        procedure Creer_Facette(P_Cour, P_Suiv : in Point2D) is
-        begin
-            for Pas in 0..M loop
-                -- On ajoute une facette dans la liste
-                -- (i.e. 3 points 3D)
-                -- TODO pas très swag tout ça -> faire quelque chose !
-                Liste_Facettes.Insertion_Queue(Facettes,
-                                              ((1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => P_Suiv(P_Suiv'Last),
-                                                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => P_Cour(P_Cour'First) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => P_Cour(P_Cour'Last),
-                                                3 => P_Cour(P_Cour'First) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => P_Cour(P_Cour'First) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => P_Cour(P_Cour'Last),
-                                                3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian))));
-                -- On ajoute la deuxième facette
-                Liste_Facettes.Insertion_Queue(Facettes,
-                                              ((1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => P_Suiv(P_Suiv'Last),
-                                                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => P_Cour(P_Cour'First) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => P_Cour(P_Cour'Last),
-                                                3 => P_Cour(P_Cour'First) * Sin(Float(Pas+1) * Angle_Radian)),
-                                               (1 => P_Suiv(P_Suiv'First) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => P_Suiv(P_Suiv'Last),
-                                                3 => P_Suiv(P_Suiv'First) * Sin(Float(Pas+1) * Angle_Radian))));
-            end loop;
-        end;
-
-        -- Construit l'image 3D
-        procedure Construire_STL is new Liste_Points.Parcourir_Par_Couples(Traiter => Creer_Facette);
-
-    begin
-        Put_Line ("Construction du STL");
-        -- IDEE :
-        -- On prend n dans 1..Taille(Segments) et on considère Pn un Point2D
-        -- Chaque pas k (k dans (0,M-1)) de l'angle de rotation alpha génère un couple de Facettes (en 3D)
-        -- (Pn + k*alpha, Pn-1 + k*alpha, Pn-1 + (k+1)*alpha)
-        -- et
-        -- (Pn + k*alpha, Pn-1 + (k+1)*alpha, Pn + (k+1)*alpha)
-        
-        Construire_STL(Segments);
-    end;
-
     procedure Pre_Traitement(Segments : in out Liste_Points.Liste) is
         Point_Tete : Point2D := Liste_Points.Tete(Segments);
         Point_Queue : Point2D := Liste_Points.Queue(Segments);
@@ -91,6 +42,61 @@ package body STL is
             Liste_Points.Insertion_Queue(Segments, (Point_Queue(Point_Queue'First), 0.0));
         end if;
     end;
+
+    procedure Creation(Segments : in out Liste_Points.Liste ;
+        Facettes : out Liste_Facettes.Liste) is
+
+        -- Crée un "cercle" de facettes
+        procedure Creer_Facette(P_Cour, P_Suiv : in Point2D) is
+        begin
+            for Pas in 0..M loop
+                -- On ajoute une facette dans la liste (i.e. 3 points 3D)
+                -- On en profite pour décaler tout les points d'un cran
+                -- (de X_Min et de Y_Min)
+                -- TODO pas très swag tout ça -> faire quelque chose !
+                Liste_Facettes.Insertion_Queue(Facettes,
+                                              ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
+                                                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
+                                                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
+                                               (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
+                                                2 => (P_Cour(P_Cour'Last) - Y_Min),
+                                                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
+                                               (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
+                                                2 => (P_Cour(P_Cour'Last) - Y_Min),
+                                                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
+                -- On ajoute la deuxième facette
+                Liste_Facettes.Insertion_Queue(Facettes,
+                                              ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
+                                                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
+                                                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
+                                               (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
+                                                2 => (P_Cour(P_Cour'Last) - Y_Min),
+                                                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian)),
+                                               (1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
+                                                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
+                                                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
+            end loop;
+        end;
+
+        -- Construit l'image 3D
+        procedure Construire_STL is new Liste_Points.Parcourir_Par_Couples(Traiter => Creer_Facette);
+
+    begin
+        Put_Line ("Construction du STL");
+        -- IDEE :
+        -- On prend n dans 1..Taille(Segments) et on considère Pn un Point2D
+        -- Chaque pas k (k dans (0,M-1)) de l'angle de rotation alpha génère un couple de Facettes (en 3D)
+        -- (Pn + k*alpha, Pn-1 + k*alpha, Pn-1 + (k+1)*alpha)
+        -- et
+        -- (Pn + k*alpha, Pn-1 + (k+1)*alpha, Pn + (k+1)*alpha)
+        
+        -- On procède au pré-traitement tout d'abord
+        Pre_Traitement(Segments);
+
+        -- Ensuite on construit les facettes
+        Construire_STL(Segments);
+    end;
+
 
     procedure Sauvegarder(
         Nom_Fichier : String ;
