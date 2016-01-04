@@ -30,15 +30,15 @@ package body STL is
         -- On calcule les minima
         Chercher_Min(Segments);
 
-        -- Si la coord. Y de début n'est pas sur 0.0, on
+        -- Si la coord. Y de début n'est pas sur -Y_Min, on
         -- rajoute une coord. au début
-        if Point_Tete(Point_Tete'Last) /= 0.0 then
+        if Point_Tete(Point_Tete'Last) /= -Y_Min then
             Liste_Points.Insertion_Tete(Segments, (Point_Tete(Point_Tete'First), 0.0));
         end if;
 
-        -- Si la coord. Y de fin n'est pas sur 0.0, on
+        -- Si la coord. Y de fin n'est pas sur -X_Min, on
         -- rajoute une coord. à la fin
-        if Point_Queue(Point_Queue'Last) /= 0.0 then
+        if Point_Queue(Point_Queue'Last) /= -X_Min then
             Liste_Points.Insertion_Queue(Segments, (Point_Queue(Point_Queue'First), 0.0));
         end if;
     end;

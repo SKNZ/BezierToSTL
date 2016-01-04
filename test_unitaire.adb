@@ -68,7 +68,7 @@ procedure test_unitaire is
                (200.0, 180.0),
                (200.0, 200.0),
                (0.0, 200.0),
-               Nombre_Points, Segments);
+               Nombre_Points_Bezier, Segments);
 
         --on convertit en facettes par rotation
         Creation(Segments, Facettes);
@@ -86,7 +86,7 @@ procedure test_unitaire is
         Bezier((0.0, 0.0),
                (200.0, 100.0),
                (0.0, 200.0),
-               Nombre_Points, Segments);
+               Nombre_Points_Bezier, Segments);
 
         --on convertit en facettes par rotation
         Creation(Segments, Facettes);
@@ -105,13 +105,13 @@ procedure test_unitaire is
         Bezier((0.0, 0.0),
                (200.0, 100.0),
                (100.0, 200.0),
-               Nombre_Points, Segments);
+               Nombre_Points_Bezier, Segments);
 
         Bezier((100.0, 200.0),
                (200.0, 380.0),
                (200.0, 400.0),
                (0.0, 400.0),
-               Nombre_Points, Segments_2);
+               Nombre_Points_Bezier, Segments_2);
 
         Liste_Points.Fusion(Segments, Segments_2);
 
@@ -134,13 +134,13 @@ procedure test_unitaire is
                (68.690373 + 321.228507, 289.69701 + 7.07107),
                (68.690373 + 321.228507 - 15.15229, 289.69701 + 7.07107 + 127.27922),
                (68.690373 + 321.228507 + 23.23351, 289.69701 + 7.07107 + 157.5838),
-               Nombre_Points, Segments);
+               Nombre_Points_Bezier, Segments);
 
         Bezier((68.690373 + 321.228507 + 23.23351, 289.69701 + 7.07107 + 157.5838),
                (68.690373 + 321.228507 + 23.23351 + 38.3858, 289.69701 + 7.07107 + 157.5838 + 30.30457),
                (68.690373 + 321.228507 + 23.23351 + 171.72593, 289.69701 + 7.07107 + 157.5838 - 155.5635),
                (68.690373 + 321.228507 + 23.23351 +171.72593, 289.69701 + 7.07107 + 157.5838 - 155.5635),
-               Nombre_Points, Segments_2);
+               Nombre_Points_Bezier, Segments_2);
 
         Liste_Points.Fusion(Segments, Segments_2);
 
