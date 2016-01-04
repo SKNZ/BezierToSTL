@@ -55,26 +55,26 @@ package body STL is
                 -- (de X_Min et de Y_Min)
                 -- TODO pas très swag tout ça -> faire quelque chose !
                 Liste_Facettes.Insertion_Queue(Facettes,
-                                              ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                                                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                                                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                                                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
+                ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
+                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
+                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
+                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
+                2 => (P_Cour(P_Cour'Last) - Y_Min),
+                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
+                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
+                2 => (P_Cour(P_Cour'Last) - Y_Min),
+                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
                 -- On ajoute la deuxième facette
                 Liste_Facettes.Insertion_Queue(Facettes,
-                                              ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                                                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                                                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                                               (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                                                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian)),
-                                               (1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                                                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                                                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
+                ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
+                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
+                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
+                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
+                2 => (P_Cour(P_Cour'Last) - Y_Min),
+                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian)),
+                (1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
+                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
+                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
             end loop;
         end;
 

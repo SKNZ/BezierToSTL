@@ -11,6 +11,11 @@ package body Math is
         New_Line;
     end;
 
+    function To_String (P : Point2D) return String is
+    begin
+        return "(X => " & Float'Image(P (1)) & "; Y => " & Float'Image(P (2)) & ")";
+    end;
+
     function "+" (A : Vecteur ; B : Vecteur) return Vecteur is
         R : Vecteur(A'Range);
     begin
@@ -50,6 +55,8 @@ package body Math is
     begin
         for N in 0..Nb_Points loop
             Insertion_Queue(Points, Bezier_Cub(P1, C1, C2, P2, Float(N)/Float(Nb_Points)));
+
+            -- Put_Line("BeC" & To_String(Queue(Points)));
         end loop;
         -- Remarque : la courbe commence bien en P1 pour N=0
         --            et finit bien en P2 pour N=Nb_Points
@@ -60,6 +67,7 @@ package body Math is
     begin
         for N in 0..Nb_Points loop
             Insertion_Queue(Points, Bezier_Quad(P1, C, P2, Float(N)/Float(Nb_Points)));
+            -- Put_Line("BeQ" & To_String(Queue(Points)));
         end loop;
         -- Remarque : la courbe commence bien en P1 pour N=0
         --            et finit bien en P2 pour N=Nb_Points
