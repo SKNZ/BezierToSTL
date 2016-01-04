@@ -2,7 +2,6 @@ with Ada.Text_IO;
 use Ada.Text_IO;
 
 package body STL is
-
     procedure Pre_Traitement(Segments : in out Liste_Points.Liste) is
         Point_Tete : Point2D := Liste_Points.Tete(Segments);
         Point_Queue : Point2D := Liste_Points.Queue(Segments);
@@ -48,6 +47,15 @@ package body STL is
 
         -- Crée un "cercle" de facettes
         procedure Creer_Facette(P_Cour, P_Suiv : in Point2D) is
+            function Calculer_Point(P : Point2D; Pas : Integer) return Point3D is
+            begin
+                return
+                    (
+                        1 => (P(P'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
+                        2 => (P(P'Last) - Y_Min),
+                        3 => (P(P'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)
+                    );
+            end;
         begin
             for Pas in 0..M loop
                 -- On ajoute une facette dans la liste (i.e. 3 points 3D)
@@ -55,26 +63,18 @@ package body STL is
                 -- (de X_Min et de Y_Min)
                 -- TODO pas très swag tout ça -> faire quelque chose !
                 Liste_Facettes.Insertion_Queue(Facettes,
-                ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
+                (
+                    (Calculer_Point (P_Suiv, Pas)),
+                    (Calculer_Point (P_Cour, Pas)),
+                    (Calculer_Point (P_Cour, Pas + 1))
+                ));
                 -- On ajoute la deuxième facette
                 Liste_Facettes.Insertion_Queue(Facettes,
-                ((1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas) * Angle_Radian),
-                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas) * Angle_Radian)),
-                (1 => (P_Cour(P_Cour'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                2 => (P_Cour(P_Cour'Last) - Y_Min),
-                3 => (P_Cour(P_Cour'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian)),
-                (1 => (P_Suiv(P_Suiv'First) - X_Min) * Cos(Float(Pas+1) * Angle_Radian),
-                2 => (P_Suiv(P_Suiv'Last) - Y_Min),
-                3 => (P_Suiv(P_Suiv'First) - X_Min) * Sin(Float(Pas+1) * Angle_Radian))));
+                (
+                    (Calculer_Point (P_Suiv, Pas)),
+                    (Calculer_Point (P_Cour, Pas + 1)),
+                    (Calculer_Point (P_Cour, Pas + 1))
+                ));
             end loop;
         end;
 
