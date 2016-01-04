@@ -1,10 +1,11 @@
 with Liste_Generique;
 
 package Math is
-    Nombre_Points_Bezier : constant Positive := 15;
+    Nombre_Points_Bezier : constant Positive := 5;
 
     type Vecteur is array(Positive range<>) of Float;
     subtype Point2D is Vecteur(1..2);
+    subtype Point3D is Vecteur(1..3);
     package Liste_Points is new Liste_Generique(Point2D);
     use Liste_Points;
 
@@ -13,6 +14,7 @@ package Math is
 
     -- Renvoie une réprésentation chainée d'un point
     function To_String (P : Point2D) return String;
+    function To_String_3D (P : Point3D) return String;
 
     -- Affiche TOUT les points d'une liste
     procedure Afficher is new Parcourir(Traiter => Display);

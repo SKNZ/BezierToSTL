@@ -8,12 +8,10 @@ use Ada.Numerics.Elementary_Functions;
 
 package STL is
     -- Pas de la rotation
-    M : constant Positive := 50;
+    M : constant Positive := 5;
 
     -- Angle de la rotation en radian
     Angle_Radian : constant Float := (2.0 * PI)/Float(M);
-
-    subtype Point3D is Vecteur(1..3);
 
     type Facette is record
         P1, P2, P3 : Point3D;

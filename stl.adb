@@ -7,7 +7,7 @@ package body STL is
 
         -- Abscisses et ordonnées minimales nécessaires
         -- pour le pré-traitement
-        X_Min, Y_Min : Float;
+        X_Min, Y_Min : Float := 0.0;
 
         procedure Pre_Traitement(Segments : in out Liste_Points.Liste) is
             Point_Tete : Point2D := Liste_Points.Tete(Segments);
@@ -61,6 +61,10 @@ package body STL is
                         );
             end;
         begin
+            Put_Line("PC" & To_String(P_Cour));
+            Put_Line("PS" & To_String(P_Suiv));
+            Put_Line("------------------------");
+
             for Pas in 0..M loop
                 -- On ajoute une facette dans la liste (i.e. 3 points 3D)
                 -- On en profite pour décaler tout les points d'un cran
@@ -71,6 +75,14 @@ package body STL is
                     (Calculer_Point (P_Cour, Pas)),
                     (Calculer_Point (P_Cour, Pas + 1))
                     ));
+
+                -- DEBUG
+                if Pas = 0 then
+                    Put_Line("F1_Calculer_Point (P_Suiv, Pas)" & To_String_3D(Calculer_Point (P_Suiv, Pas)));
+                    Put_Line("F1_Calculer_Point (P_Cour, Pas)" & To_String_3D(Calculer_Point (P_Cour, Pas)));
+                    Put_Line("F1_Calculer_Point (P_Cour, Pas + 1)" & To_String_3D(Calculer_Point (P_Cour, Pas + 1)));
+                end if;
+
                 -- On ajoute la deuxième facette
                 Liste_Facettes.Insertion_Queue(Facettes,
                 (
@@ -78,7 +90,14 @@ package body STL is
                     (Calculer_Point (P_Suiv, Pas)),
                     (Calculer_Point (P_Cour, Pas + 1))
                     ));
+
+                -- DEBUG
+                --if Pas = 0 then
+                --    Put_Line("F2" & To_String(Liste_Facettes.Queue(Facettes)));
+                --end if;
             end loop;
+
+            Put_Line("------------------------");
         end;
 
         -- Construit l'image 3D
@@ -94,7 +113,7 @@ package body STL is
         -- (Pn + k*alpha, Pn-1 + (k+1)*alpha, Pn + (k+1)*alpha)
 
         -- On procède au pré-traitement tout d'abord
-        Pre_Traitement(Segments);
+        --Pre_Traitement(Segments);
 
         -- Ensuite on construit les facettes
         Construire_STL(Segments);

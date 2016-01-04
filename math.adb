@@ -16,6 +16,11 @@ package body Math is
         return "(X => " & Float'Image(P (1)) & "; Y => " & Float'Image(P (2)) & ")";
     end;
 
+    function To_String_3D (P : Point3D) return String is
+    begin
+        return "(X => " & Float'Image(P (1)) & "; Y => " & Float'Image(P (2)) & "; Z => " & Float'Image(P (3)) & ")";
+    end;
+
     function "+" (A : Vecteur ; B : Vecteur) return Vecteur is
         R : Vecteur(A'Range);
     begin
