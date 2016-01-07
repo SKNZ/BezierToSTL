@@ -31,6 +31,16 @@ package body Math is
         return R;
     end;
 
+    function "-" (A : Vecteur ; B : Vecteur) return Vecteur is
+        R : Vecteur(A'Range);
+    begin
+        for I in R'Range loop
+            -- B n'a pas a priori le même indiçage que A
+            R(I) := A(I) - B(B'First - A'First + I);
+        end loop;
+        return R;
+    end;
+
     function "*" (Facteur : Float ; V : Vecteur) return Vecteur is
         R : Vecteur(V'Range);
     begin

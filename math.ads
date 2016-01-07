@@ -1,7 +1,7 @@
 with Liste_Generique;
 
 package Math is
-    Nombre_Points_Bezier : constant Positive := 5;
+    Nombre_Points_Bezier : constant Positive := 50;
 
     type Vecteur is array(Positive range<>) of Float;
     subtype Point2D is Vecteur(1..2);
@@ -30,6 +30,10 @@ package Math is
     -- addition de 2 vecteurs
     -- Requiert A, B de taille identique
     function "+" (A : Vecteur ; B : Vecteur) return Vecteur;
+
+    -- soustraction de 2 vecteurs
+    -- Requiert A, B de taille identique
+    function "-" (A : Vecteur ; B : Vecteur) return Vecteur;
 
     -- multiplication scalaire vecteur
     function "*" (Facteur : Float ; V : Vecteur) return Vecteur;

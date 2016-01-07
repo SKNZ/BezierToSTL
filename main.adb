@@ -3,16 +3,12 @@ with STL; use STL;
 with Parser_Svg; use Parser_Svg;
 with Ada.Text_IO; use Ada.Text_IO;
 with Math; use Math;
+with Normalisation; use Normalisation;
 with Ada.Exceptions; use Ada.Exceptions;
 
 procedure Main is
     Segments : Liste_Points.Liste;
     Facettes : Liste_Facettes.Liste;
-
-    -- Quelques variables de test
-    P1, C1, C2, P2 : Point2D;
-    Points : Liste_Points.Liste;
-    Points2 : Liste_Points.Liste;
 begin
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
@@ -24,8 +20,13 @@ begin
 
     --on charge la courbe de bezier et la convertit en segments
     Chargement_Bezier(Argument(1), Segments);
+
+    -- On normalise la figure
+    Normaliser(Segments);
+
     --on convertit en facettes par rotation
     Creation(Segments, Facettes);
+
     --on sauvegarde le modele obtenu
     Sauvegarder(Argument(2), Facettes);
 
