@@ -14,13 +14,17 @@ package body Normalisation is
         
         procedure Normaliser_Liste is new Parcourir(Normaliser_Point);
 
-        Debut : Point2D := Tete(Segments);
-        Fin : Point2D := Queue(Segments);
+        Debut : Point2D;
+        Fin : Point2D;
     begin
         Normaliser_Liste(Segments);
 
-        Debut := (Debut'First => 0.0, Debut'Last => Debut(Debut'Last));
-        Fin := (Fin'First => 0.0, Fin'Last => Fin(Fin'Last));
+        -- Instanciation maintenant car Segments a été décalé
+        Debut := Tete(Segments);
+        Fin := Queue(Segments);
+
+        Debut := (Debut'First => Debut(Debut'First), Debut'Last => 0.0);
+        Fin := (Fin'First => Fin(Fin'First), Fin'Last => 0.0);
 
         -- On vérifie ne pas déjà être en 0
         if Debut /= Tete(Segments) then
@@ -52,7 +56,7 @@ package body Normalisation is
         procedure Chercher_Min is new Parcourir(Comparer_Min);
     begin
         Chercher_Min (Segments);
-
+        
         return (Point2D'First => X_Min, Point2D'Last => Y_Min);
     end;
 end;
