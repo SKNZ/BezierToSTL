@@ -1,7 +1,7 @@
 \documentclass[paper=a4, fontsize=11pt]{scrartcl}
 
 \usepackage[utf8]{inputenc}
-\usepackage{fourier} % Adobe Utopia
+% \usepackage{fourier} % Adobe Utopia
 \usepackage[french]{babel}
 % \usepackage{amsmath,amsfonts,amsthm}
 
@@ -77,9 +77,11 @@ Pour gérer le positionnement relatif, on convertit les opcode relatifs en opcod
 
 Les courbes de Bézier sont calculées dans le package \texttt{math}.
 
-\subsection{Génération STL}
+\subsection{Génération et Sauvegarde du STL}
 
-Le package \texttt{stl} permet le calcul des facettes à partir des segments et leur export dans un fichier.
+Choix de l'implémentation des procédures :\\
+Calculs mathématiques des facettes :\\
+
 
 Si le fichier de sortie n'existe pas, il est crée. S'il existe, il est écrasé.
 

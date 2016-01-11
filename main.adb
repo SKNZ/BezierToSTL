@@ -32,19 +32,6 @@ begin
 
     Liste_Points.Vider(Segments);
     Liste_Facettes.Vider(Facettes);
-
-    -- TESTS
-    -- P1 := (100.0, 100.0);
-    -- C1 := (130.0, 60.0);
-    -- C2 := (130.0, 60.0);
-    -- P2 := (200.0, 100.0);
-
-    -- Bezier(P1, C1, C2, P2, 15, Points);
-    -- Bezier(P1, C1, P2, 15, Points2);
-    -- Liste_Points.Fusion(Points, Points2);    
-    -- Creation(Points, Facettes);
-    -- Sauvegarder("fichier.stl", Facettes); 
-
 exception
     when Courbe_Abs =>
         Put_Line (Standard_Error,

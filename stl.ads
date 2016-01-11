@@ -1,4 +1,3 @@
--- TODO Prétraitement : décalage de xmin et ymin
 with Liste_Generique;
 with Math; use Math;
 with Ada.Numerics;
