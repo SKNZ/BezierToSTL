@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2015.9.29)  11 JAN 2016 14:40
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2015.9.29)  11 JAN 2016 15:20
 entering extended mode
  %&-line parsing enabled.
 **BezierToSTL.latex
@@ -290,6 +290,13 @@ Now handling font encoding U ...
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
 ))
+
+! LaTeX Error: File `fourier.sty' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: 
 (/usr/share/texmf/tex/generic/babel/babel.sty
 Package: babel 2005/11/23 v3.8h The Babel package
 
@@ -367,26 +374,21 @@ Overfull \hbox (11.73157pt too wide) in paragraph at lines 38--38
 [1
 
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 87--88
-
- []
-
-[2] (./BezierToSTL.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./BezierToSTL.aux) ) 
 Here is how much of TeX's memory you used:
- 1827 strings out of 256214
- 22660 string characters out of 1917000
- 86096 words of memory out of 1500000
- 5134 multiletter control sequences out of 10000+200000
+ 1831 strings out of 256214
+ 22713 string characters out of 1917000
+ 86098 words of memory out of 1500000
+ 5137 multiletter control sequences out of 10000+200000
  8924 words of font info for 32 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  35i,10n,43p,269b,240s stack positions out of 5000i,500n,6000p,200000b,15000s
-</usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></
-usr/share/texmf/fonts/type1/bluesky/cm/cmcsc10.pfb></usr/share/texmf/fonts/type
-1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr12.pfb></usr
-/share/texmf/fonts/type1/bluesky/cm/cmr17.pfb></usr/share/texmf/fonts/type1/blu
-esky/cm/cmtt10.pfb>
-Output written on BezierToSTL.pdf (2 pages, 49283 bytes).
+<
+/usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share/texmf/fonts/type
+1/bluesky/cm/cmcsc10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></u
+sr/share/texmf/fonts/type1/bluesky/cm/cmr12.pfb></usr/share/texmf/fonts/type1/b
+luesky/cm/cmr17.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb>
+Output written on BezierToSTL.pdf (2 pages, 49923 bytes).
 PDF statistics:
  33 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)

@@ -1,7 +1,7 @@
 \documentclass[paper=a4, fontsize=11pt]{scrartcl}
 
 \usepackage[utf8]{inputenc}
-% \usepackage{fourier} % Adobe Utopia
+\usepackage{fourier} % Adobe Utopia
 \usepackage[french]{babel}
 % \usepackage{amsmath,amsfonts,amsthm}
 
@@ -78,12 +78,11 @@ Pour gérer le positionnement relatif, on convertit les opcode relatifs en opcod
 Les courbes de Bézier sont calculées dans le package \texttt{math}.
 
 \subsection{Génération et Sauvegarde du STL}
-
 Choix de l'implémentation des procédures :\\
 Calculs mathématiques des facettes :\\
-
-
-Si le fichier de sortie n'existe pas, il est crée. S'il existe, il est écrasé.
+On dispose de la constante \texttt{M}, le pas de la rotation.\\
+L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points. Ainsi, pour les points consécutifs \texttt{P\_Suiv} et \texttt{P\_Cour}, on crée deux facettes :\\
+Si le fichier de sortie n'existe pas, il est créé. S'il existe, il est écrasé.
 
 \section{Gestion de version}
 

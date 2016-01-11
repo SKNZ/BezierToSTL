@@ -8,6 +8,8 @@ package body STL is
     is
         -- Crée un "cercle" de facettes
         procedure Creer_Facette(P_Cour, P_Suiv : in Point2D) is
+            -- Calcul du point suivant en effectuant une rotation autour
+            -- de l'axe x=0 à partir de P
             function Calculer_Point(P : Point2D; Pas : Integer) return Point3D is
             begin
                 return (
