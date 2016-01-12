@@ -5,11 +5,17 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Math; use Math;
 with Normalisation; use Normalisation;
 with Ada.Exceptions; use Ada.Exceptions;
+with Courbes; use Courbes;
+with Courbes.Droites; use Courbes.Droites;
+with Vecteurs; use Vecteurs;
 
 procedure Main is
     Segments : Liste_Points.Liste;
     Facettes : Liste_Facettes.Liste;
+    d : Courbe'Class := Ctor_Droite((others => 1.0), (others => 9.0));
 begin
+    Put_Line(To_String (d.Obtenir_Point (1.0)));
+    return;
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
         "usage : " & Command_Name &

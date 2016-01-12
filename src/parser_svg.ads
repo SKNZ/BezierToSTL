@@ -1,4 +1,5 @@
 with Math; use Math;
+with Vecteurs; use Vecteurs;
 
 package Parser_Svg is
     use Liste_Points;

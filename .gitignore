@@ -4,8 +4,8 @@
 # Ada Library Information
 *.ali
 
-main
-test.stl
+obj/*
+bin/*
 *.log
 *.fls
 *.fdb_latexmk

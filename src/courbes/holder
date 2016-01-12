@@ -1,0 +1,60 @@
+-- ADS
+    type Bezier_Cubique_Controles is array (1 .. 2) of Point2D;
+    type Bezier_Cubique is new Courbe with
+        record
+            Controles : Bezier_Cubique_Controles;
+        end record;
+
+    type Bezier_Quadratique is new Courbe with
+        record
+            Controle : Point2D;
+        end record;
+
+    -- Crée une courbe de bezier cubique
+    -- C1 et C2 sont les points de contrôle
+    function Ctor_Bezier_Cubique (Debut, Fin, C1, C2 : Point2D) return Bezier_Quadratique;
+
+    -- Crée une courbe de bezier quadratique
+    -- C est le point de contrôle
+    function Ctor_Bezier_Quadratique (Debut, Fin, C : Point2D) return Droite'Class;
+
+    -- Obtient un point d'une courbe de bezier cubique
+    function Obtenir_Point(BC : Bezier_Cubique'Class; X : Float) return Point2D;
+
+    -- Obtient un point d'une courbe de bezier quadratique
+    function Obtenir_Point(BQ : Bezier_Quadratique'Class; X : Float) return Point2D;
+
+-- ADB
+    function Ctor_Bezier_Cubique (Debut, Fin, C1, C2 : Point2D) return Bezier_Quadratique is
+        Controles : Bezier_Cubique_Controles :=
+            (Controles'First => C1,
+            Controles'First => C2);
+    begin
+        return 
+            (Debut => Debut,
+            Fin => Fin,
+            Controles => Controles);
+    end;
+
+    function Ctor_Bezier_Quadratique (Debut, Fin, C : Point2D) return Droite'Class is
+    begin
+        return 
+            (Debut => Debut,
+            Fin => Fin,
+            Controle => C1);
+    end;
+
+
+    function Obtenir_Point(BC : Bezier_Cubique'Class; X : Float) return Point2D is
+    begin 
+        Put_Line("BC");
+        return
+            (Point2D'First => X, Point2D'Last => X);
+    end;
+
+    function Obtenir_Point(BQ : Bezier_Quadratique'Class; X : Float) return Point2D is
+    begin
+        Put_Line("BQ");
+        return
+            (Point2D'First => X, Point2D'Last => X);
+    end;

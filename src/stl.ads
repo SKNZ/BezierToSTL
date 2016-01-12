@@ -4,6 +4,8 @@ with Ada.Numerics;
 use Ada.Numerics;
 with Ada.Numerics.Elementary_Functions;
 use Ada.Numerics.Elementary_Functions;
+with Vecteurs;
+use Vecteurs;
 
 package STL is
     -- Pas de la rotation

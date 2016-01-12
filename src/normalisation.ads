@@ -1,5 +1,4 @@
-with Math;
-use Math;
+with Vecteurs; use Vecteurs;
 
 package Normalisation is
     use Liste_Points;
