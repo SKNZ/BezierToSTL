@@ -1,12 +1,14 @@
 \documentclass[paper=a4, fontsize=11pt]{scrartcl}
 
 \usepackage[utf8]{inputenc}
-\usepackage{fourier} % Adobe Utopia
+% \usepackage{fourier} % Adobe Utopia
 \usepackage[french]{babel}
 % \usepackage{amsmath,amsfonts,amsthm}
 
 \usepackage{sectsty}
 \allsectionsfont{\normalfont\scshape} 
+
+\usepackage{graphicx}
 
 \usepackage{fancyhdr}
 \pagestyle{fancyplain}
@@ -78,11 +80,14 @@ Pour gérer le positionnement relatif, on convertit les opcode relatifs en opcod
 Les courbes de Bézier sont calculées dans le package \texttt{math}.
 
 \subsection{Génération et Sauvegarde du STL}
-Choix de l'implémentation des procédures :\\
-Calculs mathématiques des facettes :\\
-On dispose de la constante \texttt{M}, le pas de la rotation.\\
-L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points. Ainsi, pour les points consécutifs \texttt{P\_Suiv} et \texttt{P\_Cour}, on crée deux facettes :\\
-Si le fichier de sortie n'existe pas, il est créé. S'il existe, il est écrasé.
+\underline{Calculs mathématiques des facettes} :\\
+On dispose de la constante \texttt{M} qui est le pas de la rotation.\\
+L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points 2D. Ainsi, pour les points consécutifs \texttt{P\_Suiv} et \texttt{P\_Cour}, on crée deux facettes conformément à l'image suivante :
+\begin{center}
+    \includegraphics{facettespng}
+\end{center}
+et on effectue une rotation de $\frac{2\pi}{M}$ pour chaque nouveau point.\\
+\underline{Sauvegarde} : Si le fichier de sortie n'existe pas, il est créé. S'il existe, il est écrasé.
 
 \section{Gestion de version}
 

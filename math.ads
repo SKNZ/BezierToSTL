@@ -9,15 +9,9 @@ package Math is
     package Liste_Points is new Liste_Generique(Point2D);
     use Liste_Points;
 
-    -- Affiche UN point
-    procedure Display(P : in out Point2D);
-
     -- Renvoie une réprésentation chainée d'un point
     function To_String (P : Point2D) return String;
     function To_String_3D (P : Point3D) return String;
-
-    -- Affiche TOUT les points d'une liste
-    procedure Afficher is new Parcourir(Traiter => Display);
 
     -- convertit une courbe de Bezier cubique en segments
     procedure Bezier(P1, C1, C2, P2 : Point2D ; Nb_Points : Positive ;

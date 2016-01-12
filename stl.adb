@@ -48,6 +48,7 @@ package body STL is
         -- Mise en oeuvre :
         -- On prend n dans 1..Taille(Segments) et on considère Pn un Point2D
         -- Chaque pas k (k dans (0,M-1)) de l'angle de rotation alpha génère un couple de Facettes (en 3D)
+        -- Informellement, on a les facettes :
         -- (Pn + k*alpha, Pn-1 + k*alpha, Pn-1 + (k+1)*alpha)
         -- et
         -- (Pn + k*alpha, Pn-1 + (k+1)*alpha, Pn + (k+1)*alpha)

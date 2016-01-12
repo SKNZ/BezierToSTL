@@ -2,15 +2,6 @@ with Ada.Text_Io;
 use Ada.Text_Io;
 
 package body Math is
-    -- Procedure test
-    -- Affiche un Point2D
-    procedure Display(P : in out Point2D) is
-    begin
-        Put(Float'Image(P(P'First)));
-        Put(Float'Image(P(P'Last)));
-        New_Line;
-    end;
-
     function To_String (P : Point2D) return String is
     begin
         return "(X => " & Float'Image(P (1)) & "; Y => " & Float'Image(P (2)) & ")";
