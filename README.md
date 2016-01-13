@@ -22,3 +22,5 @@ Executables will be found in the bin folder after build (see builder instruction
 https://gcc.gnu.org/onlinedocs/gcc-3.3.5/gnat_ug_unx/Common-Sources-with-Different-Switches-and-Different-Output-Directories.html
 - OOP
 http://www.adahome.com/9X/OOP-Ada9X.html
+- Enumeration IO
+https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html

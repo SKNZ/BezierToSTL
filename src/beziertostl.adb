@@ -1,18 +1,20 @@
 with Ada.Command_Line; use Ada.Command_Line;
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Exceptions; use Ada.Exceptions;
+
 with STL; use STL;
 with Parser_Svg; use Parser_Svg;
-with Ada.Text_IO; use Ada.Text_IO;
-with Math; use Math;
 with Normalisation; use Normalisation;
-with Ada.Exceptions; use Ada.Exceptions;
 with Courbes; use Courbes;
 with Courbes.Droites; use Courbes.Droites;
 with Vecteurs; use Vecteurs;
+with Listes_Courbes; use Listes_Courbes;
 
-procedure Main is
+procedure BezierToSTL is
+    Courbes : Liste_Courbes.Liste;
     Segments : Liste_Points.Liste;
     Facettes : Liste_Facettes.Liste;
-    d : Courbe'Class := Ctor_Droite((others => 1.0), (others => 9.0));
+    d : access Courbe'Class := Ctor_Droite((others => 1.0), (others => 9.0));
 begin
     Put_Line(To_String (d.Obtenir_Point (1.0)));
     return;
@@ -25,7 +27,7 @@ begin
     end if;
 
     --on charge la courbe de bezier et la convertit en segments
-    Chargement_Bezier(Argument(1), Segments);
+    Chargement_Bezier(Argument(1), Courbes);
 
     -- On normalise la figure
     Normaliser(Segments);

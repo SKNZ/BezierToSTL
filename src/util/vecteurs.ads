@@ -6,8 +6,12 @@ package Vecteurs is
     subtype Point3D is Vecteur(1..3);
 
     package Liste_Points is new Liste_Generique(Point2D);
-    use Liste_Points;
 
+    type Facette is record
+        P1, P2, P3 : Point3D;
+    end record;
+
+    package Liste_Facettes is new Liste_Generique(Facette);
 
     -- addition de 2 vecteurs
     -- Requiert A, B de taille identique
@@ -23,5 +27,4 @@ package Vecteurs is
     -- Renvoie une réprésentation chainée d'un point
     function To_String (P : Point2D) return String;
     function To_String_3D (P : Point3D) return String;
-
 end Vecteurs;

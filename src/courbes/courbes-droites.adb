@@ -1,9 +1,9 @@
 with ada.text_io; use ada.text_io;
 
 package body Courbes.Droites is
-    function Ctor_Droite (Debut, Fin : Point2D) return Droite is
+    function Ctor_Droite (Debut, Fin : Point2D) return access Droite is
     begin
-        return (Debut => (others => 1.0), Fin => (others => 2.0));
+        return new Droite'(Debut => Debut, Fin => Fin);
     end;
 
     function Obtenir_Point(D : Droite; X : Float) return Point2D is

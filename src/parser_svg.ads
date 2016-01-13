@@ -1,8 +1,9 @@
-with Math; use Math;
 with Vecteurs; use Vecteurs;
+with Courbes; use Courbes;
+with Listes_Courbes; use Listes_Courbes;
 
 package Parser_Svg is
-    use Liste_Points;
+    use Liste_Courbes;
 
     Courbe_Abs : exception;
     Courbe_Illisible : exception;

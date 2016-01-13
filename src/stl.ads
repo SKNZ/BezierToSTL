@@ -1,24 +1,17 @@
-with Liste_Generique;
 with Math; use Math;
 with Ada.Numerics;
 use Ada.Numerics;
 with Ada.Numerics.Elementary_Functions;
 use Ada.Numerics.Elementary_Functions;
-with Vecteurs;
-use Vecteurs;
+with Vecteurs; use Vecteurs;
 
 package STL is
+
     -- Pas de la rotation
     M : constant Natural := 50;
 
     -- Angle de la rotation en radian
     Angle_Radian : constant Float := (2.0 * PI)/Float(M);
-
-    type Facette is record
-        P1, P2, P3 : Point3D;
-    end record;
-
-    package Liste_Facettes is new Liste_Generique(Facette);
 
     -- Prend une liste de segments et cree l'objet 3d par rotations
     -- Requiert Taille(Segments) > 0

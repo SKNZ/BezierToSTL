@@ -31,7 +31,7 @@ package body Math is
     procedure Bezier(P1, C, P2 : Point2D ; Nb_Points : Positive ;
         Points : in out Liste) is
     begin
-        for N in 0..Nb_Points loop
+        for N in 0 .. Nb_Points - 1 loop
             Insertion_Queue(Points, Bezier_Quad(P1, C, P2, Float(N)/Float(Nb_Points)));
             --Put_Line("BeQ" & To_String(Queue(Points)));
         end loop;

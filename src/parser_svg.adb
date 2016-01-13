@@ -1,5 +1,13 @@
-with Ada.Text_IO, Ada.Float_Text_IO, Ada.Characters.Handling, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded, math;
-use Ada.Text_IO, Ada.Float_Text_IO, Ada.Characters.Handling, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded, math;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+with Ada.Strings; use Ada.Strings;
+with Ada.Characters.Handling; use Ada.Characters.Handling;
+with Ada.Float_Text_IO; use Ada.Float_Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
+with Courbes.Droites; use Courbes.Droites;
+with Courbes.Singletons; use Courbes.Singletons;
+with Courbes.Bezier.Cubiques; use Courbes.Bezier.Cubiques;
+with Courbes.Bezier.Quadratiques; use Courbes.Bezier.Quadratiques;
 
 package body Parser_Svg is
     procedure Chargement_Bezier(Nom_Fichier : String; L : out Liste) is
@@ -89,7 +97,7 @@ package body Parser_Svg is
         if Curseur /= Ligne_D'First
             and then Ligne_D (Curseur) /= Separateur
         then
-            raise Courbe_Illisible with "Mauvais Curseurnement (courant /= séparateur): L(" & Positive'Image(Curseur) & ") = " & Ligne_D (Curseur) & " /= " & Separateur;
+            raise Courbe_Illisible with "Carac. innatendu (courant /= séparateur): L(" & Positive'Image(Curseur) & ") = " & Ligne_D (Curseur) & " /= " & Separateur;
         end if;
 
         -- On avance jusqu'à trouver le prochain séparateur
@@ -254,10 +262,13 @@ package body Parser_Svg is
         end if;
 
         -- On a potentiellement un OpCode, on vérifie
+        -- Rappel : opcode = 1 caractère
         if Contenu_Suivant'Length = 1 then
             declare
+                -- Inutile
                 Last : Positive;
 
+                -- OpCode extrait, inutile
                 Op : Op_Code;
 
                 -- https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
@@ -268,15 +279,19 @@ package body Parser_Svg is
                 -- que c'est un enum caractère
                 Op_Code_IO.Get("'" & Contenu_Suivant & "'", Op, Last);
 
-                -- Si la lecture n'a pas planté..
+                -- Si la lecture n'a pas planté
+                -- On indique avoir trouvé un opcode
                 return true;
             exception
                 when Data_Error =>
+                    -- On a une erreur, donc ce n'est pas un opcode
                     -- On continue la boucle si ce n'est pas un opcode
-                    null;
+                    null; -- False est renvoyé à la fin 
             end;
         end if;
 
+        -- Le mot n'est pas un opcode
+        -- (cf bloc exception ci dessus)
         return false;
     end;
 
@@ -293,20 +308,22 @@ package body Parser_Svg is
         Put_Line ("==================================");
         Put_Line ("Gestion opcode " & Op_Code'Image(Op) & "; relatif=" & Boolean'Image(Relatif_Vers_Absolu));
         
+        -- Boucle de lecture d'arguments
+        -- Tant qu'il y a des arguments pour l'opcode courant
+        -- on continue
         loop
             if Relatif_Vers_Absolu then
                 Offset_Relatif := Position_Courante;
             end if;
 
-            Put_Line("Nb. Pts. " & Integer'Image(Taille(L)));
-            Put_Line("Off" & To_String (Offset_Relatif));
+            Put_Line("Offset Relatif    " & To_String (Offset_Relatif));
 
             case Op is
                 when 'M' =>
                     Lire_Point2D(Ligne_D, Curseur, Position_Courante);
                     Position_Courante := Position_Courante + Offset_Relatif;
 
-                    Insertion_Queue(L, Position_Courante);
+                    Insertion_Queue(L, Ctor_Singleton(Position_Courante));
                 when 'L' =>
                     declare
                         P : Point2D;
@@ -314,8 +331,7 @@ package body Parser_Svg is
                         Lire_Point2D(Ligne_D, Curseur, P);
                         P := P + Offset_Relatif;
 
-                        Insertion_Queue (L, Position_Courante);
-                        Insertion_Queue (L, P);
+                        Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
                     end;
                 when 'H' =>
                     declare
@@ -323,8 +339,7 @@ package body Parser_Svg is
                     begin
                         P (P'First) := P (P'First) + Lire_Coord(Ligne_D, Curseur);
 
-                        Insertion_Queue (L, Position_Courante);
-                        Insertion_Queue (L, P);
+                        Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
                     end;
                 when 'V' =>
                     declare
@@ -332,8 +347,7 @@ package body Parser_Svg is
                     begin
                         P (P'Last) := P (P'Last) + Lire_Coord(Ligne_D, Curseur);
 
-                        Insertion_Queue (L, Position_Courante);
-                        Insertion_Queue (L, P);
+                        Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
                     end;
                 when 'C' => 
                     declare
@@ -348,7 +362,7 @@ package body Parser_Svg is
                         C2 := C2 + Offset_Relatif;
                         P := P + Offset_Relatif;
 
-                        Bezier(Position_Courante, C1, C2, P, Nombre_Points_Bezier, L);
+                        Insertion_Queue (L, Ctor_Bezier_Cubique(Position_Courante, P, C1, C2));
                     end;
                 when 'Q' =>
                     declare
@@ -360,21 +374,21 @@ package body Parser_Svg is
                         C := C + Offset_Relatif;
                         P := P + Offset_Relatif;
 
-                        Bezier(Position_Courante, C, P, Nombre_Points_Bezier, L);
+                        Insertion_Queue (L, Ctor_Bezier_Quadratique(Position_Courante, P, C));
                     end;
             end case;
 
-            -- Tous les opcodes dessinent en modifiant la liste
+            -- Tous les opcodes modifient la liste
             -- sauf M, qui se contente de déplacer le point courant
             -- mais ne dessine rien
             -- On récupère donc la position courante pour tous les autres
             -- en regardant le dernier point ajouté par ceux-ci
             -- L'opcode M modifie directement la position courante
             if Op /= 'M' then
-                Position_Courante := Queue (L);
+                Position_Courante := Queue (L).Obtenir_Fin;
             end if;
 
-            Put_Line("Pos" & To_String (Position_Courante));
+            Put_Line("Pos       " & To_String (Position_Courante));
 
             -- On look-ahead pour voir si on a encore des coordonnées
             -- si on a on un opcode

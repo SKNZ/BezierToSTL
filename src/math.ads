@@ -2,6 +2,7 @@ with Vecteurs; use Vecteurs;
 
 package Math is
     use Liste_Points;
+
     Nombre_Points_Bezier : constant Positive := 50;
 
     -- convertit une courbe de Bezier cubique en segments
