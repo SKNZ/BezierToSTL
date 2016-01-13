@@ -1,6 +1,7 @@
 with Courbes; use Courbes;
 
 package Courbes.Bezier.Cubiques is
+    use Liste_Points;
     type Bezier_Cubique is new Courbe with private;
 
     -- Crée une Bezier_Cubique
@@ -8,6 +9,9 @@ package Courbes.Bezier.Cubiques is
 
     -- Obtient un point d'une Bezier_Cubique
     function Obtenir_Point(BC : Bezier_Cubique; X : Float) return Point2D;
+
+    -- Discretise une courbe en N points
+    procedure Discretiser(BC : Bezier_Cubique; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
 
     private
 

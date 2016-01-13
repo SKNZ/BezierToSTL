@@ -1,7 +1,7 @@
 with Courbes; use Courbes;
-with Vecteurs; use Vecteurs;
 
 package Courbes.Singletons is
+    use Liste_Points;
     type Singleton is new Courbe with private;
 
     -- Crée un singleton
@@ -9,6 +9,10 @@ package Courbes.Singletons is
 
     -- Obtient un point d'un singleton
     function Obtenir_Point(S : Singleton; X : Float) return Point2D;
+
+    -- Discretise un singleton (en un point) 
+    -- Nombre_points ignoré
+    procedure Discretiser(S : Singleton; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
 
     private
 

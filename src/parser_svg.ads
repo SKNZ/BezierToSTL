@@ -11,7 +11,7 @@ package Parser_Svg is
     --parse un fichier svg et retourne une liste de points (voir documentation)
     -- lève Courbe_Abs si pas de courbe trouvée
     -- lève Courbe_Illisible si erreur de syntaxe
-    procedure Chargement_Bezier(Nom_Fichier : String; L : out Liste);
+    procedure Charger_SVG(Nom_Fichier : String; L : out Liste);
 
     private
 

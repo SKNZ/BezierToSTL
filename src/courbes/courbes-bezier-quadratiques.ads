@@ -1,7 +1,7 @@
 with Courbes; use Courbes;
-with Vecteurs; use Vecteurs;
 
 package Courbes.Bezier.Quadratiques is
+    use Liste_Points;
     type Bezier_Quadratique is new Courbe with private;
 
     -- Créer une Bezier_Quadratique
@@ -9,6 +9,9 @@ package Courbes.Bezier.Quadratiques is
 
     -- Obtient un point d'une Bezier_Quadratique
     function Obtenir_Point(BQ : Bezier_Quadratique; X : Float) return Point2D;
+
+    -- Discretise une courbe en N points
+    procedure Discretiser(BQ : Bezier_Quadratique; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
 
     private
 

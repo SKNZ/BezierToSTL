@@ -8,4 +8,9 @@ package body Courbes is
     begin
         return C.Fin;
     end;
+
+    procedure Discretiser_Gen(C : in out Courbe_Ptr) is
+    begin
+        C.Discretiser (Segments, Nombre_Points);
+    end;
 end Courbes;

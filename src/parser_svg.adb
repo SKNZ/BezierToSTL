@@ -10,7 +10,7 @@ with Courbes.Bezier.Cubiques; use Courbes.Bezier.Cubiques;
 with Courbes.Bezier.Quadratiques; use Courbes.Bezier.Quadratiques;
 
 package body Parser_Svg is
-    procedure Chargement_Bezier(Nom_Fichier : String; L : out Liste) is
+    procedure Charger_SVG(Nom_Fichier : String; L : out Liste) is
         -- on charge le fichier svg
         Ligne_D : String := Trouver_Ligne_D(Nom_Fichier);
 
@@ -33,8 +33,6 @@ package body Parser_Svg is
             -- Traitement de l'opcode
             Gerer_OpCode (Ligne_D, Curseur, Position_Courante, Op_Abs, L, Relatif_Vers_Absolu);
         end loop;
-
-        Put_Line("Nb. Pts. " & Integer'Image(Taille(L)));
     end;
 
     function Trouver_Ligne_D(
