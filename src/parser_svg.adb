@@ -2,7 +2,6 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 with Ada.Strings; use Ada.Strings;
 with Ada.Characters.Handling; use Ada.Characters.Handling;
-with Ada.Float_Text_IO; use Ada.Float_Text_IO;
 with Ada.Text_IO; use Ada.Text_IO;
 with Courbes.Droites; use Courbes.Droites;
 with Courbes.Singletons; use Courbes.Singletons;
@@ -12,7 +11,7 @@ with Courbes.Bezier.Quadratiques; use Courbes.Bezier.Quadratiques;
 package body Parser_Svg is
     procedure Charger_SVG(Nom_Fichier : String; L : out Liste) is
         -- on charge le fichier svg
-        Ligne_D : String := Trouver_Ligne_D(Nom_Fichier);
+        Ligne_D : constant String := Trouver_Ligne_D(Nom_Fichier);
 
         Curseur : Positive := Ligne_D'First;
 
@@ -51,7 +50,7 @@ package body Parser_Svg is
             and then not Ada.Text_IO.End_Of_File (Fichier) loop
             declare
                 -- On obtient une ligne, et on enlève les espaces en début/fin
-                Ligne : String := Trim (Ada.Text_IO.Get_Line (Fichier), Both);
+                Ligne : constant String := Trim (Ada.Text_IO.Get_Line (Fichier), Both);
             begin
                 -- on récupère la ligne commençant par "d="
                 if Ligne'Length >= Marqueur_Ligne'Length and then Ligne (Marqueur_Ligne'Range) = Marqueur_Ligne then
@@ -133,7 +132,7 @@ package body Parser_Svg is
         return String
     is
         Fin_Curseur : Positive;
-        Contenu : String := Lire_Mot_Suivant (Ligne_D, Curseur, Fin_Curseur);
+        Contenu : constant String := Lire_Mot_Suivant (Ligne_D, Curseur, Fin_Curseur);
     begin
         Curseur := Fin_Curseur;
 
@@ -145,7 +144,7 @@ package body Parser_Svg is
         Curseur : in out Positive;
         Point : out Point2D)
     is
-        Contenu : String := Avancer_Mot_Suivant(Ligne_D,  Curseur);
+        Contenu : constant String := Avancer_Mot_Suivant(Ligne_D,  Curseur);
 
         X, Y : Float;
     begin
@@ -173,9 +172,9 @@ package body Parser_Svg is
 
             declare
                 -- On récupère la première coordonnée
-                X_Text : String := Contenu (Contenu'First .. Separateur_Curseur - 1);
+                X_Text : constant String := Contenu (Contenu'First .. Separateur_Curseur - 1);
                 -- On récupère la deuxième coordonnée
-                Y_Text : String := Contenu (Separateur_Curseur + 1 .. Contenu'Last);
+                Y_Text : constant String := Contenu (Separateur_Curseur + 1 .. Contenu'Last);
             begin
                 -- Conversion en flottant
                 X := Float'Value (X_Text);
@@ -196,7 +195,7 @@ package body Parser_Svg is
         Curseur : in out Positive)
         return Float
     is
-        Contenu : String := Avancer_Mot_Suivant(Ligne_D, Curseur);
+        Contenu : constant String := Avancer_Mot_Suivant(Ligne_D, Curseur);
     begin
         -- On transforme le contenu en flottant
         return Float'Value (Contenu);
@@ -212,7 +211,7 @@ package body Parser_Svg is
         Op_Abs : out Op_Code_Absolute;
         Relatif_Vers_Absolu : out Boolean)
     is
-        Contenu : String := Avancer_Mot_Suivant(Ligne_D, Curseur);
+        Contenu : constant String := Avancer_Mot_Suivant(Ligne_D, Curseur);
         Op : Op_Code;
     begin
         -- On avance au séparateur
@@ -252,7 +251,7 @@ package body Parser_Svg is
         return Boolean
     is
         Fin_Curseur : Positive;
-        Contenu_Suivant : String := Lire_Mot_Suivant (Ligne_D, Curseur, Fin_Curseur);
+        Contenu_Suivant : constant String := Lire_Mot_Suivant (Ligne_D, Curseur, Fin_Curseur);
     begin
         -- On sort si plus rien
         if Contenu_Suivant'Length = 0 then

@@ -10,3 +10,4 @@ bin/*
 *.fls
 *.fdb_latexmk
 *.aux
+*.stl

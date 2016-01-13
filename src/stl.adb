@@ -1,3 +1,5 @@
+with Ada.Numerics.Elementary_Functions;
+use Ada.Numerics.Elementary_Functions;
 with Ada.Text_IO;
 use Ada.Text_IO;
 
@@ -21,12 +23,12 @@ package body STL is
 
             for Pas in 0..M loop
                 declare
-                    F1 : Facette := (
+                    F1 : constant Facette := (
                         P1 => Calculer_Point (P_Suiv, Pas),
                         P2 => Calculer_Point (P_Cour, Pas),
                         P3 => Calculer_Point (P_Cour, Pas + 1));
 
-                    F2 : Facette := (
+                    F2 : constant Facette := (
                         P1 => Calculer_Point (P_Suiv, Pas + 1),
                         P2 => Calculer_Point (P_Suiv, Pas),
                         P3 => Calculer_Point (P_Cour, Pas + 1));

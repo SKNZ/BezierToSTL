@@ -1,5 +1,3 @@
-with Ada.Text_IO; use Ada.Text_IO;
-
 package body Courbes.Bezier.Quadratiques is
     function Ctor_Bezier_Quadratique (Debut, Fin, C : Point2D) return access Bezier_Quadratique is
     begin

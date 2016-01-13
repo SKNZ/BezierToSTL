@@ -1,11 +1,8 @@
-with Math;
-use Math;
-
 package body Normalisation is
     -- Centre la figure sur l'axe X
     -- Raccorde les extremités de la figure à l'axe
     procedure Normaliser(Segments : in out Liste) is
-        Coords_Min : Point2D := Trouver_Coords_Min (Segments);
+        Coords_Min : constant Point2D := Trouver_Coords_Min (Segments);
         
         procedure Normaliser_Point(P : in out Point2D) is
         begin

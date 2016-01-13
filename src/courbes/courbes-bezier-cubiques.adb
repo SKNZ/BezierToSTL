@@ -1,8 +1,6 @@
-with Ada.Text_IO; use Ada.Text_IO;
-
 package body Courbes.Bezier.Cubiques is
     function Ctor_Bezier_Cubique (Debut, Fin, C1, C2 : Point2D) return access Bezier_Cubique is
-        Controles : Bezier_Cubique_Controles :=
+        Controles : constant Bezier_Cubique_Controles :=
             (1 => C1,
             2 => C2);
     begin

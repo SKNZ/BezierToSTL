@@ -1,5 +1,3 @@
-with Ada.Text_Io; use Ada.Text_Io;
-
 package body Courbes.Droites is
     function Ctor_Droite (Debut, Fin : Point2D) return access Droite is
     begin
@@ -12,6 +10,8 @@ package body Courbes.Droites is
             (Point2D'First => X, Point2D'Last => X);
     end;
 
+    -- Nombre_Points pas utilisé
+    -- normal c'est un segment
     procedure Discretiser(D : Droite; Segments : in out Liste_Points.Liste; Nombre_Points : Positive) is
     begin
         Insertion_Queue(Segments, D.Obtenir_Debut);

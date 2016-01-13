@@ -1,8 +1,10 @@
 with Vecteurs; use Vecteurs;
+with Liste_Generique;
 
 package Courbes is
     type Courbe is abstract tagged private;
     type Courbe_Ptr is access all Courbe'Class;
+    package Liste_Courbes is new Liste_Generique(Courbe_Ptr);
 
     -- Obtient un point à la coordonnée X fournie
     -- (x, f(x))
