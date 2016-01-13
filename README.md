@@ -9,7 +9,7 @@ Executables will be found in the bin folder after build (see builder instruction
 
 # Build instructions
 - With gprbuild: run "gprbuild" in the root directory of the projet
-- With gnatmake: run "gnat make -P BoiteMaker.gpr" in the root directory of the project
+- With gnatmake: run "gnat make -P BezierToSTL.gpr" in the root directory of the project
 
 # Directories
 - src: source code
