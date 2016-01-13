@@ -374,7 +374,7 @@ package body Parser_Svg is
                         C := C + Offset_Relatif;
                         P := P + Offset_Relatif;
 
-                        Insertion_Queue (L, Ctor_Bezier_Quadratique(Position_Courante, P, C));
+                        Insertion_Queue (L, Courbe_Ptr(Ctor_Bezier_Quadratique(Position_Courante, P, C)));
                     end;
             end case;
 

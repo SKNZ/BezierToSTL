@@ -1,5 +1,4 @@
 with Courbes; use Courbes;
-with Vecteurs; use Vecteurs;
 
 package Courbes.Bezier.Cubiques is
     type Bezier_Cubique is new Courbe with private;
@@ -8,7 +7,7 @@ package Courbes.Bezier.Cubiques is
     function Ctor_Bezier_Cubique (Debut, Fin, C1, C2 : Point2D) return access Bezier_Cubique;
 
     -- Obtient un point d'une Bezier_Cubique
-    function Obtenir_Point(D : Bezier_Cubique; X : Float) return Point2D;
+    function Obtenir_Point(BC : Bezier_Cubique; X : Float) return Point2D;
 
     private
 

@@ -8,7 +8,7 @@ package Courbes.Singletons is
     function Ctor_Singleton (P : Point2D) return access Singleton;
 
     -- Obtient un point d'un singleton
-    function Obtenir_Point(D : Singleton; X : Float) return Point2D;
+    function Obtenir_Point(S : Singleton; X : Float) return Point2D;
 
     private
 
