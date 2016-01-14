@@ -37,5 +37,14 @@ package body Vecteurs is
         end loop;
         return R;
     end;
+
+    function "/" (V : Vecteur; Facteur : Float) return Vecteur is
+        R : Vecteur(V'Range);
+    begin
+        for I in R'Range loop
+            R(I) := V(I) / Facteur;
+        end loop;
+        return R;
+    end;
     
 end Vecteurs;

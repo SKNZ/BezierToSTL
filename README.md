@@ -24,3 +24,5 @@ https://gcc.gnu.org/onlinedocs/gcc-3.3.5/gnat_ug_unx/Common-Sources-with-Differe
 http://www.adahome.com/9X/OOP-Ada9X.html
 - Enumeration IO
 https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
+- Hypot
+https://en.wikipedia.org/wiki/Hypot

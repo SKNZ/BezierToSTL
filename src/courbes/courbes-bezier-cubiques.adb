@@ -14,16 +14,9 @@ package body Courbes.Bezier.Cubiques is
     function Obtenir_Point(BC : Bezier_Cubique; X : Float) return Point2D is
     begin 
         return
-            (1.0 - X) * (1.0 - X) * (1.0 - X) * BC.Debut 
-            + 3.0 * X * (1.0 - X) * (1.0 - X) * BC.Controles (1)
-            + 3.0 * X * X * (1.0 - X) * BC.Controles (2) 
-            + X * X * X * BC.Fin; 
-    end;
-
-    procedure Discretiser(BC : Bezier_Cubique; Segments : in out Liste_Points.Liste; Nombre_Points : Positive) is
-    begin
-        for I in 0 .. Nombre_Points loop
-            Insertion_Queue(Segments, BC.Obtenir_Point(float(I) / float(Nombre_Points)));
-        end loop;
+            (1.0 - X) ** 3 * BC.Debut 
+            + 3.0 * X * (1.0 - X) ** 2 * BC.Controles (1)
+            + 3.0 * X ** 2 * (1.0 - X) * BC.Controles (2) 
+            + X ** 3 * BC.Fin; 
     end;
 end Courbes.Bezier.Cubiques;

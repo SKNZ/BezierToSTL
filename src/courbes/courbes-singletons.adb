@@ -11,7 +11,7 @@ package body Courbes.Singletons is
     end;
 
     -- Nombre_Points pas utilisé
-    procedure Discretiser(S : Singleton; Segments : in out Liste_Points.Liste; Nombre_Points : Positive) is
+    procedure Interpolation_Lineaire(S : Singleton; Segments : in out Liste_Points.Liste; Nombre_Points : Positive) is
     begin
         Insertion_Queue(Segments, S.Obtenir_Debut);
     end;

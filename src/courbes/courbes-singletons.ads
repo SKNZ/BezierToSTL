@@ -12,7 +12,7 @@ package Courbes.Singletons is
 
     -- Discretise un singleton (en un point) 
     -- Nombre_points ignoré
-    procedure Discretiser(S : Singleton; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
+    procedure Interpolation_Lineaire(S : Singleton; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
 
     private
 

@@ -24,6 +24,9 @@ package Vecteurs is
     -- multiplication scalaire vecteur
     function "*" (Facteur : Float ; V : Vecteur) return Vecteur;
 
+    -- multiplication scalaire vecteur
+    function "/" (V : Vecteur; Facteur : Float) return Vecteur;
+
     -- Renvoie une réprésentation chainée d'un point
     function To_String (P : Point2D) return String;
     function To_String_3D (P : Point3D) return String;

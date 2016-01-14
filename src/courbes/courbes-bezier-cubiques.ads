@@ -10,9 +10,6 @@ package Courbes.Bezier.Cubiques is
     -- Obtient un point d'une Bezier_Cubique
     function Obtenir_Point(BC : Bezier_Cubique; X : Float) return Point2D;
 
-    -- Discretise une courbe en N points
-    procedure Discretiser(BC : Bezier_Cubique; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
-
     private
 
     type Bezier_Cubique_Controles is array (1 .. 2) of Point2D;

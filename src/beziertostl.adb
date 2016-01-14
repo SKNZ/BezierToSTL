@@ -7,6 +7,7 @@ with Parser_Svg; use Parser_Svg;
 with Normalisation; use Normalisation;
 with Courbes; use Courbes;
 with Vecteurs; use Vecteurs;
+with Helper; use Helper;
 
 procedure BezierToSTL is
     Courbes : Liste_Courbes.Liste;
@@ -15,7 +16,6 @@ procedure BezierToSTL is
 
     -- Nombre de points à utiliser pour la discretisation
     Nombre_Points_Discrets : constant Positive := 50;
-
 begin
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
@@ -29,14 +29,15 @@ begin
     Charger_SVG(Argument(1), Courbes);
 
     declare
-        -- Instanciation générique, helper dans pckg Courbes
-        procedure Discretiser_Courbe is new Discretiser_Gen(Segments, Nombre_Points_Discrets);
+        -- Instanciation générique 
+        -- Helper dans helper
+        procedure Interpolation_Lineaire_Courbe is new Interpolation_Lineaire_Gen(Segments, Nombre_Points_Discrets);
        
         -- Fonction de traitement pour toutes les courbes
-        procedure Discretiser_Courbes is new Liste_Courbes.Parcourir(Discretiser_Courbe);
+        procedure Interpolation_Lineaire_Courbes is new Liste_Courbes.Parcourir(Interpolation_Lineaire_Courbe);
     begin
         -- On discrète les courbes
-        Discretiser_Courbes (Courbes);
+        Interpolation_Lineaire_Courbes (Courbes);
     end;
 
     -- On normalise la figure

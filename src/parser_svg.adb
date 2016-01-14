@@ -164,7 +164,7 @@ package body Parser_Svg is
 
             -- Le séparateur est à la fin ou au début
             -- il n'y a rien après
-            -- et il manque une information
+            -- et il manque donc une information
             if Separateur_Curseur = Contenu'Last 
                 or else Separateur_Curseur = Contenu'First then
                 raise Courbe_Illisible with "Manque deuxième coordonnée";
@@ -176,7 +176,7 @@ package body Parser_Svg is
                 -- On récupère la deuxième coordonnée
                 Y_Text : constant String := Contenu (Separateur_Curseur + 1 .. Contenu'Last);
             begin
-                -- Conversion en flottant
+                -- Conversion des coordonnées text vers flottant
                 X := Float'Value (X_Text);
                 Y := Float'Value (Y_Text);
             exception
@@ -186,6 +186,7 @@ package body Parser_Svg is
             end;
         end;
 
+        -- On sauvergarde le point qu'on a trouvé
         Point := (Point'First => X, Point'Last => Y);        
         Put_Line("Arg" & To_String (Point));
     end;
@@ -195,6 +196,7 @@ package body Parser_Svg is
         Curseur : in out Positive)
         return Float
     is
+        -- Obtient le mot suivant
         Contenu : constant String := Avancer_Mot_Suivant(Ligne_D, Curseur);
     begin
         -- On transforme le contenu en flottant
@@ -211,7 +213,9 @@ package body Parser_Svg is
         Op_Abs : out Op_Code_Absolute;
         Relatif_Vers_Absolu : out Boolean)
     is
+        -- Obtient le mot suivant
         Contenu : constant String := Avancer_Mot_Suivant(Ligne_D, Curseur);
+        -- L'opcode qu'on va lire
         Op : Op_Code;
     begin
         -- On avance au séparateur

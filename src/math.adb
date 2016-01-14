@@ -1,41 +1,16 @@
-with Ada.Text_Io;
-use Ada.Text_Io;
+with Ada.Numerics.Generic_Elementary_Functions;
 
 package body Math is
-    function Bezier_Quad(P1, C, P2 : Point2D; X : Float) return Point2D is
-    begin
-        return (1.0 - X) * (1.0 - X) * P1
-               + 2.0 * X * (1.0 - X) * C
-               + X * X * P2; 
-    end;
+    package Float_Elementary_Functions is new Ada.Numerics.Generic_Elementary_Functions (Float);
+    use Float_Elementary_Functions;
 
-    function Bezier_Cub(P1, C1, C2, P2 : Point2D; X : Float) return Point2D is
+    function Hypot(P : Point2D) return Float is
+        X : constant Float := abs P(P'First);
+        Y : constant Float := abs P(P'Last);
+        Min_Coord : constant Float := Float'Min(X, Y);
+        Max_Coord : constant Float := Float'Max(X,Y);
+        Ratio : constant Float := Min_Coord / Max_Coord;
     begin
-        return (1.0 - X) * (1.0 - X) * (1.0 - X) * P1
-               + 3.0 * X * (1.0 - X) * (1.0 - X) * C1
-               + 3.0 * X * X * (1.0 - X) * C2
-               + X * X * X * P2; 
-    end;
-
-    procedure Bezier(P1, C1, C2, P2 : Point2D ; Nb_Points : Positive ;
-        Points : in out Liste) is
-    begin
-        for N in 0..Nb_Points loop
-            Insertion_Queue(Points, Bezier_Cub(P1, C1, C2, P2, Float(N)/Float(Nb_Points)));
-            --Put_Line("BeC" & To_String(Queue(Points)));
-        end loop;
-        -- Remarque : la courbe commence bien en P1 pour N=0
-        --            et finit bien en P2 pour N=Nb_Points
-    end;
-
-    procedure Bezier(P1, C, P2 : Point2D ; Nb_Points : Positive ;
-        Points : in out Liste) is
-    begin
-        for N in 0 .. Nb_Points - 1 loop
-            Insertion_Queue(Points, Bezier_Quad(P1, C, P2, Float(N)/Float(Nb_Points)));
-            --Put_Line("BeQ" & To_String(Queue(Points)));
-        end loop;
-        -- Remarque : la courbe commence bien en P1 pour N=0
-        --            et finit bien en P2 pour N=Nb_Points
+        return X * Sqrt (1.0 + Ratio ** 2);
     end;
 end;
