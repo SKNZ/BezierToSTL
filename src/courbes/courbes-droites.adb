@@ -6,8 +6,9 @@ package body Courbes.Droites is
 
     function Obtenir_Point(D : Droite; X : Float) return Point2D is
     begin
-        return
-            (Point2D'First => X, Point2D'Last => X);
+        -- Jamais utilisé, pas d'implémentation
+        raise Program_Error with "Courbes.Droites.Obtenir_Point not implemented";
+        return (Point2D'First => X, Point2D'Last => X);
     end;
 
     -- Nombre_Points pas utilisé
