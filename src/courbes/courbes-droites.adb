@@ -12,7 +12,7 @@ package body Courbes.Droites is
             Vecteur_Normal => Diff / Longueur);
     end;
 
-    function Obtenir_Point(D : Droite; X : Float) return Point2D is
+    function Obtenir_Point(D : Droite; X : Coordonnee_Normalisee) return Point2D is
     begin
         return D.Obtenir_Debut + X * D.Vecteur_Normal;
     end;

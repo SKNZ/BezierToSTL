@@ -8,7 +8,7 @@ package body Courbes.Bezier.Quadratiques is
                 Controle => C);
     end;
 
-    function Obtenir_Point(BQ : Bezier_Quadratique; X : Float) return Point2D is
+    function Obtenir_Point(BQ : Bezier_Quadratique; X : Coordonnee_Normalisee) return Point2D is
     begin 
         return
             (1.0 - X) ** 2 * BQ.Debut

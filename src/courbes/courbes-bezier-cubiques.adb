@@ -11,7 +11,7 @@ package body Courbes.Bezier.Cubiques is
                 Controles => Controles);
     end;
 
-    function Obtenir_Point(BC : Bezier_Cubique; X : Float) return Point2D is
+    function Obtenir_Point(BC : Bezier_Cubique; X : Coordonnee_Normalisee) return Point2D is
     begin 
         return
             (1.0 - X) ** 3 * BC.Debut 

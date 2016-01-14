@@ -5,13 +5,13 @@ package Courbes is
     type Courbe is abstract tagged private;
     type Courbe_Ptr is access all Courbe'Class;
     package Liste_Courbes is new Liste_Generique(Courbe_Ptr);
+    subtype Coordonnee_Normalisee is Float range 0.0 .. 1.0;
 
     -- Obtient un point à la coordonnée X fournie
-    -- X entre 0 et (Fin.X - Debut.X)
+    -- X entre 0 et 1 
     -- (x, f(x))
     -- Abstraite
-    function Obtenir_Point(C : Courbe; X : Float) return Point2D is abstract;
-
+    function Obtenir_Point(C : Courbe; X : Coordonnee_Normalisee) return Point2D is abstract;
 
     -- Discretise une courbe en N points
     procedure Interpolation_Lineaire(C : Courbe; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);

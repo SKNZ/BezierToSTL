@@ -5,7 +5,7 @@ package body Courbes.Singletons is
     end;
 
     -- X pas utilisé
-    function Obtenir_Point(S : Singleton; X : Float) return Point2D is
+    function Obtenir_Point(S : Singleton; X : Coordonnee_Normalisee) return Point2D is
     begin 
         return S.Debut;
     end;
