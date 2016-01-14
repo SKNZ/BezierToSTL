@@ -5,7 +5,7 @@ Made by Robin VINCENT-DELEUZE & Floran NARENJI-SHESHKALANI as a part of the Ensi
 Main file is src/beziertostl.adb
 Comments in the code are written in French due to school-related constraints.
 
-Executables will be found in the bin folder after build (see builder instructions for more information).
+Executables will be found in the bin folder after build (see build instructions for more information).
 
 # Build instructions
 - With gprbuild: run "gprbuild" in the root directory of the projet
