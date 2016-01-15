@@ -5,9 +5,9 @@ with Ada.Characters.Handling; use Ada.Characters.Handling;
 with Ada.Text_IO; use Ada.Text_IO;
 with Courbes.Droites; use Courbes.Droites;
 with Courbes.Singletons; use Courbes.Singletons;
-with Courbes.Bezier.Cubiques; use Courbes.Bezier.Cubiques;
-with Courbes.Bezier.Quadratiques; use Courbes.Bezier.Quadratiques;
 with Iterateur_Mots; use Iterateur_Mots;
+with Courbes.Bezier_Cubiques; use Courbes.Bezier_Cubiques;
+with Courbes.Bezier_Quadratiques; use Courbes.Bezier_Quadratiques;
 
 package body Parser_Svg is
     procedure Charger_SVG(Nom_Fichier : String; L : out Liste) is
@@ -97,7 +97,7 @@ package body Parser_Svg is
 
             -- Le séparateur est à la fin ou au début
             -- il n'y a rien après
-            -- et il manque une information
+            -- et il manque donc une information
             if Separateur_Curseur = Contenu'Last 
                 or else Separateur_Curseur = Contenu'First then
                 raise Courbe_Illisible with "Manque deuxième coordonnée";
@@ -109,7 +109,7 @@ package body Parser_Svg is
                 -- On récupère la deuxième coordonnée
                 Y_Text : constant String := Contenu (Separateur_Curseur + 1 .. Contenu'Last);
             begin
-                -- Conversion en flottant
+                -- Conversion des coordonnées text vers flottant
                 X := Float'Value (X_Text);
                 Y := Float'Value (Y_Text);
             exception
@@ -117,7 +117,9 @@ package body Parser_Svg is
                     -- Si les nombres sont mal formés...
                     raise Courbe_Illisible with "Nombre flottant mal formé";
             end;
-        end; 
+        end;
+
+        -- On sauvergarde le point qu'on a trouvé
         Point := (Point'First => X, Point'Last => Y);        
         Put_Line("Arg" & To_String (Point));
     end;
@@ -127,6 +129,7 @@ package body Parser_Svg is
         Curseur : in out Positive)
         return Float
     is
+        -- Obtient le mot suivant
         Contenu : constant String := Avancer_Mot_Suivant(Ligne_D, Curseur);
     begin
         -- On transforme le contenu en flottant
@@ -143,7 +146,9 @@ package body Parser_Svg is
         Op_Abs : out Op_Code_Absolute;
         Relatif_Vers_Absolu : out Boolean)
     is
+        -- Obtient le mot suivant
         Contenu : constant String := Avancer_Mot_Suivant(Ligne_D, Curseur);
+        -- L'opcode qu'on va lire
         Op : Op_Code;
     begin
         -- On avance au séparateur

@@ -1,21 +1,25 @@
+with Math; use Math;
+with Courbes.Visiteurs; use Courbes.Visiteurs;
+
 package body Courbes.Droites is
     function Ctor_Droite (Debut, Fin : Point2D) return access Droite is
+        Diff : constant Point2D := Fin - Debut;
+        Longueur : constant Float := Hypot(Diff);
     begin
-        return new Droite'(Debut => Debut, Fin => Fin);
+        return new Droite'(
+            Debut => Debut,
+            Fin => Fin,
+            Longueur => Longueur,
+            Vecteur_Directeur => Diff / Longueur);
     end;
 
-    function Obtenir_Point(D : Droite; X : Float) return Point2D is
+    overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D is
     begin
-        -- Jamais utilisé, pas d'implémentation
-        raise Program_Error with "Courbes.Droites.Obtenir_Point not implemented";
-        return (Point2D'First => X, Point2D'Last => X);
+        return Self.Obtenir_Debut + X * Self.Vecteur_Directeur;
     end;
 
-    -- Nombre_Points pas utilisé
-    -- normal c'est un segment
-    procedure Discretiser(D : Droite; Segments : in out Liste_Points.Liste; Nombre_Points : Positive) is
+    overriding procedure Accepter (Self : Droite; Visiteur : Visiteur_Courbe'Class) is
     begin
-        Insertion_Queue(Segments, D.Obtenir_Debut);
-        Insertion_Queue(Segments, D.Obtenir_Fin);
+        Visiteur.Visiter (Self);
     end;
 end Courbes.Droites;

@@ -1,16 +1,20 @@
+with Courbes.Visiteurs; use Courbes.Visiteurs;
+
 package body Courbes is
-    function Obtenir_Debut (C : Courbe) return Point2D is
+    use Liste_Points;
+
+    function Obtenir_Debut (Self : Courbe) return Point2D is
     begin
-        return C.Debut;
+        return Self.Debut;
     end;
 
-    function Obtenir_Fin (C : Courbe) return Point2D is
+    function Obtenir_Fin (Self : Courbe) return Point2D is
     begin
-        return C.Fin;
+        return Self.Fin;
     end;
 
-    procedure Discretiser_Gen(C : in out Courbe_Ptr) is
+    procedure Accepter (Self : Courbe; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class) is
     begin
-        C.Discretiser (Segments, Nombre_Points);
+        Visiteur.Visiter(Self);
     end;
 end Courbes;

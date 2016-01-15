@@ -1,3 +1,5 @@
+with Courbes.Visiteurs; use Courbes.Visiteurs;
+
 package body Courbes.Singletons is
     function Ctor_Singleton (P : Point2D) return access Singleton is
     begin
@@ -5,14 +7,13 @@ package body Courbes.Singletons is
     end;
 
     -- X pas utilisé
-    function Obtenir_Point(S : Singleton; X : Float) return Point2D is
+    overriding function Obtenir_Point(Self : Singleton; X : Coordonnee_Normalisee) return Point2D is
     begin 
-        return S.Debut;
+        return Self.Debut;
     end;
 
-    -- Nombre_Points pas utilisé
-    procedure Discretiser(S : Singleton; Segments : in out Liste_Points.Liste; Nombre_Points : Positive) is
+    overriding procedure Accepter (Self : Singleton; Visiteur : Visiteur_Courbe'Class) is
     begin
-        Insertion_Queue(Segments, S.Obtenir_Debut);
+        Visiteur.Visiter (Self);
     end;
 end Courbes.Singletons;

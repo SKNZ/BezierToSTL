@@ -6,13 +6,18 @@ package Courbes.Droites is
     function Ctor_Droite (Debut, Fin : Point2D) return access Droite;
 
     -- Obtient un point d'une droite
-    function Obtenir_Point(D : Droite; X : Float) return Point2D;
+    overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D;
 
-    -- Discretise une droite en 2 points
-    -- Nombre_points ignoré
-    procedure Discretiser(D : Droite; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
+    overriding procedure Accepter (Self : Droite; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
     private
 
-    type Droite is new Courbe with null record;
+    type Droite is new Courbe with
+        record
+            -- Longueur de la droite
+            Longueur : Float;
+
+            -- Vecteur normal
+            Vecteur_Directeur : Point2D;
+        end record;
 end Courbes.Droites;
