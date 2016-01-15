@@ -5,7 +5,6 @@ with Ada.Characters.Handling; use Ada.Characters.Handling;
 with Ada.Text_IO; use Ada.Text_IO;
 with Courbes.Droites; use Courbes.Droites;
 with Courbes.Singletons; use Courbes.Singletons;
-with Iterateur_Mots; use Iterateur_Mots;
 with Courbes.Bezier_Cubiques; use Courbes.Bezier_Cubiques;
 with Courbes.Bezier_Quadratiques; use Courbes.Bezier_Quadratiques;
 
@@ -14,24 +13,31 @@ package body Parser_Svg is
         -- on charge le fichier svg
         Ligne_D : constant String := Trouver_Ligne_D(Nom_Fichier);
 
-        Curseur : Positive := Ligne_D'First;
-
         Position_Courante : Point2D := (others => 0.0);
 
         Op_Abs : Op_Code_Absolute;
         Relatif_Vers_Absolu : Boolean;
+
+        Iterateur : Iterateur_Mot;
     begin
+        -- On instancie l'itérateur
+        Initialiser_String(
+            Chaine => To_Unbounded_String(Ligne_D),
+            Curseur => Ligne_D'First,
+            Separateur => Separateur,
+            Iterateur => Iterateur);
+
         Put_Line("Lecture de la courbe");
         -- analyse de cette même ligne en gérant
         -- les différents opcode (mlhvcq et MLHVCQ)
 
         -- Tant qu'on est pas à la fin de la ligne
-        while Curseur <= Ligne_D'Last loop
+        while Iterateur.Curseur <= Ligne_D'Last loop
             -- Lecture de l'opcode L,
-            Lire_OpCode (Ligne_D, Curseur, Op_Abs, Relatif_Vers_Absolu);
+            Lire_OpCode (Iterateur, Op_Abs, Relatif_Vers_Absolu);
 
             -- Traitement de l'opcode
-            Gerer_OpCode (Ligne_D, Curseur, Position_Courante, Op_Abs, L, Relatif_Vers_Absolu);
+            Gerer_OpCode (Iterateur, Position_Courante, Op_Abs, L, Relatif_Vers_Absolu);
         end loop;
     end;
 
@@ -73,11 +79,10 @@ package body Parser_Svg is
     end;
 
     procedure Lire_Point2D(
-        Ligne_D : String;
-        Curseur : in out Positive;
+        Iterateur : in out Iterateur_Mot;
         Point : out Point2D)
     is
-        Contenu : constant String := Avancer_Mot_Suivant(Ligne_D,  Curseur);
+        Contenu : constant String := Avancer_Mot_Suivant(Iterateur);
 
         X, Y : Float;
     begin
@@ -125,12 +130,11 @@ package body Parser_Svg is
     end;
 
     function Lire_Coord(
-        Ligne_D : String;
-        Curseur : in out Positive)
+        Iterateur : in out Iterateur_Mot)
         return Float
     is
         -- Obtient le mot suivant
-        Contenu : constant String := Avancer_Mot_Suivant(Ligne_D, Curseur);
+        Contenu : constant String := Avancer_Mot_Suivant(Iterateur);
     begin
         -- On transforme le contenu en flottant
         return Float'Value (Contenu);
@@ -141,13 +145,12 @@ package body Parser_Svg is
     end;
 
     procedure Lire_OpCode (
-        Ligne_D : String;
-        Curseur : in out Positive;
+        Iterateur : in out Iterateur_Mot;
         Op_Abs : out Op_Code_Absolute;
         Relatif_Vers_Absolu : out Boolean)
     is
         -- Obtient le mot suivant
-        Contenu : constant String := Avancer_Mot_Suivant(Ligne_D, Curseur);
+        Contenu : constant String := Avancer_Mot_Suivant(Iterateur);
         -- L'opcode qu'on va lire
         Op : Op_Code;
     begin
@@ -183,12 +186,11 @@ package body Parser_Svg is
     end;
 
     function Mot_Suivant_Est_Op_Code_Ou_Vide (
-        Ligne_D : String;
-        Curseur : Positive)
+        Iterateur : Iterateur_Mot)
         return Boolean
     is
         Fin_Curseur : Positive;
-        Contenu_Suivant : constant String := Lire_Mot_Suivant (Ligne_D, Curseur, Fin_Curseur);
+        Contenu_Suivant : constant String := Lire_Mot_Suivant (Iterateur, Fin_Curseur);
     begin
         -- On sort si plus rien
         if Contenu_Suivant'Length = 0 then
@@ -230,8 +232,7 @@ package body Parser_Svg is
     end;
 
     procedure Gerer_OpCode (
-        Ligne_D : String;
-        Curseur : in out Positive;
+        Iterateur : in out Iterateur_Mot;
         Position_Courante : in out Point2D;
         Op : Op_Code_Absolute;
         L : in out Liste;
@@ -254,7 +255,7 @@ package body Parser_Svg is
 
             case Op is
                 when 'M' =>
-                    Lire_Point2D(Ligne_D, Curseur, Position_Courante);
+                    Lire_Point2D(Iterateur, Position_Courante);
                     Position_Courante := Position_Courante + Offset_Relatif;
 
                     Insertion_Queue(L, Ctor_Singleton(Position_Courante));
@@ -262,7 +263,7 @@ package body Parser_Svg is
                     declare
                         P : Point2D;
                     begin
-                        Lire_Point2D(Ligne_D, Curseur, P);
+                        Lire_Point2D(Iterateur, P);
                         P := P + Offset_Relatif;
 
                         Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
@@ -271,7 +272,7 @@ package body Parser_Svg is
                     declare
                         P : Point2D := Offset_Relatif;
                     begin
-                        P (P'First) := P (P'First) + Lire_Coord(Ligne_D, Curseur);
+                        P (P'First) := P (P'First) + Lire_Coord(Iterateur);
 
                         Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
                     end;
@@ -279,7 +280,7 @@ package body Parser_Svg is
                     declare
                         P : Point2D := Offset_Relatif;
                     begin
-                        P (P'Last) := P (P'Last) + Lire_Coord(Ligne_D, Curseur);
+                        P (P'Last) := P (P'Last) + Lire_Coord(Iterateur);
 
                         Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
                     end;
@@ -287,9 +288,9 @@ package body Parser_Svg is
                     declare
                         C1, C2, P : Point2D;
                     begin
-                        Lire_Point2D(Ligne_D, Curseur, C1);
-                        Lire_Point2D(Ligne_D, Curseur, C2);
-                        Lire_Point2D(Ligne_D, Curseur, P);
+                        Lire_Point2D(Iterateur, C1);
+                        Lire_Point2D(Iterateur, C2);
+                        Lire_Point2D(Iterateur, P);
                         
 
                         C1 := C1 + Offset_Relatif;
@@ -302,8 +303,8 @@ package body Parser_Svg is
                     declare
                         C, P : Point2D;
                     begin
-                        Lire_Point2D(Ligne_D, Curseur, C);
-                        Lire_Point2D(Ligne_D, Curseur, P);
+                        Lire_Point2D(Iterateur, C);
+                        Lire_Point2D(Iterateur, P);
 
                         C := C + Offset_Relatif;
                         P := P + Offset_Relatif;
@@ -326,7 +327,7 @@ package body Parser_Svg is
 
             -- On look-ahead pour voir si on a encore des coordonnées
             -- si on a on un opcode
-            exit when Mot_Suivant_Est_Op_Code_Ou_Vide (Ligne_D, Curseur);
+            exit when Mot_Suivant_Est_Op_Code_Ou_Vide (Iterateur);
 
             Put_Line("||||||||||||||||||||||||||||||||||");
             Put_Line("Arguments supplémentaires trouvés.");

@@ -1,5 +1,6 @@
 with Vecteurs; use Vecteurs;
 with Courbes; use Courbes;
+with Iterateur_Mots; use Iterateur_Mots;
 
 package Parser_Svg is
     use Liste_Courbes;
@@ -30,15 +31,13 @@ package Parser_Svg is
 
     -- Lit un opcode
     procedure Lire_OpCode (
-        Ligne_D : String;
-        Curseur : in out Positive;
+        Iterateur : in out Iterateur_Mot;
         Op_Abs : out Op_Code_Absolute;
         Relatif_Vers_Absolu : out Boolean);
 
     -- Execute l'opcode
     procedure Gerer_OpCode (
-        Ligne_D : String;
-        Curseur : in out Positive;
+        Iterateur : in out Iterateur_Mot;
         Position_Courante : in out Point2D;
         Op : Op_Code_Absolute;
         L : in out Liste;
@@ -46,19 +45,16 @@ package Parser_Svg is
 
     -- Valide le mot suivant comme opcode
     function Mot_Suivant_Est_Op_Code_Ou_Vide (
-        Ligne_D : String;
-        Curseur : Positive)
+        Iterateur : Iterateur_Mot)
         return Boolean;
 
     -- Lit une coordonnée
     function Lire_Coord(
-        Ligne_D : String;
-        Curseur : in out Positive)
+        Iterateur : in out Iterateur_Mot)
         return Float;
 
     -- Lit un jeu de coordonnées
     procedure Lire_Point2D(
-        Ligne_D : String;
-        Curseur : in out Positive;
+        Iterateur : in out Iterateur_Mot;
         Point : out Point2D);
 end;
