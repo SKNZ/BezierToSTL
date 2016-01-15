@@ -4,7 +4,7 @@ with Courbes.Bezier_Cubiques; use Courbes.Bezier_Cubiques;
 with Courbes.Bezier_Quadratiques; use Courbes.Bezier_Quadratiques;
 
 package Courbes.Visiteurs is
-    type Visiteur_Courbe is abstract tagged limited null record;
+    type Visiteur_Courbe is abstract tagged null record;
 
     procedure Visiter(Self : Visiteur_Courbe; C : Courbe);
     procedure Visiter(Self : Visiteur_Courbe; D : Droite);

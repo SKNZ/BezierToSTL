@@ -5,7 +5,7 @@ package Courbes.Interpolations_Lineaires is
     use Liste_Points;
 
     -- Interpole linéairement une courbe en N points
-    procedure Interpolation_Lineaire(C : Courbe; Segments : in out Liste; Nombre_Points : Positive);
+    procedure Interpolation_Lineaire(C : Courbe_Ptr; Segments : in out Liste; Nombre_Points : Positive);
 
 private
     -- Generic parce que sinon pas possible de passer la liste

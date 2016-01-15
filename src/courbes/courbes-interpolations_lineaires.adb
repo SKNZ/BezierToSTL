@@ -1,10 +1,9 @@
 with Ada.Text_IO; use Ada.Text_IO;
 package body Courbes.Interpolations_Lineaires is
-    procedure Interpolation_Lineaire(C : Courbe; Segments : in out Liste; Nombre_Points : Positive) is
+    procedure Interpolation_Lineaire(C : Courbe_Ptr; Segments : in out Liste; Nombre_Points : Positive) is
         package Interpolateur is new Visiteur_Interpolateur (Segments, Nombre_Points);        
         Visitateur : Interpolateur.Interpolateur_Lineaire;
     begin
-        Put_Line("AZE");
         C.Visiter (Visitateur);
     end;
 
