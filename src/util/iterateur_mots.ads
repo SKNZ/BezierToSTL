@@ -2,7 +2,7 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package Iterateur_Mots is
 
-    Courbe_Illisible : exception;
+    Erreur_Syntaxe : exception;
 
     -- Regroupe les infos de la String
     type Iterateur_Mot is record
@@ -19,10 +19,10 @@ package Iterateur_Mots is
         Iterateur : out Iterateur_Mot);
 
     -- Lit le mot suivant (sans déplacer le curseur)
-    -- lève Courbe_Illisible si caractère innatendu
+    -- lève Erreur_Syntaxe si caractère innatendu
     function Lire_Mot_Suivant(
         Iterateur : Iterateur_Mot;
-        Fin_Curseur : out Positive)
+        Caracteres_Lus : out Positive)
         return String;
 
     -- Avance au mot suivant (déplace le curseur)

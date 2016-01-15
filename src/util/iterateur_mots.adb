@@ -18,7 +18,7 @@ package body Iterateur_Mots is
     -- Requiert Curseur = 1 ou Chaine (Curseur) = Separateur
     function Lire_Mot_Suivant(
         Iterateur : Iterateur_Mot;
-        Fin_Curseur : out Positive)
+        Caracteres_Lus : out Positive)
         return String
     is
         Contenu_Deb, Contenu_Fin : Positive := To_String(Iterateur.Chaine)'First;
@@ -27,7 +27,7 @@ package body Iterateur_Mots is
             return "";
         end if;
 
-        Fin_Curseur := Iterateur.Curseur + 1;
+        Caracteres_Lus := Iterateur.Curseur + 1;
 
         -- On vérifie que le car. courant est bien un séparateur
         -- On traite la chaine de séparateur en séparateur
@@ -35,23 +35,23 @@ package body Iterateur_Mots is
         if Iterateur.Curseur /= To_String(Iterateur.Chaine)'First
             and then To_String(Iterateur.Chaine)(Iterateur.Curseur) /= Iterateur.Separateur
         then
-            raise Courbe_Illisible with "Carac. inattendu (courant /= séparateur): L(" & Positive'Image(Iterateur.Curseur) & ") = " & To_String(Iterateur.Chaine)(Iterateur.Curseur) & " /= " & Iterateur.Separateur;
+            raise Erreur_Syntaxe with "Carac. inattendu (courant /= séparateur): L(" & Positive'Image(Iterateur.Curseur) & ") = " & To_String(Iterateur.Chaine)(Iterateur.Curseur) & " /= " & Iterateur.Separateur;
         end if;
 
         -- On avance jusqu'à trouver le prochain séparateur
         -- ou jusqu'à la fin de la chaine
-        while Fin_Curseur <= To_String(Iterateur.Chaine)'Last
-            and then To_String(Iterateur.Chaine)(Fin_Curseur) /= Iterateur.Separateur loop
-            Fin_Curseur := Fin_Curseur + 1;
+        while Caracteres_Lus <= To_String(Iterateur.Chaine)'Last
+            and then To_String(Iterateur.Chaine)(Caracteres_Lus) /= Iterateur.Separateur loop
+            Caracteres_Lus := Caracteres_Lus + 1;
         end loop;
 
         Contenu_Deb := Iterateur.Curseur;
-        Contenu_Fin := Fin_Curseur;
+        Contenu_Fin := Caracteres_Lus;
 
         -- Si on n'est pas à la fin de la chaîne
         -- alors la fin du contenu est
         -- 1 car. avant le séparateur suivant
-        if Fin_Curseur /= To_String(Iterateur.Chaine)'Last then
+        if Caracteres_Lus /= To_String(Iterateur.Chaine)'Last then
             Contenu_Fin := Contenu_Fin - 1;
         end if;
 
@@ -68,10 +68,10 @@ package body Iterateur_Mots is
     -- Avance jusqu'au prochain séparateur et récupère le contenu
     -- Requiert Curseur = 1 ou Chaine (Curseur) = Separateur
     function Avancer_Mot_Suivant(Iterateur : in out Iterateur_Mot) return String is
-        Fin_Curseur : Positive;
-        Contenu : constant String := Lire_Mot_Suivant (Iterateur, Fin_Curseur);
+        Caracteres_Lus : Positive;
+        Contenu : constant String := Lire_Mot_Suivant (Iterateur, Caracteres_Lus);
     begin
-        Iterateur.Curseur := Fin_Curseur;
+        Iterateur.Curseur := Caracteres_Lus;
 
         return Contenu;
     end;
