@@ -1,10 +1,17 @@
-with Ada.Text_IO; use Ada.Text_IO;
 package body Courbes.Interpolations_Lineaires is
-    procedure Interpolation_Lineaire(C : Courbe_Ptr; Segments : in out Liste; Nombre_Points : Positive) is
+    procedure Interpolation_Lineaire(
+        C : Courbe_Ptr;
+        Segments : in out Liste;
+        Nombre_Points : Positive;
+        Interpoler_Droites : Boolean)
+    is
+        -- Instanciation du package de l'interpolateur avec les bons paramètres
         package Interpolateur is new Visiteur_Interpolateur (Segments, Nombre_Points);        
-        Visitateur : Interpolateur.Interpolateur_Lineaire;
+
+        -- Instanciation du visiteur même
+        V : Interpolateur.Interpolateur_Lineaire;
     begin
-        C.Visiter (Visitateur);
+        C.Visiter (V);
     end;
 
     -- Param génériques: Segments (Liste_Points), Nombre_Points (Positive)
@@ -26,6 +33,22 @@ package body Courbes.Interpolations_Lineaires is
                     Insertion_Queue(Segments, P);
                 end;
             end loop;
+        end;
+
+        -- Cas particulier : la droite
+        -- La droite n'a pas besoin d'être interpolée ici
+        -- Les logiciels d'affichage sont capables de les rendre sans interpoler
+        overriding procedure Visiter(Self : Interpolateur_Lineaire; D : Droite) is
+        begin
+            if Interpoler_Droites then
+                -- On l'interpole comme n'importe quelle autre courbe
+                Self.Visiter(Courbe(D));
+                return;
+            else
+                -- On n'enregistre que les deux premiers points
+                Insertion_Queue(Segments, S.Obtenir_Debut);
+                Insertion_Queue(Segments, S.Obtenir_Fin);
+            end if;
         end;
 
         -- Cas particulier : le singleton
