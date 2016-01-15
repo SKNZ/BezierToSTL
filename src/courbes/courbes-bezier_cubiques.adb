@@ -22,8 +22,8 @@ package body Courbes.Bezier_Cubiques is
             + X ** 3 * Self.Fin; 
     end;
 
-    overriding procedure Visiter(Self : Bezier_Cubique; Visiteur : Visiteur_Courbe'Class) is
+    overriding procedure Accepter (Self : Bezier_Cubique; Visiteur : Visiteur_Courbe'Class) is
     begin
-        Visiteur.Visiter(Self);
+        Visiteur.Accepter (Self);
     end;
 end Courbes.Bezier_Cubiques;

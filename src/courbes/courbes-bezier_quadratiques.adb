@@ -18,8 +18,8 @@ package body Courbes.Bezier_Quadratiques is
             + X ** 2 * Self.Fin; 
     end;
 
-    overriding procedure Visiter(Self : Bezier_Quadratique; Visiteur : Visiteur_Courbe'Class) is
+    overriding procedure Accepter (Self : Bezier_Quadratique; Visiteur : Visiteur_Courbe'Class) is
     begin
-        Visiteur.Visiter(Self);
+        Visiteur.Accepter (Self);
     end;
 end Courbes.Bezier_Quadratiques;

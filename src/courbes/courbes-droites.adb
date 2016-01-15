@@ -18,8 +18,8 @@ package body Courbes.Droites is
         return Self.Obtenir_Debut + X * Self.Vecteur_Normal;
     end;
 
-    overriding procedure Visiter(Self : Droite; Visiteur : Visiteur_Courbe'Class) is
+    overriding procedure Accepter (Self : Droite; Visiteur : Visiteur_Courbe'Class) is
     begin
-        Visiteur.Visiter(Self);
+        Visiteur.Accepter (Self);
     end;
 end Courbes.Droites;

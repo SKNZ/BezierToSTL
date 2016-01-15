@@ -10,7 +10,7 @@ package Courbes.Bezier_Cubiques is
     -- Obtient un point d'une Bezier_Cubique
     overriding function Obtenir_Point(Self : Bezier_Cubique; X : Coordonnee_Normalisee) return Point2D;
 
-    overriding procedure Visiter(Self : Bezier_Cubique; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
+    overriding procedure Accepter (Self : Bezier_Cubique; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
     private
 

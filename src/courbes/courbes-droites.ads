@@ -8,7 +8,7 @@ package Courbes.Droites is
     -- Obtient un point d'une droite
     overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D;
 
-    overriding procedure Visiter(Self : Droite; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
+    overriding procedure Accepter (Self : Droite; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
     private
 

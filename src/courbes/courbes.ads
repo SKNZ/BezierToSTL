@@ -15,7 +15,7 @@ package Courbes is
     function Obtenir_Point(Self : Courbe; X : Coordonnee_Normalisee) return Point2D is abstract;
 
     -- Pattern visiteur
-    procedure Visiter (Self : Courbe; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
+    procedure Accepter (Self : Courbe; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
     -- Renvoie le debut d'une courbe
     function Obtenir_Debut(Self : Courbe) return Point2D;

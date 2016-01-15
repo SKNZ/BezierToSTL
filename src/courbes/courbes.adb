@@ -13,7 +13,7 @@ package body Courbes is
         return Self.Fin;
     end;
 
-    procedure Visiter (Self : Courbe; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class) is
+    procedure Accepter (Self : Courbe; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class) is
     begin
         Visiteur.Visiter(Self);
     end;

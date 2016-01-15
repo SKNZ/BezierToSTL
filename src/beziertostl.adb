@@ -6,6 +6,7 @@ with STL; use STL;
 with Parser_Svg; use Parser_Svg;
 with Normalisation; use Normalisation;
 with Courbes; use Courbes;
+with Courbes.Interpolation_Lineaire; use Courbes.Interpolation_Lineaire;
 with Vecteurs; use Vecteurs;
 with Helper; use Helper;
 
@@ -28,17 +29,8 @@ begin
     -- On charge la courbe contenu dans le SVG
     Charger_SVG(Argument(1), Courbes);
 
-    declare
-        -- Instanciation générique 
-        -- Helper dans helper
-        procedure Interpolation_Lineaire_Courbe is new Interpolation_Lineaire_Bind_2nd_3rd(Segments, Nombre_Points_Discrets);
-       
-        -- Fonction de traitement pour toutes les courbes
-        procedure Interpolation_Lineaire_Courbes is new Liste_Courbes.Parcourir(Interpolation_Lineaire_Courbe);
-    begin
-        -- On discrète les courbes
-        Interpolation_Lineaire_Courbes (Courbes);
-    end;
+    -- On discrètise les courbes
+    Interpolation_Lineaire (Courbes);
 
     -- On normalise la figure
     -- (centrage en x, raccordage extremités)

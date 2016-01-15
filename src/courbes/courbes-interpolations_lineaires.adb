@@ -1,4 +1,36 @@
 package body Courbes.Interpolations_Lineaires is
+    -- Interpole toutes les courbes d'une liste
+    procedure Interpolation_Lineaire(
+        L : Liste_Courbes.Liste;
+        Segments : in out Liste;
+        Nombre_Points : Positive;
+        Interpoler_Droites : Boolean) is
+
+        -- Pour rendre plus élégante l'utilisation avec parcourir
+        -- On fournit une version générique de discretiser
+        -- qui accepte une liste de segments et un nb de pts
+        -- en paramètres génériques
+        generic
+            Segments : in out Liste_Points.Liste;
+            Nombre_Points : Positive;
+            procedure Interpolation_Lineaire_Bind_2nd_3rd(C : in out Courbe_Ptr);
+
+        -- Instanciation du package de l'interpolateur avec les bons paramètres
+        package Interpolateur is new Visiteur_Interpolateur (Segments, Nombre_Points);        
+
+        -- Instanciation du visiteur même
+        V : Interpolateur.Interpolateur_Lineaire;
+
+        procedure Interopoler_Helper (C : Courbe) is
+        begin
+            C.Visiter (V);
+        end;
+
+    begin
+
+        
+    end;
+
     procedure Interpolation_Lineaire(
         C : Courbe_Ptr;
         Segments : in out Liste;

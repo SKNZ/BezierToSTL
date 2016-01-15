@@ -10,7 +10,7 @@ package Courbes.Bezier_Quadratiques is
     -- Obtient un point d'une Bezier_Quadratique
     overriding function Obtenir_Point(Self : Bezier_Quadratique; X : Coordonnee_Normalisee) return Point2D;
 
-    overriding procedure Visiter(Self : Bezier_Quadratique; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
+    overriding procedure Accepter (Self : Bezier_Quadratique; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
     private
 
