@@ -5,7 +5,9 @@ with Courbes.Visiteurs; use Courbes.Visiteurs;
 package Courbes.Interpolations_Lineaires is
     use Liste_Points;
 
-    -- Interpole toutes les courbes d'une liste
+    -- Interpole linéairement toutes les courbes d'une liste en N points
+    -- Interpoler_Droites permet de désactiver l'interpolation des droites
+    -- (l'interpolation est alors laissée à l'afficheur)
     procedure Interpolation_Lineaire(
         Courbes : Liste_Courbes.Liste;
         Segments : in out Liste;

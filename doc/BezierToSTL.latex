@@ -24,7 +24,7 @@
 
 \title{
     \normalfont \normalsize
-    \textsc{École nationale supérieure d'informatique et d mathématiques appliquées de Grenoble} \\ [25pt]
+    \textsc{École nationale supérieure d'informatique et de mathématiques appliquées de Grenoble} \\ [25pt]
     \horrule{0.5pt} \\[0.4cm]
     \huge BezierToSTL \\
     \horrule{2pt} \\[0.5cm]
@@ -38,59 +38,62 @@
 
 \maketitle
 
+\section{Prélude}
+
+Les références sont situées en fin de \texttt{README.md}.
+Nous utilisons le système de gestion de version \textbf{git} sur la plateforme \textbf{github} afin de maintenir l'historique de nos modifications et de synchroniser le code entre les différents lieux et membres de l'équipe.
+
 \section{Fonctionnement}
 
-Le programme accepte deux arguments: un fichier SVG d'entrée et un fichier STL de sortie.
+\subsection{Machine séquentielle à mot}
+
+Le package \texttt{Iterateur\_Mots} est une machine séquentielle pour la lecture mot à mot (séparateur paramétrable) d'une \texttt{string}.
+Il permet aussi un \texttt{look-ahead} sur le mot suivant.
 
 \subsection{Parser SVG}
 
 \subsubsection{Types \& Constantes}
 
-Les constantes suivantes sont définies:
-\begin{itemize}
-    \item Séparateur (espace): sépare les mots
-    \item Séparateur coordonnées (virgule): sépare les deux coordonnées d'un jeu de coordonées
-    \item Séparateur décimal (point): sépare la partie entière de la partie flottante d'un nombre décimal
-\end{itemize}
-
-Le type \texttt{Op\_Code} est une énumération de toutes les instructions supportées de la balise \texttt{<path>} (MLHCQVmlhcqv).
-On utilise ici une énumération de \texttt{character}, ce qui 
-complexifie la conversion depuis un \texttt{string} (ajout d'apostrophes) mais nous permet d'avoir la sensibilité à la casse.
-On définit deux sous types, \texttt{Op\_Code\_Absolute} (pour les majuscules) et \texttt{Op\_Code\_Relative} (pour les minuscules).
+Trois constantes définissent les séparateur: mot (espace), coordonnées (virgule), décimal (point).
+Le type \texttt{Op\_Code} énumère les instructions supportées (MLHCQVmlhcqv).
+Pour préserver la sensibilité à la casse, le type \texttt{character} est utilisé pour les valeurs de l'énumération.
+On définit deux sous types, \texttt{Op\_Code\_Absolute} (majuscules) et \texttt{Op\_Code\_Relative} (minuscules).
 
 \subsubsection{Algorithme}
 
-Le parser\_svg ouvre le fichier et cherche une ligne commençant par un marqueur définit dans une constante ("d="").
-Les espaces blancs en début et fin de la ligne sont ignorés à l'aide de la fonction Ada.Strings.Unbounded.Trim.
-Une fois cette ligne obtenue, le parser parcourt celle-ci à l'aide d'un curseur en la découpant de mot en mot.
-Un mot est un ensemble de caractères séparé par une constante (définie ci-dessus).
+Le parser\_svg ouvre le fichier et cherche la ligne avec le marqueur (constante du package). La lignée est nettoyée à l'aide d'un \texttt{trim} (\texttt{Ada.Strings}). \texttt{Iterateur\_Mot} est utilisé.
+
 L'analyse de la courbe est un cycle:
 \begin{enumerate}
     \item \label{E1} Lecture d'un opcode
-    \item \label{E2} Selon l'opcode, lecture de N arguments (flottant seul ou pair de deux flottants, séparés selon les constantes ci-dessus)
-    \item Traitement de l'opcode (à l'aide du package \texttt{math})
+    \item \label{E2} Selon l'opcode, lecture de N arguments (coordonnée seule ou pair)
+    \item Ajout de la courbe à la liste (cf.~\ref{courbes})
     \item Si il y a encore des arguments, aller à l'étape~\ref{E2}
     \item Si il y a encore des mots, aller à l'étape~\ref{E1}
+    \item Renvoie la liste de courbes décrivant la figure 
 \end{enumerate}
 
-Pour gérer le positionnement relatif, on convertit les opcode relatifs en opcode absolus et on met un booléen à vrai. Ce booléen indique alors qu'il faut ajouter à toutes les coordonnées lues les coordonnées de la dernière position.
+On supprime le positionnement relatif en y ajoutant la position courante.
 
-\subsection{Courbes de Bézier}
+\subsection{Courbes} \label{courbes}
 
-Les courbes de Bézier sont calculées dans le package \texttt{math}.
+On souhaite découpler le SVG de la logique liée au calcul des courbes. On choisit une représentation intermédiaire en arbre (héritage) dont la classe de base \texttt{Courbe} est abstraite. Les différentes courbes supportées (incluant la droite et le point seul nommé singleton) en héritent.
+
+Cette classe \texttt{Courbe} fournit deux contrats:
+\begin{itemize}
+    \item \texttt{Obtenir\_Point} renvoyant $(x, f(x))$ avec $f$ étant la fonction de la courbe.
+    \item \texttt{Accepter} méthode de patron de conception visiteur.
+
+\end{itemize}
 
 \subsection{Génération et Sauvegarde du STL}
 \underline{Calculs mathématiques des facettes} :\\
 On dispose de la constante \texttt{M} qui est le pas de la rotation.\\
 L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points 2D. Ainsi, pour les points consécutifs \texttt{P\_Suiv} et \texttt{P\_Cour}, on crée deux facettes conformément à l'image suivante :
 \begin{center}
-    \includegraphics{facettespng}
+   \includegraphics{facettespng}
 \end{center}
 et on effectue une rotation de $\frac{2\pi}{M}$ pour chaque nouveau point.\\
 \underline{Sauvegarde} : Si le fichier de sortie n'existe pas, il est créé. S'il existe, il est écrasé.
-
-\section{Gestion de version}
-
-Nous utilisons le système de gestion de version \textbf{git} sur la plateforme \textbf{github} afin de maintenir l'historique de nos modifications et de synchroniser le code entre les différents lieux et membres de l'équipe.
 
 \end{document}
