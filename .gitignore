@@ -7,7 +7,7 @@
 obj/*
 bin/*
 *.log
-*.fls
-*.fdb_latexmk
-*.aux
+doc/*.fls
+doc/*.fdb_latexmk
+doc/*.aux
 *.stl

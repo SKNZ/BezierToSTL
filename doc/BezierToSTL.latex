@@ -25,7 +25,7 @@
 \title{
     \normalfont \normalsize
     \textsc{École nationale supérieure d'informatique et de mathématiques appliquées de Grenoble} \\ [25pt]
-    \horrule{0.5pt} \\[0.4cm]
+    \horrule{0.5pt} \\ [0.4cm]
     \huge BezierToSTL \\
     \horrule{2pt} \\[0.5cm]
 }
@@ -77,21 +77,28 @@ On supprime le positionnement relatif en y ajoutant la position courante.
 
 \subsection{Courbes} \label{courbes}
 
-On souhaite découpler le SVG de la logique liée au calcul des courbes. On choisit une représentation intermédiaire en arbre (héritage) dont la classe de base \texttt{Courbe} est abstraite. Les différentes courbes supportées (incluant la droite et le point seul nommé singleton) en héritent.
-
-Cette classe \texttt{Courbe} fournit deux contrats:
+On souhaite découpler la gestion des courbes de celle du SVG\@. On choisit une représentation intermédiaire en arbre (héritage) dont la classe de base \texttt{Courbe} est abstraite. Les différentes courbes supportées (incluant la droite et le point seul nommé singleton) en héritent. Cette classe \texttt{Courbe} fournit deux contrats:
 \begin{itemize}
     \item \texttt{Obtenir\_Point} renvoyant $(x, f(x))$ avec $f$ étant la fonction de la courbe.
-    \item \texttt{Accepter} méthode de patron de conception visiteur.
-
+    \item \texttt{Accepter} du patron de conception visiteur, permettant d'accepter une visite (cf.~\ref{interpolation}).
 \end{itemize}
+Cette représentation tente, sans prétention de réussite, d'approcher le principe SOLID.
+
+\subsection{Interpolation linéaire}\label{interpolation}
+
+L'interpolation linéaire fournit un ensemble de segments approchant une courbe.
+On choisit le patron de conception visiteur car l'interpolation:
+\begin{itemize}
+    \item Est un comportement que l'on peut ajouter à une courbe mais ne relève pas de la responsabiltié de la courbe.   
+    \item Se comporte différement selon le type de courbe et le type d'interpolation souhaitée (\texttt{double dispatch}).
+\end{itemize}
+Réalisée dans le package \texttt{Courbe.interpolation\_Lineaire}, l'interpolation linéaire d'une courbe consiste à la diviser en N points équidistants sur l'axe des abscisses et à calculer la valeur de la courbe au point donné. Les formules utilisées pour les courbes de Bézier sont \huge\textbf{REMPLIR ICI REMPLIR ICI REMPLIR ICI}\normalsize.
 
 \subsection{Génération et Sauvegarde du STL}
-\underline{Calculs mathématiques des facettes} :\\
-On dispose de la constante \texttt{M} qui est le pas de la rotation.\\
+On dispose de la valeur \texttt{M}, le pas de la rotation.\\
 L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points 2D. Ainsi, pour les points consécutifs \texttt{P\_Suiv} et \texttt{P\_Cour}, on crée deux facettes conformément à l'image suivante :
 \begin{center}
-   \includegraphics{facettespng}
+    \includegraphics{facettespng}
 \end{center}
 et on effectue une rotation de $\frac{2\pi}{M}$ pour chaque nouveau point.\\
 \underline{Sauvegarde} : Si le fichier de sortie n'existe pas, il est créé. S'il existe, il est écrasé.
