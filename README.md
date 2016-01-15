@@ -26,3 +26,5 @@ http://www.adahome.com/9X/OOP-Ada9X.html
 https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
 - Hypot
 https://en.wikipedia.org/wiki/Hypot
+- Visitor Pattern in ADA 
+http://www.adacore.com/adaanswers/gems/gem-113-visitor-pattern-in-ada/

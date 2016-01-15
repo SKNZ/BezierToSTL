@@ -5,8 +5,8 @@ with Ada.Characters.Handling; use Ada.Characters.Handling;
 with Ada.Text_IO; use Ada.Text_IO;
 with Courbes.Droites; use Courbes.Droites;
 with Courbes.Singletons; use Courbes.Singletons;
-with Courbes.Bezier.Cubiques; use Courbes.Bezier.Cubiques;
-with Courbes.Bezier.Quadratiques; use Courbes.Bezier.Quadratiques;
+with Courbes.Bezier_Cubiques; use Courbes.Bezier_Cubiques;
+with Courbes.Bezier_Quadratiques; use Courbes.Bezier_Quadratiques;
 
 package body Parser_Svg is
     procedure Charger_SVG(Nom_Fichier : String; L : out Liste) is

@@ -1,6 +1,6 @@
 with Courbes; use Courbes;
 
-package Courbes.Bezier.Quadratiques is
+package Courbes.Bezier_Quadratiques is
     use Liste_Points;
     type Bezier_Quadratique is new Courbe with private;
 
@@ -8,7 +8,9 @@ package Courbes.Bezier.Quadratiques is
     function Ctor_Bezier_Quadratique (Debut, Fin, C : Point2D) return access Bezier_Quadratique;
 
     -- Obtient un point d'une Bezier_Quadratique
-    function Obtenir_Point(BQ : Bezier_Quadratique; X : Coordonnee_Normalisee) return Point2D;
+    overriding function Obtenir_Point(Self : Bezier_Quadratique; X : Coordonnee_Normalisee) return Point2D;
+
+    overriding procedure Visiter(Self : Bezier_Quadratique; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
     private
 
@@ -16,4 +18,4 @@ package Courbes.Bezier.Quadratiques is
         record
             Controle : Point2D;
         end record;
-end Courbes.Bezier.Quadratiques;
+end Courbes.Bezier_Quadratiques;

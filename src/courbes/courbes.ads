@@ -1,5 +1,6 @@
 with Vecteurs; use Vecteurs;
 with Liste_Generique;
+limited with Courbes.Visiteurs;
 
 package Courbes is
     type Courbe is abstract tagged private;
@@ -11,16 +12,16 @@ package Courbes is
     -- X entre 0 et 1 
     -- (x, f(x))
     -- Abstraite
-    function Obtenir_Point(C : Courbe; X : Coordonnee_Normalisee) return Point2D is abstract;
+    function Obtenir_Point(Self : Courbe; X : Coordonnee_Normalisee) return Point2D is abstract;
 
-    -- Discretise une courbe en N points
-    procedure Interpolation_Lineaire(C : Courbe; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
+    -- Pattern visiteur
+    procedure Visiter (Self : Courbe; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
     -- Renvoie le debut d'une courbe
-    function Obtenir_Debut(C : Courbe) return Point2D;
+    function Obtenir_Debut(Self : Courbe) return Point2D;
     
     -- Renvoie la fin d'une courbe
-    function Obtenir_Fin(C : Courbe) return Point2D;
+    function Obtenir_Fin(Self : Courbe) return Point2D;
     
     private
     type Courbe is abstract tagged 

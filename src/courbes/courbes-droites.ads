@@ -6,7 +6,9 @@ package Courbes.Droites is
     function Ctor_Droite (Debut, Fin : Point2D) return access Droite;
 
     -- Obtient un point d'une droite
-    function Obtenir_Point(D : Droite; X : Coordonnee_Normalisee) return Point2D;
+    overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D;
+
+    overriding procedure Visiter(Self : Droite; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
     private
 

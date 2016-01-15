@@ -31,7 +31,7 @@ begin
     declare
         -- Instanciation générique 
         -- Helper dans helper
-        procedure Interpolation_Lineaire_Courbe is new Interpolation_Lineaire_Gen(Segments, Nombre_Points_Discrets);
+        procedure Interpolation_Lineaire_Courbe is new Interpolation_Lineaire_Bind_2nd_3rd(Segments, Nombre_Points_Discrets);
        
         -- Fonction de traitement pour toutes les courbes
         procedure Interpolation_Lineaire_Courbes is new Liste_Courbes.Parcourir(Interpolation_Lineaire_Courbe);

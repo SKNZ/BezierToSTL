@@ -7,12 +7,10 @@ package Courbes.Singletons is
     -- Crée un singleton
     function Ctor_Singleton (P : Point2D) return access Singleton;
 
-    -- Obtient un point d'un singleton
-    function Obtenir_Point(S : Singleton; X : Coordonnee_Normalisee) return Point2D;
+    overriding procedure Visiter(Self : Singleton; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 
-    -- Discretise un singleton (en un point) 
-    -- Nombre_points ignoré
-    procedure Interpolation_Lineaire(S : Singleton; Segments : in out Liste_Points.Liste; Nombre_Points : Positive);
+    -- Obtient un point d'un singleton
+    overriding function Obtenir_Point(Self : Singleton; X : Coordonnee_Normalisee) return Point2D;
 
     private
 

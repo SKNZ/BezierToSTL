@@ -1,4 +1,5 @@
 with Math; use Math;
+with Courbes.Visiteurs; use Courbes.Visiteurs;
 
 package body Courbes.Droites is
     function Ctor_Droite (Debut, Fin : Point2D) return access Droite is
@@ -12,8 +13,13 @@ package body Courbes.Droites is
             Vecteur_Normal => Diff / Longueur);
     end;
 
-    function Obtenir_Point(D : Droite; X : Coordonnee_Normalisee) return Point2D is
+    overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D is
     begin
-        return D.Obtenir_Debut + X * D.Vecteur_Normal;
+        return Self.Obtenir_Debut + X * Self.Vecteur_Normal;
+    end;
+
+    overriding procedure Visiter(Self : Droite; Visiteur : Visiteur_Courbe'Class) is
+    begin
+        Visiteur.Visiter(Self);
     end;
 end Courbes.Droites;

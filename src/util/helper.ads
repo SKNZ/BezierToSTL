@@ -9,5 +9,5 @@ package Helper is
     generic
         Segments : in out Liste_Points.Liste;
         Nombre_Points : Positive;
-    procedure Interpolation_Lineaire_Gen(C : in out Courbe_Ptr);
+    procedure Interpolation_Lineaire_Bind_2nd_3rd(C : in out Courbe_Ptr);
 end Helper;
