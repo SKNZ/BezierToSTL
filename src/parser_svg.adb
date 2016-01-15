@@ -7,6 +7,7 @@ with Courbes.Droites; use Courbes.Droites;
 with Courbes.Singletons; use Courbes.Singletons;
 with Courbes.Bezier.Cubiques; use Courbes.Bezier.Cubiques;
 with Courbes.Bezier.Quadratiques; use Courbes.Bezier.Quadratiques;
+with Iterateur_Mots; use Iterateur_Mots;
 
 package body Parser_Svg is
     procedure Charger_SVG(Nom_Fichier : String; L : out Liste) is
@@ -71,74 +72,6 @@ package body Parser_Svg is
         return To_String (Ligne_D);
     end;
 
-    -- Obtient le texte entre le séparateur courant et le suivant
-    -- Sans avancer le curseur
-    -- Requiert Curseur = 1 ou Ligne_D (Curseur) = Separateur
-    function Lire_Mot_Suivant(
-        Ligne_D : String;
-        Curseur : in Positive;
-        Fin_Curseur : out Positive)
-        return String
-    is
-        Contenu_Deb, Contenu_Fin : Positive := Ligne_D'First;
-    begin
-        if Curseur > Ligne_D'Length then
-            return "";
-        end if;
-
-        Fin_Curseur := Curseur + 1;
-
-        -- On vérifie que le car. courant est bien un séparateur
-        -- On traite la chaine de séparateur en séparateur
-        -- Cas particulier: quand Curseur = début, on ignore ce test
-        if Curseur /= Ligne_D'First
-            and then Ligne_D (Curseur) /= Separateur
-        then
-            raise Courbe_Illisible with "Carac. innatendu (courant /= séparateur): L(" & Positive'Image(Curseur) & ") = " & Ligne_D (Curseur) & " /= " & Separateur;
-        end if;
-
-        -- On avance jusqu'à trouver le prochain séparateur
-        -- ou jusqu'à la fin de la chaine
-        while Fin_Curseur <= Ligne_D'Last
-            and then Ligne_D (Fin_Curseur) /= Separateur loop
-            Fin_Curseur := Fin_Curseur + 1;
-        end loop;
-
-        Contenu_Deb := Curseur;
-        Contenu_Fin := Fin_Curseur;
-
-        -- Si on n'est pas à la fin de la chaîne
-        -- alors la fin du contenu est
-        -- 1 car. avant le séparateur suivant
-        if Fin_Curseur /= Ligne_D'Last then
-            Contenu_Fin := Contenu_Fin - 1;
-        end if;
-
-        -- Si on n'est pas au début de la chaîne
-        -- alors le début du contenu est
-        -- 1 car. après le séparateur précedent
-        if Curseur /= Ligne_D'First then
-            Contenu_Deb := Contenu_Deb + 1;
-        end if;
-
-        return Ligne_D (Contenu_Deb .. Contenu_Fin);
-    end;
-
-    -- Avance jusqu'au prochain séparateur et récupère le contenu
-    -- Requiert Curseur = 1 ou Ligne_D (Curseur) = Separateur
-    function Avancer_Mot_Suivant(
-        Ligne_D : String;
-        Curseur : in out Positive)
-        return String
-    is
-        Fin_Curseur : Positive;
-        Contenu : constant String := Lire_Mot_Suivant (Ligne_D, Curseur, Fin_Curseur);
-    begin
-        Curseur := Fin_Curseur;
-
-        return Contenu;
-    end;
-
     procedure Lire_Point2D(
         Ligne_D : String;
         Curseur : in out Positive;
@@ -184,8 +117,7 @@ package body Parser_Svg is
                     -- Si les nombres sont mal formés...
                     raise Courbe_Illisible with "Nombre flottant mal formé";
             end;
-        end;
-
+        end; 
         Point := (Point'First => X, Point'Last => Y);        
         Put_Line("Arg" & To_String (Point));
     end;

@@ -28,19 +28,6 @@ package Parser_Svg is
         Nom_Fichier : String)
         return String;
 
-    -- Lit le mot suivant (sans déplacer le curseur)
-    function Lire_Mot_Suivant(
-        Ligne_D : String;
-        Curseur : in Positive;
-        Fin_Curseur : out Positive)
-        return String;
-
-    -- Avance au mot suivant (déplace le curseur)
-    function Avancer_Mot_Suivant(
-        Ligne_D : String;
-        Curseur : in out Positive)
-        return String;
-
     -- Lit un opcode
     procedure Lire_OpCode (
         Ligne_D : String;
