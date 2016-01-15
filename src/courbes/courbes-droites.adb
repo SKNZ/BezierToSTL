@@ -10,16 +10,16 @@ package body Courbes.Droites is
             Debut => Debut,
             Fin => Fin,
             Longueur => Longueur,
-            Vecteur_Normal => Diff / Longueur);
+            Vecteur_Directeur => Diff / Longueur);
     end;
 
     overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D is
     begin
-        return Self.Obtenir_Debut + X * Self.Vecteur_Normal;
+        return Self.Obtenir_Debut + X * Self.Vecteur_Directeur;
     end;
 
     overriding procedure Accepter (Self : Droite; Visiteur : Visiteur_Courbe'Class) is
     begin
-        Visiteur.Accepter (Self);
+        Visiteur.Visiter (Self);
     end;
 end Courbes.Droites;

@@ -6,7 +6,7 @@ with STL; use STL;
 with Parser_Svg; use Parser_Svg;
 with Normalisation; use Normalisation;
 with Courbes; use Courbes;
-with Courbes.Interpolation_Lineaire; use Courbes.Interpolation_Lineaire;
+with Courbes.Interpolations_Lineaires; use Courbes.Interpolations_Lineaires;
 with Vecteurs; use Vecteurs;
 with Helper; use Helper;
 
@@ -16,7 +16,7 @@ procedure BezierToSTL is
     Facettes : Liste_Facettes.Liste;
 
     -- Nombre de points à utiliser pour la discretisation
-    Nombre_Points_Discrets : constant Positive := 50;
+    Nombre_Points_Interpolation : constant Positive := 50;
 begin
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
@@ -30,7 +30,11 @@ begin
     Charger_SVG(Argument(1), Courbes);
 
     -- On discrètise les courbes
-    Interpolation_Lineaire (Courbes);
+    Interpolation_Lineaire (
+        Courbes => Courbes,
+        Segments => Segments,
+        Nombre_Points => Nombre_Points_Interpolation,
+        Interpoler_Droites => False);
 
     -- On normalise la figure
     -- (centrage en x, raccordage extremités)

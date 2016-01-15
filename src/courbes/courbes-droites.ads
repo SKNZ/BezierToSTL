@@ -18,6 +18,6 @@ package Courbes.Droites is
             Longueur : Float;
 
             -- Vecteur normal
-            Vecteur_Normal : Point2D;
+            Vecteur_Directeur : Point2D;
         end record;
 end Courbes.Droites;

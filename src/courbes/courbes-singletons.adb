@@ -14,6 +14,6 @@ package body Courbes.Singletons is
 
     overriding procedure Accepter (Self : Singleton; Visiteur : Visiteur_Courbe'Class) is
     begin
-        Visiteur.Accepter (Self);
+        Visiteur.Visiter (Self);
     end;
 end Courbes.Singletons;

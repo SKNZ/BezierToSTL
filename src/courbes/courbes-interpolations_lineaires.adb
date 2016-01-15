@@ -1,49 +1,40 @@
 package body Courbes.Interpolations_Lineaires is
     -- Interpole toutes les courbes d'une liste
     procedure Interpolation_Lineaire(
-        L : Liste_Courbes.Liste;
+        Courbes : Liste_Courbes.Liste;
         Segments : in out Liste;
         Nombre_Points : Positive;
-        Interpoler_Droites : Boolean) is
-
-        -- Pour rendre plus élégante l'utilisation avec parcourir
-        -- On fournit une version générique de discretiser
-        -- qui accepte une liste de segments et un nb de pts
-        -- en paramètres génériques
-        generic
-            Segments : in out Liste_Points.Liste;
-            Nombre_Points : Positive;
-            procedure Interpolation_Lineaire_Bind_2nd_3rd(C : in out Courbe_Ptr);
+        Interpoler_Droites : Boolean := False) is
 
         -- Instanciation du package de l'interpolateur avec les bons paramètres
-        package Interpolateur is new Visiteur_Interpolateur (Segments, Nombre_Points);        
+        package Interpolateur is new Visiteur_Interpolateur (Segments, Nombre_Points, Interpoler_Droites);        
 
         -- Instanciation du visiteur même
         V : Interpolateur.Interpolateur_Lineaire;
 
-        procedure Interopoler_Helper (C : Courbe) is
+        procedure Interpoler_Helper (C : in out Courbe_Ptr) is
         begin
-            C.Visiter (V);
+            C.Accepter (V);
         end;
 
+        procedure Traiter_Liste is new Liste_Courbes.Parcourir(Traiter => Interpoler_Helper);
     begin
-
-        
+        Traiter_Liste(Courbes);
     end;
 
     procedure Interpolation_Lineaire(
         C : Courbe_Ptr;
         Segments : in out Liste;
         Nombre_Points : Positive;
-        Interpoler_Droites : Boolean)
+        Interpoler_Droites : Boolean := False)
     is
         -- Instanciation du package de l'interpolateur avec les bons paramètres
-        package Interpolateur is new Visiteur_Interpolateur (Segments, Nombre_Points);        
+        package Interpolateur is new Visiteur_Interpolateur (Segments, Nombre_Points, Interpoler_Droites);        
 
         -- Instanciation du visiteur même
         V : Interpolateur.Interpolateur_Lineaire;
     begin
-        C.Visiter (V);
+        C.Accepter (V);
     end;
 
     -- Param génériques: Segments (Liste_Points), Nombre_Points (Positive)
@@ -78,8 +69,8 @@ package body Courbes.Interpolations_Lineaires is
                 return;
             else
                 -- On n'enregistre que les deux premiers points
-                Insertion_Queue(Segments, S.Obtenir_Debut);
-                Insertion_Queue(Segments, S.Obtenir_Fin);
+                Insertion_Queue(Segments, D.Obtenir_Debut);
+                Insertion_Queue(Segments, D.Obtenir_Fin);
             end if;
         end;
 

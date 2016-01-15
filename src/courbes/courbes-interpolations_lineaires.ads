@@ -1,4 +1,5 @@
 with Courbes.Singletons; use Courbes.Singletons;
+with Courbes.Droites; use Courbes.Droites;
 with Courbes.Visiteurs; use Courbes.Visiteurs;
 
 package Courbes.Interpolations_Lineaires is
@@ -6,10 +7,10 @@ package Courbes.Interpolations_Lineaires is
 
     -- Interpole toutes les courbes d'une liste
     procedure Interpolation_Lineaire(
-        L : Liste_Courbes.Liste;
+        Courbes : Liste_Courbes.Liste;
         Segments : in out Liste;
         Nombre_Points : Positive;
-        Interpoler_Droites : Boolean);
+        Interpoler_Droites : Boolean := False);
 
     -- Interpole linéairement une courbe en N points
     -- Interpoler_Droites permet de désactiver l'interpolation des droites
@@ -18,7 +19,7 @@ package Courbes.Interpolations_Lineaires is
         C : Courbe_Ptr;
         Segments : in out Liste;
         Nombre_Points : Positive;
-        Interpoler_Droites : Boolean);
+        Interpoler_Droites : Boolean := False);
 
 private
     -- Generic parce que sinon pas possible de passer la liste
@@ -33,7 +34,7 @@ private
         overriding procedure Visiter(Self : Interpolateur_Lineaire; C : Courbe);
 
         -- Cas particulier : la droite
-        overriding procedure Visiter(Self : Interpolateur_Lineaire; S : Singleton);
+        overriding procedure Visiter(Self : Interpolateur_Lineaire; D : Droite);
 
         -- Cas particulier : le singleton
         overriding procedure Visiter(Self : Interpolateur_Lineaire; S : Singleton);
