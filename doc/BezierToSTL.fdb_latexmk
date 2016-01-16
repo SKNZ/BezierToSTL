@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1452900484 "BezierToSTL.latex" "BezierToSTL.pdf" "BezierToSTL" 1452900485
+["pdflatex"] 1452904334 "BezierToSTL.latex" "BezierToSTL.pdf" "BezierToSTL" 1452904334
   "./facettespng.png" 1452893923 15630 07b484edb5ecb2c2b71b9b608ebf30db ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1447534192 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1447534189 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -71,10 +71,10 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1447534201 31669 df537245012f3e5f05bdc55644b7a3df ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1447606489 1676013 1013a32a16768a6098c8f7c5e251b00a ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1447606392 7214064 6b90964e5973ca1443a795c9d533fdad ""
-  "BezierToSTL.aux" 1452900485 1153 7178b2dd17821e028a2d460d937d7a9f ""
-  "BezierToSTL.latex" 1452900484 4918 8e4121d6af1e7e6f562d85eba7a0e5ea ""
+  "BezierToSTL.aux" 1452904334 1153 7178b2dd17821e028a2d460d937d7a9f ""
+  "BezierToSTL.latex" 1452904333 4919 9a17b176502a97ab103157b1a7495042 ""
   "facettespng.png" 1452893923 15630 07b484edb5ecb2c2b71b9b608ebf30db ""
   (generated)
+  "BezierToSTL.log"
   "BezierToSTL.pdf"
   "BezierToSTL.aux"
-  "BezierToSTL.log"

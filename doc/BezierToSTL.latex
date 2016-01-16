@@ -54,7 +54,7 @@ Il permet aussi un \texttt{look-ahead} sur le mot suivant.
 
 \subsubsection{Types \& Constantes}
 
-Trois constantes définissent les séparateur: mot (espace), coordonnées (virgule), décimal (point).
+Deux constantes définissent les séparateur: mot (espace) \& coordonnées (virgule), décimal (point).
 Le type \texttt{Op\_Code} énumère les instructions supportées (MLHCQVmlhcqv).
 Pour préserver la sensibilité à la casse, le type \texttt{character} est utilisé pour les valeurs de l'énumération.
 On définit deux sous types, \texttt{Op\_Code\_Absolute} (majuscules) et \texttt{Op\_Code\_Relative} (minuscules).

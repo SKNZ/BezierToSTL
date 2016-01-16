@@ -17,6 +17,10 @@ procedure BezierToSTL is
 
     -- Nombre de points à utiliser pour la discretisation
     Nombre_Points_Interpolation : constant Positive := 50;
+
+    -- Faut il interpoler les droites
+    -- ou laisser cette tâche à l'affichage ?
+    Interpoler_Droites : constant Boolean := true;
 begin
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
@@ -34,7 +38,7 @@ begin
         Courbes => Courbes,
         Segments => Segments,
         Nombre_Points => Nombre_Points_Interpolation,
-        Interpoler_Droites => False);
+        Interpoler_Droites => Interpoler_Droites);
 
     -- On normalise la figure
     -- (centrage en x, raccordage extremités)
@@ -55,6 +59,10 @@ exception
         "Le fichier source ne contenait pas de courbe.");
         Set_Exit_Status (Failure);
     when e: Courbe_Illisible =>
+        Put_Line (Standard_Error,
+        "Le fichier source est mal formé: " & exception_message (e));
+        Set_Exit_Status (Failure);
+    when e: Erreur_Lecture =>
         Put_Line (Standard_Error,
         "Le fichier source est mal formé: " & exception_message (e));
         Set_Exit_Status (Failure);
