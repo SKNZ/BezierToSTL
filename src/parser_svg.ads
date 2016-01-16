@@ -35,7 +35,9 @@ package Parser_Svg is
         L : in out Liste);
 
     -- Valide le mot suivant comme opcode
-    function Mot_Suivant_Est_Op_Code_Ou_Vide (
-        Iterateur : Iterateur_Mot)
-        return Boolean;
+    function Mot_Suivant_Est_Op_Code_Ou_Vide (Iterateur : Iterateur_Mot) return Boolean;
+
+    -- Interprete le texte en tant qu'opcode
+    -- True si success
+    function Interpreter_Op_Code (Contenu : String; Op : in out Op_Code) return Boolean;
 end;

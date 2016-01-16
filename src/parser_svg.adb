@@ -26,81 +26,24 @@ package body Parser_Svg is
 
             Put_Line("Courbe trouvée");
 
-            -- On instancie l'itérateur
+            -- On instancie l'itérateur mot à mot
             Iterateur := Initialiser(Ligne_D, Separateur);
         end;
 
         Put_Line("Lecture de la courbe");
-        -- analyse de cette même ligne en gérant
-        -- les différents opcode (mlhvcq et MLHVCQ)
 
-        -- Tant qu'on est pas à la fin de la ligne
+        -- Tant qu'on est pas à la fin
         while not Fin(Iterateur) loop
             declare
                 Op : Op_Code;
             begin
-                -- Lecture de l'opcode L,
+                -- Lecture d'un l'opcode
                 Lire_OpCode (Iterateur, Op);
 
                 -- Traitement de l'opcode
                 Gerer_OpCode (Iterateur, Op, L);
             end;
         end loop;
-    end;
-
-    function Interpreter_Op_Code (Contenu : String; Op : in out Op_Code) return Boolean is
-        Last : Positive;
-
-        -- https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
-        package Op_Code_IO is new Enumeration_IO (Op_Code);
-    begin
-            -- On convertit la chaine en opcode
-            -- On ajoute des quotes pour que le parser sache
-            -- que c'est un enum caractère
-            Op_Code_IO.Get("'" & Contenu & "'", Op, Last);
-
-            return true;
-    exception
-        when Data_Error =>
-            -- Si opcode non supporté
-            return false;
-    end;
-
-    procedure Lire_OpCode (Iterateur : in out Iterateur_Mot; Op : out Op_Code) is
-        -- Obtient le mot suivant
-        Contenu : constant String := Avancer_Mot_Suivant(Iterateur);
-    begin
-        if Contenu'Length /= 1 then
-            -- L'opcode est composé d'une seule lettre
-            raise Courbe_Illisible with "Instruction SVG mal formée (longeur > 1): " & Contenu;
-        end if;
-
-        if not Interpreter_Op_Code (Contenu, Op) then
-            raise Courbe_Illisible with "Instruction SVG non supportée: " & Contenu & " " & Positive'Image(Contenu'Length);
-        end if;
-    end;
-
-    function Mot_Suivant_Est_Op_Code_Ou_Vide (
-        Iterateur : Iterateur_Mot)
-        return Boolean
-    is
-        Op : Op_Code;
-
-        -- Peek ahead sur la suite
-        Contenu_Suivant : constant String := Lire_Mot_Suivant (Iterateur);
-    begin
-        -- On sort si plus rien
-        if Contenu_Suivant'Length = 0 then
-            return true;
-        end if;
-
-        -- On a potentiellement un OpCode, on vérifie
-        -- Rappel : opcode = 1 caractère
-        if Contenu_Suivant'Length = 1 then
-            return Interpreter_Op_Code (Contenu_Suivant, Op);
-        end if;
-
-        return false;
     end;
 
     procedure Gerer_OpCode (
@@ -202,5 +145,60 @@ package body Parser_Svg is
             Put_Line("||||||||||||||||||||||||||||||||||");
             Put_Line("Arguments supplémentaires trouvés.");
         end loop;
+    end;
+
+    function Interpreter_Op_Code (Contenu : String; Op : in out Op_Code) return Boolean is
+        Last : Positive;
+
+        -- https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
+        package Op_Code_IO is new Enumeration_IO (Op_Code);
+    begin
+            -- On convertit la chaine en opcode
+            -- On ajoute des quotes pour que le parser sache
+            -- que c'est un enum caractère
+            Op_Code_IO.Get("'" & Contenu & "'", Op, Last);
+
+            return true;
+    exception
+        when Data_Error =>
+            -- Si opcode non supporté
+            return false;
+    end;
+
+    procedure Lire_OpCode (Iterateur : in out Iterateur_Mot; Op : out Op_Code) is
+        -- Obtient le mot suivant
+        Contenu : constant String := Avancer_Mot_Suivant(Iterateur);
+    begin
+        if Contenu'Length /= 1 then
+            -- L'opcode est composé d'une seule lettre
+            raise Courbe_Illisible with "Instruction SVG mal formée (longeur > 1): " & Contenu;
+        end if;
+
+        if not Interpreter_Op_Code (Contenu, Op) then
+            raise Courbe_Illisible with "Instruction SVG non supportée: " & Contenu & " " & Positive'Image(Contenu'Length);
+        end if;
+    end;
+
+    function Mot_Suivant_Est_Op_Code_Ou_Vide (
+        Iterateur : Iterateur_Mot)
+        return Boolean
+    is
+        Op : Op_Code;
+
+        -- Peek ahead sur la suite
+        Contenu_Suivant : constant String := Lire_Mot_Suivant (Iterateur);
+    begin
+        -- On sort si plus rien
+        if Contenu_Suivant'Length = 0 then
+            return true;
+        end if;
+
+        -- On a potentiellement un OpCode, on vérifie
+        -- Rappel : opcode = 1 caractère
+        if Contenu_Suivant'Length = 1 then
+            return Interpreter_Op_Code (Contenu_Suivant, Op);
+        end if;
+
+        return false;
     end;
 end;
