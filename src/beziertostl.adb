@@ -23,7 +23,7 @@ procedure BezierToSTL is
     -- WARNING: Ne pas activer avec De Casteljau
     -- Sinon risque de trop grand nombre de points
     -- rendant stlviewer inutilisable
-    Interpoler_Droites : constant Boolean := false;
+    Interpoler_Droites : constant Boolean := true;
 
     -- Utiliser l'algorithme de De Casteljau
     -- pour interpoler les courbes de Bezier cubiques

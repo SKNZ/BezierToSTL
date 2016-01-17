@@ -19,7 +19,7 @@ package body Iterateur_Mots is
     -- Sans avancer le curseur
     -- Requiert Curseur = 1 ou Chaine (Curseur) = Separateur
     function Lire_Mot_Suivant(Iterateur : Iterateur_Mot) return String is
-        Car_Lus : Positive;
+        Car_Lus : Natural;
     begin
         return Lire_Mot_Suivant_Interne(Iterateur, Car_Lus);
     end;
@@ -83,6 +83,10 @@ package body Iterateur_Mots is
         -- 1 car. après le séparateur précedent
         if Iterateur.Curseur /= 1 then
             Contenu_Deb := Contenu_Deb + 1;
+        end if;
+
+        if Contenu_Fin > Length(Iterateur.Chaine) then
+            return "";
         end if;
 
         return Slice(Iterateur.Chaine, Contenu_Deb, Contenu_Fin);

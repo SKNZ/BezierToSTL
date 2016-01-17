@@ -1,4 +1,5 @@
 with Ada.Numerics.Generic_Elementary_Functions;
+with Ada.Text_IO; use Ada.Text_IO;
 
 package body Math is
     package Float_Elementary_Functions is new Ada.Numerics.Generic_Elementary_Functions (Float);
@@ -8,9 +9,9 @@ package body Math is
         X : constant Float := abs P(P'First);
         Y : constant Float := abs P(P'Last);
         Min_Coord : constant Float := Float'Min(X, Y);
-        Max_Coord : constant Float := Float'Max(X,Y);
+        Max_Coord : constant Float := Float'Max(X, Y);
         Ratio : constant Float := Min_Coord / Max_Coord;
     begin
-        return X * Sqrt (1.0 + Ratio ** 2);
+        return Max_Coord * Sqrt (1.0 + Ratio ** 2);
     end;
 end;

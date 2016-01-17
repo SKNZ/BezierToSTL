@@ -1,3 +1,5 @@
+with Ada.Text_IO; use Ada.Text_IO;
+
 package body Courbes.Interpolations_Lineaires is
     -- Interpole toutes les courbes d'une liste
     procedure Interpolation_Lineaire(
