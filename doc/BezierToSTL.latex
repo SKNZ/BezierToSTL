@@ -43,9 +43,11 @@
 Les références sont situées en fin de \texttt{README.md}.
 Nous utilisons le système de gestion de version \textbf{git} sur la plateforme \textbf{github} afin de maintenir l'historique de nos modifications et de synchroniser le code entre les différents lieux et membres de l'équipe.
 
+L'application se configure à l'aide des différents constantes présentes dans la fonction principale.
+
 \section{Fonctionnement}
 
-\subsection{Machine séquentielle à mot}
+\subsection{Machine séquentielle à mots}
 
 Le package \texttt{Iterateur\_Mots} est une machine séquentielle pour la lecture mot à mot (séparateur paramétrable) d'une \texttt{string}.
 Il permet aussi un \texttt{look-ahead} sur le mot suivant.
