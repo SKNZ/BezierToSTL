@@ -93,15 +93,28 @@ On choisit le patron de conception visiteur car l'interpolation:
     \item Se comporte différement selon le type de courbe et le type d'interpolation souhaitée (\texttt{double dispatch}).
 \end{itemize}
 
-Réalisée dans le package \texttt{Courbe.interpolation\_Lineaire}, l'interpolation linéaire d'une courbe consiste à la diviser en N points équidistants sur l'axe des abscisses et à calculer la valeur de la courbe au point donné. Les formules utilisées pour les courbes de Bézier sont \huge\textbf{REMPLIR ICI REMPLIR ICI REMPLIR ICI}\normalsize.
+Réalisée dans le package \texttt{Courbe.Interpolation\_Lineaire}, l'interpolation linéaire d'une courbe consiste à la diviser en N points équidistants l'axe des abscisses et à calculer la valeur de la courbe aux points donnés. Les formules utilisées pour les courbes de Bézier sont \huge\textbf{REMPLIR ICI REMPLIR ICI REMPLIR ICI}\normalsize.
+
+\subsubsection{Algorithme de De Casteljau}
+
+L'algorithme de De Casteljau est une approche récursive de type diviser pour mieux reigner au calcul des courbes de Bézier:
+\begin{itemize}
+    \item La courbe est-elle suffisamment plate ?
+    \item Si oui, interpolation de la courbe comme une droite
+    \item Sinon, division de la courbe en deux courbes de Bézier et applications de l'algorithme aux deux courbes. 
+\end{itemize}
+
+La tolérance est le seul paramètre de l'algorithme: elle définit quand un courbe de bézier peut être considérée comme étant droite.
+
+Cette méthode n'est disponible que pour les courbes de Bézier. C'est une implémentation de la méthode proposée dans \textit{Piecewise Linear Approximation of Bézier Curves}, par Kasper FISCHER (lien dans le README).
 
 \subsection{Génération et Sauvegarde du STL}
-On dispose de la valeur \texttt{M}, le pas de la rotation.\\
-L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points 2D. Ainsi, pour les points consécutifs \texttt{P\_uiv} et \texttt{P\_Cour}, on crée deux facettes conformément à l'image suivante :
+On dispose de la valeur \texttt{M}, le pas de la rotation, calculée à partir du nombre de facette souhaité.
+L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points 2D. Ainsi, pour les points consécutifs \texttt{P\_Suiv} et \texttt{P\_Cour}, on crée deux facettes conformément à l'image suivante :
 \begin{center}
     \includegraphics{facettespng}
 \end{center}
-et on effectue une rotation de $\frac{2\pi}{M}$ pour chaque nouveau point.\\
-\underline{Sauvegarde} : Si le fichier de sortie n'existe pas, il est créé. S'il existe, il est écrasé.
+et on effectue une rotation de $\frac{2\pi}{M}$ pour chaque nouveau point.
+La figure est ensuite exportée à l'aide de la procédure \texttt{Sauvegarde} vers un fichier STL. Le fichier sera crée ou tronqué si nécessaire.
 
 \end{document}
