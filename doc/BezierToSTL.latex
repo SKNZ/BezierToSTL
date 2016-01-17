@@ -99,7 +99,7 @@ Réalisée dans le package \texttt{Courbe.Interpolation\_Lineaire}, l'interpolat
 
 L'algorithme de De Casteljau est une approche récursive de type diviser pour mieux reigner au calcul des courbes de Bézier:
 \begin{itemize}
-    \item La courbe est-elle suffisamment plate ?
+    \item La courbe est-elle suffisamment plate?
     \item Si oui, interpolation de la courbe comme une droite
     \item Sinon, division de la courbe en deux courbes de Bézier et applications de l'algorithme aux deux courbes. 
 \end{itemize}
@@ -115,6 +115,6 @@ L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle
     \includegraphics{facettespng}
 \end{center}
 et on effectue une rotation de $\frac{2\pi}{M}$ pour chaque nouveau point.
-La figure est ensuite exportée à l'aide de la procédure \texttt{Sauvegarde} vers un fichier STL. Le fichier sera crée ou tronqué si nécessaire.
+La figure est ensuite exportée à l'aide de la procédure \texttt{Sauvegarde} vers un fichier STL\@. Le fichier sera crée ou tronqué si nécessaire.
 
 \end{document}
