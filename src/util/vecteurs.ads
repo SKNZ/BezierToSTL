@@ -24,7 +24,10 @@ package Vecteurs is
     -- multiplication scalaire vecteur
     function "*" (Facteur : Float ; V : Vecteur) return Vecteur;
 
-    -- multiplication scalaire vecteur
+    -- expo scalaire vecteur
+    function "**" (V : Vecteur; Facteur : Positive) return Vecteur;
+
+    -- division scalaire vecteur
     function "/" (V : Vecteur; Facteur : Float) return Vecteur;
 
     -- Renvoie une réprésentation chainée d'un point

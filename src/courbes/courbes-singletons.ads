@@ -5,7 +5,7 @@ package Courbes.Singletons is
     type Singleton is new Courbe with private;
 
     -- Crée un singleton
-    function Ctor_Singleton (P : Point2D) return access Singleton;
+    function Ctor_Singleton (P : Point2D) return Singleton;
 
     overriding procedure Accepter (Self : Singleton; Visiteur : Courbes.Visiteurs.Visiteur_Courbe'Class);
 

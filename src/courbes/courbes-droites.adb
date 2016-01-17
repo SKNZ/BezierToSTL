@@ -2,12 +2,12 @@ with Math; use Math;
 with Courbes.Visiteurs; use Courbes.Visiteurs;
 
 package body Courbes.Droites is
-    function Ctor_Droite (Debut, Fin : Point2D) return access Droite is
+    function Ctor_Droite (Debut, Fin : Point2D) return Droite is
         Diff : constant Point2D := Fin - Debut;
         Longueur : constant Float := Hypot(Diff);
     begin
-        return new Droite'(
-            Debut => Debut,
+        return
+            (Debut => Debut,
             Fin => Fin,
             Longueur => Longueur,
             Vecteur_Directeur => Diff / Longueur);

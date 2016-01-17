@@ -3,7 +3,7 @@ package Courbes.Droites is
     type Droite is new Courbe with private;
 
     -- Crée une droite
-    function Ctor_Droite (Debut, Fin : Point2D) return access Droite;
+    function Ctor_Droite (Debut, Fin : Point2D) return Droite;
 
     -- Obtient un point d'une droite
     overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D;

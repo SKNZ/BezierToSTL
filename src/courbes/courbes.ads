@@ -8,6 +8,8 @@ package Courbes is
     package Liste_Courbes is new Liste_Generique(Courbe_Ptr);
     subtype Coordonnee_Normalisee is Float range 0.0 .. 1.0;
 
+    procedure Liberer_Courbe (Self : in out Courbe_Ptr);
+
     -- Obtient un point à la coordonnée X fournie
     -- X entre 0 et 1 
     -- (x, f(x))

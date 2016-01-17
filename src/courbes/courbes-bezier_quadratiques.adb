@@ -1,13 +1,12 @@
 with Courbes.Visiteurs; use Courbes.Visiteurs;
 
 package body Courbes.Bezier_Quadratiques is
-    function Ctor_Bezier_Quadratique (Debut, Fin, C : Point2D) return access Bezier_Quadratique is
+    function Ctor_Bezier_Quadratique (Debut, Fin, C : Point2D) return Bezier_Quadratique is
     begin
         return 
-            new Bezier_Quadratique'(
-                Debut => Debut,
-                Fin => Fin,
-                Controle => C);
+            (Debut => Debut,
+            Fin => Fin,
+            Controle => C);
     end;
 
     overriding function Obtenir_Point(Self : Bezier_Quadratique; X : Coordonnee_Normalisee) return Point2D is

@@ -82,7 +82,7 @@ package body Parser_Svg is
                         Helper.Lire_Point2D(Iterateur, Separateur_Coord, P);
                         P := P + Offset_Relatif;
 
-                        Insertion_Queue(L, Ctor_Singleton(P));
+                        Insertion_Queue(L, new Singleton'(Ctor_Singleton(P)));
                     end;
                 when 'L' | 'l' =>
                     declare
@@ -91,7 +91,7 @@ package body Parser_Svg is
                         Helper.Lire_Point2D(Iterateur, Separateur_Coord, P);
                         P := P + Offset_Relatif;
 
-                        Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
+                        Insertion_Queue (L, new Droite'(Ctor_Droite(Position_Courante, P)));
                     end;
                 when 'H' | 'h' =>
                     declare
@@ -99,7 +99,7 @@ package body Parser_Svg is
                     begin
                         P (P'First) := P (P'First) + Helper.Lire_Coord(Iterateur);
 
-                        Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
+                        Insertion_Queue (L, new Droite'(Ctor_Droite(Position_Courante, P)));
                     end;
                 when 'V' | 'v' =>
                     declare
@@ -107,7 +107,7 @@ package body Parser_Svg is
                     begin
                         P (P'Last) := P (P'Last) + Helper.Lire_Coord(Iterateur);
 
-                        Insertion_Queue (L, Ctor_Droite(Position_Courante, P));
+                        Insertion_Queue (L, new Droite'(Ctor_Droite(Position_Courante, P)));
                     end;
                 when 'C' | 'c' => 
                     declare
@@ -122,7 +122,7 @@ package body Parser_Svg is
                         C2 := C2 + Offset_Relatif;
                         P := P + Offset_Relatif;
 
-                        Insertion_Queue (L, Ctor_Bezier_Cubique(Position_Courante, P, C1, C2));
+                        Insertion_Queue (L, new Bezier_Cubique'(Ctor_Bezier_Cubique(Position_Courante, P, C1, C2)));
                     end;
                 when 'Q' | 'q' =>
                     declare
@@ -134,7 +134,7 @@ package body Parser_Svg is
                         C := C + Offset_Relatif;
                         P := P + Offset_Relatif;
 
-                        Insertion_Queue (L, Courbe_Ptr(Ctor_Bezier_Quadratique(Position_Courante, P, C)));
+                        Insertion_Queue (L, new Bezier_Quadratique'(Ctor_Bezier_Quadratique(Position_Courante, P, C)));
                     end;
             end case;
 

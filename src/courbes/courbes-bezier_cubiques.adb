@@ -1,16 +1,25 @@
 with Courbes.Visiteurs; use Courbes.Visiteurs;
 
 package body Courbes.Bezier_Cubiques is
-    function Ctor_Bezier_Cubique (Debut, Fin, C1, C2 : Point2D) return access Bezier_Cubique is
+    function Obtenir_Controle1 (Self : Bezier_Cubique) return Point2D is
+    begin
+        return Self.Controles (1);
+    end;
+
+    function Obtenir_Controle2 (Self : Bezier_Cubique) return Point2D is
+    begin
+        return Self.Controles (2);
+    end;
+
+    function Ctor_Bezier_Cubique (Debut, Fin, C1, C2 : Point2D) return Bezier_Cubique is
         Controles : constant Bezier_Cubique_Controles :=
             (1 => C1,
             2 => C2);
     begin
-        return 
-            new Bezier_Cubique'(
-                Debut => Debut,
-                Fin => Fin,
-                Controles => Controles);
+        return
+            (Debut => Debut,
+            Fin => Fin,
+            Controles => Controles);
     end;
 
     overriding function Obtenir_Point(Self : Bezier_Cubique; X : Coordonnee_Normalisee) return Point2D is

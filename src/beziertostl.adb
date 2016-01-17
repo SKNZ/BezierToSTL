@@ -20,7 +20,34 @@ procedure BezierToSTL is
 
     -- Faut il interpoler les droites
     -- ou laisser cette tâche à l'affichage ?
-    Interpoler_Droites : constant Boolean := true;
+    -- WARNING: Ne pas activer avec De Casteljau
+    -- Sinon risque de trop grand nombre de points
+    -- rendant stlviewer inutilisable
+    Interpoler_Droites : constant Boolean := false;
+
+    -- Utiliser l'algorithme de De Casteljau
+    -- pour interpoler les courbes de Bezier cubiques
+    -- => Courbes plus jolies/lisses
+    -- Le nombre de points est alors ignoré
+    -- pour ce type de courbe
+    -- WARNING: Ne pas activer avec Interpoler_Droites 
+    -- Sinon risque de trop grand nombre de points
+    -- rendant stlviewer inutilisable
+    Utiliser_DeCasteljau : constant Boolean := true;
+
+    -- Tolérance utilisée si Utiliser_DeCasteljau
+    -- Définit une tolérance pour
+    -- savoir quand une courbe peut être
+    -- considérée "droite"
+    -- Plus petit = tolérance plus strict
+    -- => Approximation plus précise
+    -- et inversement.
+    -- A valeur entre 0.01 et 1.0.
+    Tolerance_DeCasteljau : constant Tolerance := 0.1;
+
+    -- Permet de libérer la mémoire allouée pour
+    -- toutes les courbes d'une liste
+    procedure Liberer_Liste_Courbes is new Liste_Courbes.Parcourir(Liberer_Courbe);
 begin
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
@@ -33,12 +60,14 @@ begin
     -- On charge la courbe contenu dans le SVG
     Charger_SVG(Argument(1), Courbes);
 
-    -- On discrètise les courbes
+    -- Approche des courbes par des segments 
     Interpolation_Lineaire (
         Courbes => Courbes,
         Segments => Segments,
         Nombre_Points => Nombre_Points_Interpolation,
-        Interpoler_Droites => Interpoler_Droites);
+        Interpoler_Droites => Interpoler_Droites,
+        Utiliser_DeCasteljau => Utiliser_DeCasteljau,
+        Tolerance_DeCasteljau => Tolerance_DeCasteljau);
 
     -- On normalise la figure
     -- (centrage en x, raccordage extremités)
@@ -50,6 +79,10 @@ begin
     -- On sauvegarde le modele obtenu
     Sauvegarder(Argument(2), Facettes);
 
+    -- Libère la mémoire allouée pour chaque courbe
+    Liberer_Liste_Courbes (Courbes);
+
+    -- Libère la mémoire allouée pour les listes
     Liste_Courbes.Vider(Courbes);
     Liste_Points.Vider(Segments);
     Liste_Facettes.Vider(Facettes);

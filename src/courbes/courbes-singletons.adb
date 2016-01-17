@@ -1,9 +1,9 @@
 with Courbes.Visiteurs; use Courbes.Visiteurs;
 
 package body Courbes.Singletons is
-    function Ctor_Singleton (P : Point2D) return access Singleton is
+    function Ctor_Singleton (P : Point2D) return Singleton is
     begin
-        return new Singleton'(Debut => P, Fin => P);
+        return (Debut => P, Fin => P);
     end;
 
     -- X pas utilisé
