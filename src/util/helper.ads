@@ -19,4 +19,15 @@ package Helper is
         Iterateur : in out Iterateur_Mot;
         Separateur_Coord : Character;
         Point : out Point2D);
+
+    procedure Afficher_Debug (Afficher : Boolean);
+
+    -- Affiche la chaine si debug activé
+    procedure Debug (Chaine : String);
+
+    -- Juste un new_line
+    procedure Debug;
+
+    private
+    Etat_Debug : Boolean := False;
 end Helper;

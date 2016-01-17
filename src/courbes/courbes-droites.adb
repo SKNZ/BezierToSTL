@@ -15,14 +15,8 @@ package body Courbes.Droites is
     end;
 
     overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D is
-        P : Point2D := Self.Obtenir_Debut + (Self.Longueur + X) * Self.Vecteur_Directeur;
     begin
-        Put_Line ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        Put_Line(To_String(Self.Obtenir_Debut));
-        Put_Line(To_String(Self.Obtenir_Fin));
-        Put_Line(To_String(P));
-        Put_Line ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        return P;
+        return Self.Obtenir_Debut + (Self.Longueur + X) * Self.Vecteur_Directeur;
     end;
 
     overriding procedure Accepter (Self : Droite; Visiteur : Visiteur_Courbe'Class) is

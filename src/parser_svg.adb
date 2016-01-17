@@ -4,14 +4,15 @@ with Courbes.Droites; use Courbes.Droites;
 with Courbes.Singletons; use Courbes.Singletons;
 with Courbes.Bezier_Cubiques; use Courbes.Bezier_Cubiques;
 with Courbes.Bezier_Quadratiques; use Courbes.Bezier_Quadratiques;
-with Helper;
+with Helper; use Helper;
 
 package body Parser_Svg is
     procedure Charger_SVG(Nom_Fichier : String; L : out Liste) is
         Iterateur : Iterateur_Mot;
     begin
-        Put_Line("Recherche de la courbe dans le fichier " & Nom_Fichier);
+        Put_Line("Lecture du fichier source " & Nom_Fichier);
 
+        Debug("Recherche ligne figure (marqueur: " & Marqueur_Ligne & ")");
         declare
             -- Obtention de la ligne "d="
             Ligne_D : constant String :=
@@ -24,13 +25,13 @@ package body Parser_Svg is
                 raise Courbe_Abs;
             end if;
 
-            Put_Line("Courbe trouvée");
+            Debug("Figure trouvée");
 
             -- On instancie l'itérateur mot à mot
             Iterateur := Initialiser(Ligne_D, Separateur);
         end;
 
-        Put_Line("Lecture de la courbe");
+        Debug("Chargement figure");
 
         -- Tant qu'on est pas à la fin
         while not Fin(Iterateur) loop
@@ -44,6 +45,11 @@ package body Parser_Svg is
                 Gerer_OpCode (Iterateur, Op, L);
             end;
         end loop;
+
+        Debug("Figure chargée");
+        Debug;
+        Debug("||||||||||||||||||||||||||||||||||");
+        Debug;
     end;
 
     procedure Gerer_OpCode (
@@ -55,24 +61,27 @@ package body Parser_Svg is
 
         Mode_Relatif : constant Boolean := Op in Op_Code_Relative;
     begin
-        Put_Line ("==================================");
-        Put_Line ("Gestion opcode " & Op_Code'Image(Op) & "; relatif=" & Boolean'Image(Mode_Relatif));
-        
+        Debug ("==================================");
+        Debug ("Gestion opcode " & Op_Code'Image(Op) & "; relatif=" & Boolean'Image(Mode_Relatif));
+
         -- Boucle de lecture d'arguments
         -- Tant qu'il y a des arguments pour l'opcode courant
         -- on continue
         loop
             if Taille (L) /= 0 then
                 Position_Courante := Queue (L).Obtenir_Fin;
+                Debug("Position courante:");
+                Debug(To_String(Position_Courante));
             end if;
 
             if Mode_Relatif then
                 -- Dernier point de la dernière entrée de la liste
                 -- (position courante)
                 Offset_Relatif := Position_Courante;
+                Debug("Offset_Relatif = Position_Courante");
+            else
+                Debug("Offset_Relatif = 0");
             end if;
-
-            Put_Line("Offset Relatif    " & To_String (Offset_Relatif));
 
             case Op is
                 when 'M' | 'm' =>
@@ -116,7 +125,7 @@ package body Parser_Svg is
                         Helper.Lire_Point2D(Iterateur, Separateur_Coord, C1);
                         Helper.Lire_Point2D(Iterateur, Separateur_Coord, C2);
                         Helper.Lire_Point2D(Iterateur, Separateur_Coord, P);
-                        
+
 
                         C1 := C1 + Offset_Relatif;
                         C2 := C2 + Offset_Relatif;
@@ -138,13 +147,15 @@ package body Parser_Svg is
                     end;
             end case;
 
+            Debug("Recherche arguments supplémentaires");
             -- On look-ahead pour voir si on a encore des coordonnées
             -- si on a on un opcode
             exit when Mot_Suivant_Est_Op_Code_Ou_Vide (Iterateur);
 
-            Put_Line("||||||||||||||||||||||||||||||||||");
-            Put_Line("Arguments supplémentaires trouvés.");
+            Debug("++++++++++++++++++++++++++++++++++");
+            Debug("Arguments supplémentaires trouvés");
         end loop;
+        Debug("Pas d'arguments en plus, rech. op code suivant");
     end;
 
     function Interpreter_Op_Code (Contenu : String; Op : in out Op_Code) return Boolean is
@@ -153,12 +164,12 @@ package body Parser_Svg is
         -- https://www2.adacore.com/gap-static/GNAT_Book/html/aarm/AA-A-10-10.html
         package Op_Code_IO is new Enumeration_IO (Op_Code);
     begin
-            -- On convertit la chaine en opcode
-            -- On ajoute des quotes pour que le parser sache
-            -- que c'est un enum caractère
-            Op_Code_IO.Get("'" & Contenu & "'", Op, Last);
+        -- On convertit la chaine en opcode
+        -- On ajoute des quotes pour que le parser sache
+        -- que c'est un enum caractère
+        Op_Code_IO.Get("'" & Contenu & "'", Op, Last);
 
-            return true;
+        return true;
     exception
         when Data_Error =>
             -- Si opcode non supporté

@@ -98,4 +98,23 @@ package body Helper is
             -- Si les nombres sont mal formés...
             raise Erreur_Lecture with "Flottant mal formé";
     end;
+
+    procedure Afficher_Debug(Afficher : Boolean) is
+    begin
+        Etat_Debug := Afficher;
+    end;
+
+    procedure Debug(Chaine : String) is
+    begin
+        if Etat_Debug then
+            Put_Line(Chaine);
+        end if;
+    end;
+
+    procedure Debug is
+    begin
+        if Etat_Debug then
+            New_Line;
+        end if;
+    end;
 end Helper;

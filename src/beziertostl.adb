@@ -15,6 +15,9 @@ procedure BezierToSTL is
     Segments : Liste_Points.Liste;
     Facettes : Liste_Facettes.Liste;
 
+    -- Active l'affichage de la sortie debug
+    Activer_Debug : constant Boolean := True;
+
     -- Nombre de points à utiliser pour la discretisation
     Nombre_Points_Interpolation : constant Positive := 50;
 
@@ -50,7 +53,7 @@ procedure BezierToSTL is
     procedure Liberer_Liste_Courbes is new Liste_Courbes.Parcourir(Liberer_Courbe);
 
     -- Nombre de facette à générer pendant la rotation
-    Nombre_Facettes : constant Positive := 50;
+    Nombre_Facettes : constant Positive := 200;
 begin
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
@@ -60,7 +63,9 @@ begin
         return;
     end if;
 
-    -- On charge la courbe contenu dans le SVG
+    Afficher_Debug (Activer_Debug);
+
+    -- On charge la figure contenue dans le SVG
     Charger_SVG(Argument(1), Courbes);
 
     -- Approximation des courbes par des segments 
@@ -101,5 +106,9 @@ exception
     when e: Erreur_Lecture =>
         Put_Line (Standard_Error,
         "Le fichier source est mal formé: " & exception_message (e));
+        Set_Exit_Status (Failure);
+    when e: Name_Error =>
+        Put_Line (Standard_Error,
+        "Le fichier n'a pas pu être ouvert: " & exception_message(e));
         Set_Exit_Status (Failure);
 end;
