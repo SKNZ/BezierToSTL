@@ -1,13 +1,17 @@
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Numerics; use Ada.Numerics;
 with Ada.Numerics.Elementary_Functions;
 use Ada.Numerics.Elementary_Functions;
-with Ada.Text_IO;
-use Ada.Text_IO;
 
 package body STL is
     procedure Creation(
         Segments : in out Liste_Points.Liste ;
-        Facettes : out Liste_Facettes.Liste)
+        Facettes : out Liste_Facettes.Liste;
+        Nombre_Facettes : Positive)
     is
+        -- Angle de la rotation en radian
+        Angle_Radian : constant Float := (2.0 * PI) / Float(Nombre_Facettes);
+
         -- Crée un "cercle" de facettes
         procedure Creer_Facette(P_Cour, P_Suiv : in Point2D) is
             -- Calcul du point suivant en effectuant une rotation autour
@@ -21,7 +25,7 @@ package body STL is
             end;
         begin
 
-            for Pas in 0..M loop
+            for Pas in 0 .. Nombre_Facettes loop
                 declare
                     F1 : constant Facette := (
                         P1 => Calculer_Point (P_Suiv, Pas),
@@ -65,7 +69,7 @@ package body STL is
     is
         Fichier : File_Type;
 
-        -- Affiche le code STL pour une facette
+        -- Ecrit le code STL pour une facette
         procedure Display_Facette_STL(Triplet : in out Facette) is
         begin
             Put(Fichier, "facet");

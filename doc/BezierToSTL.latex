@@ -82,7 +82,7 @@ On souhaite découpler la gestion des courbes de celle du SVG\@. On choisit une 
     \item \texttt{Obtenir\_Point} renvoyant $(x, f(x))$ avec $f$ étant la fonction de la courbe.
     \item \texttt{Accepter} du patron de conception visiteur, permettant d'accepter une visite (cf.~\ref{interpolation}).
 \end{itemize}
-Cette représentation tente, sans prétention de réussite, d'approcher le principe SOLID.
+Cette représentation tente d'approcher le principe SOLID.
 
 \subsection{Interpolation linéaire}\label{interpolation}
 
@@ -92,11 +92,12 @@ On choisit le patron de conception visiteur car l'interpolation:
     \item Est un comportement que l'on peut ajouter à une courbe mais ne relève pas de la responsabiltié de la courbe.   
     \item Se comporte différement selon le type de courbe et le type d'interpolation souhaitée (\texttt{double dispatch}).
 \end{itemize}
+
 Réalisée dans le package \texttt{Courbe.interpolation\_Lineaire}, l'interpolation linéaire d'une courbe consiste à la diviser en N points équidistants sur l'axe des abscisses et à calculer la valeur de la courbe au point donné. Les formules utilisées pour les courbes de Bézier sont \huge\textbf{REMPLIR ICI REMPLIR ICI REMPLIR ICI}\normalsize.
 
 \subsection{Génération et Sauvegarde du STL}
 On dispose de la valeur \texttt{M}, le pas de la rotation.\\
-L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points 2D. Ainsi, pour les points consécutifs \texttt{P\_Suiv} et \texttt{P\_Cour}, on crée deux facettes conformément à l'image suivante :
+L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle" de facettes pour chaque paire de points 2D. Ainsi, pour les points consécutifs \texttt{P\_uiv} et \texttt{P\_Cour}, on crée deux facettes conformément à l'image suivante :
 \begin{center}
     \includegraphics{facettespng}
 \end{center}

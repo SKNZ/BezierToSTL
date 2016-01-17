@@ -28,8 +28,8 @@ procedure BezierToSTL is
     -- Utiliser l'algorithme de De Casteljau
     -- pour interpoler les courbes de Bezier cubiques
     -- => Courbes plus jolies/lisses
-    -- Le nombre de points est alors ignoré
-    -- pour ce type de courbe
+    -- => Le nombre de point est ignoré pour les courbes concernées
+    -- => car il est déterminé automatiquement
     -- WARNING: Ne pas activer avec Interpoler_Droites 
     -- Sinon risque de trop grand nombre de points
     -- rendant stlviewer inutilisable
@@ -48,6 +48,9 @@ procedure BezierToSTL is
     -- Permet de libérer la mémoire allouée pour
     -- toutes les courbes d'une liste
     procedure Liberer_Liste_Courbes is new Liste_Courbes.Parcourir(Liberer_Courbe);
+
+    -- Nombre de facette à générer pendant la rotation
+    Nombre_Facettes : constant Positive := 50;
 begin
     if Argument_Count /= 2 then
         Put_Line(Standard_Error,
@@ -60,7 +63,7 @@ begin
     -- On charge la courbe contenu dans le SVG
     Charger_SVG(Argument(1), Courbes);
 
-    -- Approche des courbes par des segments 
+    -- Approximation des courbes par des segments 
     Interpolation_Lineaire (
         Courbes => Courbes,
         Segments => Segments,
@@ -74,7 +77,7 @@ begin
     Normaliser(Segments);
 
     -- On convertit en facettes par rotation
-    Creation(Segments, Facettes);
+    Creation(Segments, Facettes, Nombre_Facettes);
 
     -- On sauvegarde le modele obtenu
     Sauvegarder(Argument(2), Facettes);
