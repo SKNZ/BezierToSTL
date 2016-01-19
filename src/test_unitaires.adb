@@ -1,5 +1,6 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Characters.Latin_1; use Ada.Characters.Latin_1;
+with Ada.Directories;
 with Helper; use Helper;
 with Courbes; use Courbes;
 with Courbes.Droites; use Courbes.Droites;
@@ -47,6 +48,7 @@ procedure test_unitaires is
             pragma Assert (Str = " va");
         end;
 
+        Ada.Directories.Delete_File ("tu.tmp");
         Debug("OK recherche ligne fichier");
     end;
 
@@ -153,6 +155,10 @@ procedure test_unitaires is
         Interpolation_Lineaire(L, S, 10, True);
         pragma Assert (Liste_Points.Taille(S) = 10, "Nb segments invalide");
         Verif(S);
+
+        Liberer_Courbe(D);
+        Liste_Courbes.Vider(L);
+        Liste_Points.Vider(S);
         Debug("OK Interpolation");
     end;
 
