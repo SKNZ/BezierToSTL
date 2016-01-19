@@ -1,5 +1,4 @@
 with Ada.Numerics.Generic_Elementary_Functions;
-with Ada.Text_IO; use Ada.Text_IO;
 
 package body Math is
     package Float_Elementary_Functions is new Ada.Numerics.Generic_Elementary_Functions (Float);

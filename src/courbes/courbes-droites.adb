@@ -1,6 +1,5 @@
 with Math; use Math;
 with Courbes.Visiteurs; use Courbes.Visiteurs;
-with Ada.Text_IO; use Ada.Text_IO;
 
 package body Courbes.Droites is
     function Ctor_Droite (Debut, Fin : Point2D) return Droite is
@@ -16,7 +15,7 @@ package body Courbes.Droites is
 
     overriding function Obtenir_Point(Self : Droite; X : Coordonnee_Normalisee) return Point2D is
     begin
-        return Self.Obtenir_Debut + (Self.Longueur + X) * Self.Vecteur_Directeur;
+        return Self.Obtenir_Debut + Self.Longueur * X * Self.Vecteur_Directeur;
     end;
 
     overriding procedure Accepter (Self : Droite; Visiteur : Visiteur_Courbe'Class) is

@@ -21,17 +21,6 @@ package Interpolations_Lineaires is
         Utiliser_DeCasteljau : Boolean := False;
         Tolerance_DeCasteljau : Tolerance := 0.5);
 
-    -- Interpole linéairement une courbe en N points
-    -- Interpoler_Droites permet de désactiver l'interpolation des droites
-    -- (l'interpolation est alors laissée à l'afficheur)
-    procedure Interpolation_Lineaire(
-        C : Courbe_Ptr;
-        Segments : in out Liste;
-        Nombre_Points : Positive;
-        Interpoler_Droites : Boolean := False;
-        Utiliser_DeCasteljau : Boolean := False;
-        Tolerance_DeCasteljau : Tolerance := 0.5);
-
     private
 
     -- Generic parce que sinon pas possible de passer la liste

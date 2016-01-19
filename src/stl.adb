@@ -117,6 +117,8 @@ package body STL is
         Affiche_Code_STL(Facettes);
         Put(Fichier, "endsolid " & Nom_Fichier);
 
+        Close(Fichier);
+
         Debug("Fin écriture");
     end;
 end;

@@ -4,6 +4,7 @@ with Math; use Math;
 with STL; use STL;
 
 procedure test_unitaire is
+    -- Helper génération SVG
     procedure Sauve_SVG(Segments : Liste_Points.Liste) is
         Fichier : File_Type;
         Nom_Fichier : String := "test_unitaire.svg";
