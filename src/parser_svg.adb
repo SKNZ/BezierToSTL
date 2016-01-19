@@ -10,7 +10,7 @@ package body Parser_Svg is
     procedure Charger_SVG(Nom_Fichier : String; L : out Liste) is
         Iterateur : Iterateur_Mot;
     begin
-        Put_Line("Lecture du fichier source " & Nom_Fichier);
+        Debug("Lecture du fichier source " & Nom_Fichier);
 
         Debug("Recherche ligne figure (marqueur: " & Marqueur_Ligne & ")");
         declare

@@ -22,7 +22,7 @@ package Helper is
 
     procedure Afficher_Debug (Afficher : Boolean);
 
-    -- Affiche la chaine si debug activé
+    -- Affiche la chaine si Debug activé
     procedure Debug (Chaine : String);
 
     -- Juste un new_line

@@ -1,3 +1,5 @@
+with Helper; use Helper;
+
 package body Normalisation is
     -- Centre la figure sur l'axe X
     -- Raccorde les extremités de la figure à l'axe
@@ -14,23 +16,31 @@ package body Normalisation is
         Debut : Point2D;
         Fin : Point2D;
     begin
+        Debug("Offset appliqué:");
+        Debug(To_String(Coords_Min));
         Normaliser_Liste(Segments);
 
         -- Instanciation maintenant car Segments a été décalé
         Debut := Tete(Segments);
         Fin := Queue(Segments);
 
+        -- Points à rajouter en début et fin de courbe
         Debut := (Debut'First => Debut(Debut'First), Debut'Last => 0.0);
         Fin := (Fin'First => Fin(Fin'First), Fin'Last => 0.0);
 
-        -- On vérifie ne pas déjà être en 0
+        -- On vérifie leur utilité 
         if Debut /= Tete(Segments) then
+            Debug("Rajout d'un raccord en début de figure");
             Insertion_Tete(Segments, Debut);
         end if;
 
         if Fin /= Queue(Segments) then
+            Debug("Rajout d'un raccord en fin de figure");
             Insertion_Queue(Segments, Fin);
         end if;
+
+        Debug("Fin normalisation");
+        Debug;
     end;
 
     -- Trouve les coord min

@@ -1,6 +1,7 @@
+with Helper; use Helper;
 with Ada.Text_IO; use Ada.Text_IO;
 
-package body Courbes.Interpolations_Lineaires is
+package body Interpolations_Lineaires is
     -- Interpole toutes les courbes d'une liste
     procedure Interpolation_Lineaire(
         Courbes : Liste_Courbes.Liste;
@@ -30,8 +31,32 @@ package body Courbes.Interpolations_Lineaires is
         -- Générique permettant d'appliquer le helper à la liste
         procedure Traiter_Liste is new Liste_Courbes.Parcourir(Traiter => Interpoler_Helper);
     begin
+        Debug("Courbes à traiter: " & Integer'Image(Liste_Courbes.Taille(Courbes)));
+        Debug("Paramétrage:");
+        Debug("- Nombre de points: " & Integer'Image(Nombre_Points));
+        Debug("- Interpolation manuelle des droites: " & (if Interpoler_Droites then "oui" else "non"));
+        Debug("- Algorithme de De Casteljau: " & (if Utiliser_DeCasteljau then "actif" else "inactif"));
+        if Utiliser_DeCasteljau then
+            Debug("- Tolérance pour De Casteljau: " & Float'Image(Tolerance_DeCasteljau));
+        end if;
+
+        if Utiliser_DeCasteljau and then Interpoler_Droites then
+            New_Line;
+            Put_Line("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Put_Line("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Put_Line("!!! De Casteljau & Interpolation Manuelle ON !!!");
+            Put_Line("!!!!!!!!!!!!!!!! PAS RECOMMANDÉ !!!!!!!!!!!!!!!!");
+            Put_Line("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Put_Line("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            New_Line;
+        end if;
+        
+        Debug;
+
         -- Appel de l'helper sur chaque courbe
         Traiter_Liste(Courbes);
+        Debug("Fin interpolation");
+        Debug;
     end;
 
     procedure Interpolation_Lineaire(
@@ -111,6 +136,7 @@ package body Courbes.Interpolations_Lineaires is
         -- Ceci en est juste une implémentation
         overriding procedure Visiter(Self : Interpolateur_Lineaire; BC : Bezier_Cubique) is
         begin
+            -- Remarque: cas d'utilisation pour pattern strategy
             if not Utiliser_DeCasteljau then
                 declare
                     -- Redispatch
@@ -217,4 +243,4 @@ package body Courbes.Interpolations_Lineaires is
             Insertion_Queue(Segments, S.Obtenir_Debut);
         end;
     end Visiteur_Interpolateur;
-end Courbes.Interpolations_Lineaires;
+end Interpolations_Lineaires;

@@ -6,7 +6,7 @@ with STL; use STL;
 with Parser_Svg; use Parser_Svg;
 with Normalisation; use Normalisation;
 with Courbes; use Courbes;
-with Courbes.Interpolations_Lineaires; use Courbes.Interpolations_Lineaires;
+with Interpolations_Lineaires; use Interpolations_Lineaires;
 with Vecteurs; use Vecteurs;
 with Helper; use Helper;
 
@@ -15,7 +15,7 @@ procedure BezierToSTL is
     Segments : Liste_Points.Liste;
     Facettes : Liste_Facettes.Liste;
 
-    -- Active l'affichage de la sortie debug
+    -- Active l'affichage de la sortie Debug
     Activer_Debug : constant Boolean := True;
 
     -- Nombre de points à utiliser pour la discretisation
@@ -65,9 +65,11 @@ begin
 
     Afficher_Debug (Activer_Debug);
 
+    Put_Line("Chargement de la figure...");
     -- On charge la figure contenue dans le SVG
     Charger_SVG(Argument(1), Courbes);
 
+    Put_Line("Interpolation linéaire...");
     -- Approximation des courbes par des segments 
     Interpolation_Lineaire (
         Courbes => Courbes,
@@ -77,13 +79,16 @@ begin
         Utiliser_DeCasteljau => Utiliser_DeCasteljau,
         Tolerance_DeCasteljau => Tolerance_DeCasteljau);
 
+    Put_Line("Normalisation...");
     -- On normalise la figure
     -- (centrage en x, raccordage extremités)
     Normaliser(Segments);
 
+    Put_Line("Projection en 3D...");
     -- On convertit en facettes par rotation
     Creation(Segments, Facettes, Nombre_Facettes);
 
+    Put_Line("Export...");
     -- On sauvegarde le modele obtenu
     Sauvegarder(Argument(2), Facettes);
 

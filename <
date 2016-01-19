@@ -65,7 +65,6 @@ package body STL is
         Construire_STL(Segments);
 
         Debug("Fin projection");
-        Debug;
     end;
 
     procedure Sauvegarder(

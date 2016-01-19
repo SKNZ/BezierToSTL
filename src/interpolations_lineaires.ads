@@ -1,9 +1,11 @@
+with Courbes; use Courbes;
 with Courbes.Singletons; use Courbes.Singletons;
 with Courbes.Droites; use Courbes.Droites;
 with Courbes.Bezier_Cubiques; use Courbes.Bezier_Cubiques;
 with Courbes.Visiteurs; use Courbes.Visiteurs;
+with Vecteurs; use Vecteurs;
 
-package Courbes.Interpolations_Lineaires is
+package Interpolations_Lineaires is
     subtype Tolerance is Float range 0.01 .. 1.0;
 
     use Liste_Points;
@@ -66,4 +68,4 @@ package Courbes.Interpolations_Lineaires is
         -- Cas particulier : le singleton
         overriding procedure Visiter(Self : Interpolateur_Lineaire; S : Singleton);
     end Visiteur_Interpolateur;
-end Courbes.Interpolations_Lineaires;
+end Interpolations_Lineaires;
