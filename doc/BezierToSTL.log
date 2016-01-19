@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.11.15)  17 JAN 2016 14:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.11.15)  20 JAN 2016 00:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -465,12 +465,12 @@ Overfull \hbox (11.73157pt too wide) in paragraph at lines 40--40
  []
 
 
-Overfull \hbox (3.10907pt too wide) in paragraph at lines 59--63
+Overfull \hbox (3.10907pt too wide) in paragraph at lines 61--65
 \OT1/cmr/m/n/10.95 d^^Secimal (point). Le type \OT1/cmtt/m/n/10.95 Op[]Code \OT1/cmr/m/n/10.95 ^^Senum^^Rere les ins-truc-tions sup-port^^Sees (MLHC-QVmlhcqv).
  []
 
 
-Overfull \hbox (35.78221pt too wide) in paragraph at lines 59--63
+Overfull \hbox (35.78221pt too wide) in paragraph at lines 61--65
 \OT1/cmr/m/n/10.95 l'^^Senum^^Seration. On d^^Sefinit deux sous types, \OT1/cmtt/m/n/10.95 Op[]Code[]Absolute \OT1/cmr/m/n/10.95 (ma-jus-cules) et \OT1/cmtt/m/n/10.95 Op[]Code[]Relative
  []
 
@@ -478,35 +478,35 @@ Overfull \hbox (35.78221pt too wide) in paragraph at lines 59--63
 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (20.00352pt too wide) in paragraph at lines 82--83
+Overfull \hbox (20.00352pt too wide) in paragraph at lines 84--85
 []\OT1/cmr/m/n/10.95 On sou-haite d^^Secoupler la ges-tion des courbes de celle du SVG. On choi-sit une repr^^Sesentation
  []
 
 
-Overfull \hbox (5.75285pt too wide) in paragraph at lines 82--83
+Overfull \hbox (5.75285pt too wide) in paragraph at lines 84--85
 \OT1/cmr/m/n/10.95 in-term^^Sediaire en arbre (h^^Seritage) dont la classe de base \OT1/cmtt/m/n/10.95 Courbe \OT1/cmr/m/n/10.95 est abs-traite. Les diff^^Serentes
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 84.
+(Font)              <10.95> on input line 86.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 84.
+(Font)              <8> on input line 86.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 84.
+(Font)              <6> on input line 86.
 
-Overfull \hbox (7.88202pt too wide) in paragraph at lines 85--86
+Overfull \hbox (7.88202pt too wide) in paragraph at lines 87--88
 []\OT1/cmtt/m/n/10.95 Accepter \OT1/cmr/m/n/10.95 du pa-tron de concep-tion vi-si-teur, per-met-tant d'ac-cep-ter une vi-site (cf. 2.4[]). 
  []
 
 [2]
-Overfull \hbox (15.28679pt too wide) in paragraph at lines 111--112
+Overfull \hbox (15.28679pt too wide) in paragraph at lines 113--114
 []\OT1/cmr/m/n/10.95 Cette m^^Sethode n'est dis-po-nible que pour les courbes de B^^Sezier. C'est une impl^^Sementation
  []
 
 <facettespng.png, id=17, 284.56313pt x 161.85469pt>
 File: facettespng.png Graphic file (type png)
  <use facettespng.png>
-Package pdftex.def Info: facettespng.png used on input line 117.
+Package pdftex.def Info: facettespng.png used on input line 119.
 (pdftex.def)             Requested size: 284.56242pt x 161.85428pt.
  [3 <./facettespng.png>] (./BezierToSTL.aux) ) 
 Here is how much of TeX's memory you used:
@@ -518,7 +518,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  46i,10n,47p,391b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on BezierToSTL.pdf (3 pages, 147780 bytes).
+Output written on BezierToSTL.pdf (3 pages, 148292 bytes).
 PDF statistics:
  61 PDF objects out of 1000 (max. 8388607)
  42 compressed objects within 1 object stream

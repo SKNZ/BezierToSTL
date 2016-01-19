@@ -43,7 +43,9 @@
 Les références sont situées en fin de \texttt{README.md}.
 Nous utilisons le système de gestion de version \textbf{git} sur la plateforme \textbf{github} afin de maintenir l'historique de nos modifications et de synchroniser le code entre les différents lieux et membres de l'équipe.
 
-L'application se configure à l'aide des différents constantes présentes dans la fonction principale.
+L'application se configure à l'aide des différents constantes présentes dans la fonction principale (fichier \texttt{src/beziertostl.adb}). L'exécutable est \texttt{bin/beziertostl}.
+
+Des tests unitaires (couverture partielle) sont présents dans \texttt{src/test\_unitaires.adb} et sont exécutables via \texttt{bin/test\_unitaires}.
 
 \section{Fonctionnement}
 
@@ -118,5 +120,7 @@ L'idée est de parcourir \texttt{Segments} par couples : on construit un "cercle
 \end{center}
 et on effectue une rotation de $\frac{2\pi}{M}$ pour chaque nouveau point.
 La figure est ensuite exportée à l'aide de la procédure \texttt{Sauvegarde} vers un fichier STL\@. Le fichier sera crée ou tronqué si nécessaire.
+
+\subsection{Cas d'erreurs}
 
 \end{document}
