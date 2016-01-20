@@ -1,0 +1,51 @@
+V "GNAT Lib v5"
+A -fstack-check=specific
+A -gnatA
+A -g
+A -gnatwa
+A -gnato
+A -mtune=generic
+A -march=x86-64
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U listes_courbes%s	listes_courbes.ads	6f66f8e6 NE OO PK
+W courbes%s		courbes.adb		courbes.ali
+W liste_generique%s	liste_generique.adb	liste_generique.ali
+
+D ada.ads		20070406091342 3ffc8e18 ada%s
+D a-except.ads		20140730140058 5250cb69 ada.exceptions%s
+D a-finali.ads		20140611123707 69f99942 ada.finalization%s
+D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
+D a-tags.ads		20140730140058 dc4d0634 ada.tags%s
+D a-unccon.ads		20070406091342 f9eb8f06 ada.unchecked_conversion%s
+D a-uncdea.ads		20070406091342 f15a5ed1 ada.unchecked_deallocation%s
+D courbes.ads		20160113223350 ccbe9adc courbes%s
+D liste_generique.ads	20160102000753 97c69cab liste_generique%s
+D liste_generique.adb	20160101223236 6e70ce73 liste_generique%b
+D listes_courbes.ads	20160113223325 341efe91 listes_courbes%s
+D system.ads		20141031112219 1d274481 system%s
+D s-exctab.ads		20140225151139 54135002 system.exception_table%s
+D s-finmas.ads		20140225151139 814daec4 system.finalization_masters%s
+D s-finroo.ads		20120426095924 4ff27390 system.finalization_root%s
+D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-pooglo.ads		20110804083314 542f33d0 system.pool_global%s
+D s-soflin.ads		20140801100131 aa763b52 system.soft_links%s
+D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
+D s-stalib.ads		20150220094550 fa0a3617 system.standard_library%s
+D s-stoele.ads		20140225151139 2dc34a04 system.storage_elements%s
+D s-stopoo.ads		20131010103753 b16154c2 system.storage_pools%s
+D s-stratt.ads		20131014135145 aedef97e system.stream_attributes%s
+D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20140731130224 9d58a4c0 system.unsigned_types%s
+D vecteurs.ads		20160112234748 05e2a6d8 vecteurs%s
+X 8 courbes.ads
+4K9*Courbes 37e12 11|2w6 2r19
+X 9 liste_generique.ads
+4k9*Liste_Generique 51e4 11|1w6
+X 11 listes_courbes.ads
+4K9*Listes_Courbes 5l5 5e19
+

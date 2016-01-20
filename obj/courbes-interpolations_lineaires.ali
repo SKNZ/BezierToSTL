@@ -1,0 +1,212 @@
+V "GNAT Lib v5"
+A -fstack-check=specific
+A -gnatA
+A -g
+A -gnatwa
+A -gnato
+A -mtune=generic
+A -march=x86-64
+P SS ZX
+
+RN
+RV NO_DISPATCH
+RV NO_DISPATCHING_CALLS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_FLOATING_POINT
+RV NO_IO
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_IMPLICIT_DYNAMIC_CODE
+RV NO_RECURSION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U courbes.interpolations_lineaires%b  courbes-interpolations_lineaires.adb  f9e7af84 NE OO PK
+W ada%s			ada.ads			ada.ali
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.streams%s		a-stream.adb		a-stream.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W courbes%s		courbes.adb		courbes.ali
+W system%s		system.ads		system.ali
+W system.address_image%s  s-addima.adb		s-addima.ali
+W system.concat_2%s	s-conca2.adb		s-conca2.ali
+W system.finalization_masters%s  s-finmas.adb	s-finmas.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.storage_elements%s  s-stoele.adb	s-stoele.ali
+
+U courbes.interpolations_lineaires%s  courbes-interpolations_lineaires.ads  c7fc573a BN EE NE OO PK
+W courbes%s		courbes.adb		courbes.ali
+W courbes.bezier_cubiques%s  courbes-bezier_cubiques.adb  courbes-bezier_cubiques.ali
+W courbes.droites%s	courbes-droites.adb	courbes-droites.ali
+W courbes.singletons%s	courbes-singletons.adb	courbes-singletons.ali
+W courbes.visiteurs%s	courbes-visiteurs.adb	courbes-visiteurs.ali
+
+D ada.ads		20070406091342 3ffc8e18 ada%s
+D a-except.ads		20140730140058 5250cb69 ada.exceptions%s
+D a-finali.ads		20140611123707 69f99942 ada.finalization%s
+D a-ioexce.ads		20140225151544 e4a01f64 ada.io_exceptions%s
+D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
+D a-tags.ads		20140730140058 dc4d0634 ada.tags%s
+D a-textio.ads		20140717063745 386df5d4 ada.text_io%s
+D a-unccon.ads		20070406091342 f9eb8f06 ada.unchecked_conversion%s
+D a-uncdea.ads		20070406091342 f15a5ed1 ada.unchecked_deallocation%s
+D courbes.ads		20160117003637 475ecee5 courbes%s
+D courbes-bezier_cubiques.ads  20160117003842 2ab2b432 courbes.bezier_cubiques%s
+D courbes-bezier_quadratiques.ads  20160117003353 47f81d33 courbes.bezier_quadratiques%s
+D courbes-droites.ads	20160117003353 5af7dce1 courbes.droites%s
+D courbes-interpolations_lineaires.ads  20160117021012 5e41becc courbes.interpolations_lineaires%s
+D courbes-interpolations_lineaires.adb  20160117232245 9fcbe49c courbes.interpolations_lineaires%b
+D courbes-singletons.ads  20160117003353 42eba96f courbes.singletons%s
+D courbes-visiteurs.ads	20160117003353 ec4de6af courbes.visiteurs%s
+D interfac.ads		20141120112812 6033a23f interfaces%s
+D i-cstrea.ads		20140801100435 e53d8b8e interfaces.c_streams%s
+D liste_generique.ads	20160114221750 97c69cab liste_generique%s
+D liste_generique.adb	20160114221750 6e70ce73 liste_generique%b
+D system.ads		20141031112219 1d274481 system%s
+D s-addima.ads		20140718094033 a1ec9d3a system.address_image%s
+D s-conca2.ads		20140225151544 02a0d7d0 system.concat_2%s
+D s-crtl.ads		20141120112812 0ebbdb71 system.crtl%s
+D s-exctab.ads		20140225151139 54135002 system.exception_table%s
+D s-ficobl.ads		20140718105747 078245e4 system.file_control_block%s
+D s-finmas.ads		20140225151139 814daec4 system.finalization_masters%s
+D s-finroo.ads		20120426095924 4ff27390 system.finalization_root%s
+D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-pooglo.ads		20110804083314 542f33d0 system.pool_global%s
+D s-secsta.ads		20140225151139 86a2856d system.secondary_stack%s
+D s-soflin.ads		20140801100131 aa763b52 system.soft_links%s
+D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
+D s-stalib.ads		20150220094550 fa0a3617 system.standard_library%s
+D s-stoele.ads		20140225151139 2dc34a04 system.storage_elements%s
+D s-stoele.adb		20140801093848 ed88f8fb system.storage_elements%b
+D s-stopoo.ads		20131010103753 b16154c2 system.storage_pools%s
+D s-stratt.ads		20131014135145 aedef97e system.stream_attributes%s
+D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20140731130224 9d58a4c0 system.unsigned_types%s
+D s-wchcon.ads		20140718092328 1b7d22d2 system.wch_con%s
+D vecteurs.ads		20160117010532 564f090d vecteurs%s
+X 1 ada.ads
+16K9*Ada 19e8 15|1r6 1r23
+X 7 a-textio.ads
+49K13*Text_IO 471e16 15|1w10 1r27
+X 10 courbes.ads
+5K9*Courbes 33e12 14|1r6 1r30 2r6 2r27 3r6 3r35 4r6 4r29 6r9 69r5 15|3r14
+. 220r5
+6H10*Courbe 32e19 14|58r73 15|63r73 69r27 93r35 120r35
+7P10*Courbe_Ptr(6R10) 14|26r13 15|24r49 38r13
+8K13*Liste_Courbes[20|4] 14|15r19 15|6r19 31r40
+17y14*Obtenir_Point{43|5A13} 15|74R48
+20U15*Accepter 15|27R15 57R11
+23V14*Obtenir_Debut{43|5A13} 15|99s45 138s32 144s26 161s57 174s55 175s53
+. 217s41
+26V14*Obtenir_Fin{43|5A13} 15|100s45 139s26 143s32 161s75 179s53 180s53
+X 11 courbes-bezier_cubiques.ads
+3K17*Bezier_Cubiques 26e28 14|3w14 3r43
+5R10*Bezier_Cubique<10|6R10> 25e19 14|64r74 15|112r74 186r35 192r35
+8V14*Ctor_Bezier_Cubique{5R10} 15|186s53 192s53
+15V14*Obtenir_Controle1{43|5A13} 15|137s31 171s60 175s72
+16V14*Obtenir_Controle2{43|5A13} 15|142s31 171s83 180s70
+X 13 courbes-droites.ads
+1K17*Droites 23e20 14|2w14 2r35
+3R10*Droite<10|6R10> 22e19 14|61r73 15|85r73
+6V14*Ctor_Droite{3R10} 15|161s41
+X 14 courbes-interpolations_lineaires.ads
+6K17*Interpolations_Lineaires 10|5k9 14|54E13 69l13 69e37 15|3b22 220l13
+. 220t37
+7F13*Tolerance{float} 20r33 31r33 53r33 15|11r33 43r33
+14U15*Interpolation_Lineaire 15>9 16=9 17>9 18>9 19>9 20>9 15|5b15 35t8
+15r9 Courbes{20|6R10[10|8]} 15|6b9 34r23
+16r9 Segments{20|6R10[43|8]} 15|7b9 15m14 15r14
+17i9 Nombre_Points{positive} 15|8b9 16r13
+18b9 Interpoler_Droites{boolean} 15|9b9 17r13
+19b9 Utiliser_DeCasteljau{boolean} 15|10b9 18r13
+20f9 Tolerance_DeCasteljau{7F13} 15|11b9 19r13
+25U15*Interpolation_Lineaire 26>9 27=9 28>9 29>9 30>9 31>9 15|37b15 58t8
+26p9 C{10|7P10} 15|38b9 57r9
+27r9 Segments{20|6R10[43|8]} 15|39b9 47m14 47r14
+28i9 Nombre_Points{positive} 15|40b9 48r13
+29b9 Interpoler_Droites{boolean} 15|41b9 49r13
+30b9 Utiliser_DeCasteljau{boolean} 15|42b9 50r13
+31f9 Tolerance_DeCasteljau{7F13} 15|43b9 51r13
+38r9 Segments{20|6R10[43|8]} 15|77m37 77r37 99m33 99r33 100m33 100r33 217m29
+. 217r29
+41i9 Nombre_Points{positive} 15|65r49 71r27
+44b9 Interpoler_Droites{boolean} 15|87r16
+48b9 Utiliser_DeCasteljau{boolean} 15|114r20
+53f9 Tolerance_DeCasteljau{7F13} 15|155r54
+54k13 Visiteur_Interpolateur 38z9 41z9 44z9 48z9 53z9 68l9 68e31 15|14r38
+. 46r38 61b18 219l9 219t31
+55R14*Interpolateur_Lineaire<17|7R10> 55e76 58P30 58r45 61P30 61r45 64P30
+. 64r45 67P30 67r45 15|22r27[14] 54r27[46] 63r45 85r45 90r38 112r45 117r38
+. 158r42 200r38 213r45 17|13p15[15|14]
+58U30*Visiter<17|9p15> 58>38 58>69 15|63b30 80t12 93R27 120R27
+58r38 Self{55R14} 15|63b38
+58r69 C{10|6R10} 15|63b69 69r43
+61U30*Visiter<17|10p15> 61>38 61>69 15|85b30 102t12 161R31
+61r38 Self{55R14} 15|85b38 90r70
+61r69 D{13|3R10} 15|85b69 93r42 99r43 100r43
+64U30*Visiter<17|12p15> 64>38 64>69 15|112b30 203R27 206R27 210t12
+64r38 Self{55R14} 15|112b38 117r70 158r74 200r70
+64r69 BC{11|5R10} 15|112b69 120r42 137r28 138r29 139r23 142r28 143r29 144r23
+. 161r54 161r72 171r57 171r80 174r52 175r50 175r69 179r50 180r50 180r67
+67U30*Visiter<17|11p15> 67>38 67>69 15|213b30 218t12
+67r38 Self{55R14} 15|213b38
+67r69 S{16|5R10} 15|213b69 217r39
+X 15 courbes-interpolations_lineaires.adb
+14K17 Interpolateur[14|54] 22r13
+22r9 V{14|55R14[14]} 27r25
+24U19 Interpoler_Helper 24b19 24=38 28t12 31r75
+24p38 C{10|7P10} 27r13
+31U19 Traiter_Liste[20|20] 34s9
+46K17 Interpolateur[14|54] 54r13
+54r9 V{14|55R14[46]} 57r21
+65f13 Pas{float} 74r73
+69c13 CC<10|6R10> 74r45
+71i17 I{integer} 74r68
+74a21 P{43|5A13} 77r47
+90c21 CSelf<14|55R14> 93r21
+117c21 CSelf<14|55R14> 120r21
+136a17 U{43|5A13} 146r20 146r22 147m21 147r23 150r20 150r22 151m21 151r23
+. 155r20 155r22 155r33 155r35
+141a17 V{43|5A13} 146r33 146r35 147r35 147r37 150r32 150r34 151r34 151r36
+158c25 CSelf<14|55R14> 161r25
+171a17 Milieu_Controles{43|5A13} 176r62 181r62
+174a17 Gauche_Debut{43|5A13} 187r22
+175a17 Gauche_C1{43|5A13} 176r50 189r21
+176a17 Gauche_C2{43|5A13} 184r77 190r21
+179a17 Droite_Fin{43|5A13} 194r21
+180a17 Droite_C2{43|5A13} 181r50 196r21
+181a17 Droite_C1{43|5A13} 184r65 195r21
+184a17 Gauche_Fin{43|5A13} 188r21
+184a29 Droite_Debut{43|5A13} 193r22
+186r17 Gauche{11|5R10} 203r35
+192r17 Droite{11|5R10} 206r35
+200c21 CSelf<14|55R14> 203r21 206r21
+X 16 courbes-singletons.ads
+3K17*Singletons 14|1w14 1r38 16|18e23
+5R10*Singleton<10|6R10> 14|67r73 15|213r73 16|17e50
+X 17 courbes-visiteurs.ads
+6K17*Visiteurs 14|4w14 4r37 17|14e22
+7H10*Visiteur_Courbe 14|55r44 17|7e56
+13U15*Visiter
+X 20 liste_generique.ads
+6R10*Liste 14|15r33[10|8] 16r27[43|8] 27r27[43|8] 38r27[43|8] 15|6r33[10|8]
+. 7r27[43|8] 39r27[43|8]
+15U15*Insertion_Queue 15|77s21[43|8] 99s17[43|8] 100s17[43|8] 217s13[43|8]
+19U20 Traiter 15|31r64[10|8]
+20u15*Parcourir 15|31r54[10|8]
+X 43 vecteurs.ads
+4A10*Vecteur(float)<integer>
+5A13*Point2D{4A10}<integer> 15|74r34 136r21 141r30 171r45 174r41 175r38 176r38
+. 179r39 180r38 181r38 184r53
+8K13*Liste_Points[20|4] 14|9r9
+18V15*"+"{4A10} 15|171s78 175s67 176s60 180s65 181s60 184s75
+22V15*"-"{4A10} 15|138s21 139s21 143s21 144s21
+25V15*"*"{4A10} 15|137s26 138s27 142s26 143s27
+28V15*"**"{4A10} 15|139s39 144s41
+31V15*"/"{4A10} 15|171s102 175s91 176s80 180s89 181s80 184s88
+

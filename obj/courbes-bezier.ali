@@ -1,0 +1,46 @@
+V "GNAT Lib v5"
+A -fstack-check=specific
+A -gnatA
+A -g
+A -gnatwa
+A -gnato
+A -mtune=generic
+A -march=x86-64
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U courbes.bezier%s	courbes-bezier.ads	5d72a13c NE OO PK
+W courbes%s		courbes.adb		courbes.ali
+
+D ada.ads		20070406091342 3ffc8e18 ada%s
+D a-except.ads		20140730140058 5250cb69 ada.exceptions%s
+D a-finali.ads		20140611123707 69f99942 ada.finalization%s
+D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
+D a-tags.ads		20140730140058 dc4d0634 ada.tags%s
+D a-unccon.ads		20070406091342 f9eb8f06 ada.unchecked_conversion%s
+D courbes.ads		20160114224258 dad9a0f5 courbes%s
+D courbes-bezier.ads	20160114224249 87ab01c9 courbes.bezier%s
+D liste_generique.ads	20160114221750 97c69cab liste_generique%s
+D system.ads		20141031112219 1d274481 system%s
+D s-exctab.ads		20140225151139 54135002 system.exception_table%s
+D s-finmas.ads		20140225151139 814daec4 system.finalization_masters%s
+D s-finroo.ads		20120426095924 4ff27390 system.finalization_root%s
+D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-pooglo.ads		20110804083314 542f33d0 system.pool_global%s
+D s-soflin.ads		20140801100131 aa763b52 system.soft_links%s
+D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
+D s-stalib.ads		20150220094550 fa0a3617 system.standard_library%s
+D s-stoele.ads		20140225151139 2dc34a04 system.storage_elements%s
+D s-stopoo.ads		20131010103753 b16154c2 system.storage_pools%s
+D s-stratt.ads		20131014135145 aedef97e system.stream_attributes%s
+D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20140731130224 9d58a4c0 system.unsigned_types%s
+D vecteurs.ads		20160114221750 e71f69d6 vecteurs%s
+X 7 courbes.ads
+4K9*Courbes 30e12 8|1r9 2r5
+X 8 courbes-bezier.ads
+1K17*Bezier 7|4k9 8|2l13 2e19
+

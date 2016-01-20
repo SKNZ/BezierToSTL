@@ -1,0 +1,102 @@
+V "GNAT Lib v5"
+A -fstack-check=specific
+A -gnatA
+A -g
+A -gnatwa
+A -gnato
+A -mtune=generic
+A -march=x86-64
+P SS ZX
+
+RN
+RV NO_ALLOCATORS
+RV NO_ANONYMOUS_ALLOCATORS
+RV NO_DISPATCHING_CALLS
+RV NO_FLOATING_POINT
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_IMPLICIT_LOOPS
+RV NO_LOCAL_ALLOCATORS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RV SPARK_05
+
+U courbes.bezier.cubiques%b  courbes-bezier-cubiques.adb  58f8d22f NE OO PK
+W ada.tags%s		a-tags.adb		a-tags.ali
+W courbes.bezier%s	courbes-bezier.ads	courbes-bezier.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+
+U courbes.bezier.cubiques%s  courbes-bezier-cubiques.ads  3b063c35 EE OO PF PK
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.streams%s		a-stream.adb		a-stream.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W courbes%s		courbes.adb		courbes.ali
+W courbes.bezier%s	courbes-bezier.ads	courbes-bezier.ali
+W system%s		system.ads		system.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.storage_elements%s  s-stoele.adb	s-stoele.ali
+W system.stream_attributes%s  s-stratt.adb	s-stratt.ali
+
+D ada.ads		20070406091342 3ffc8e18 ada%s
+D a-except.ads		20140730140058 5250cb69 ada.exceptions%s
+D a-finali.ads		20140611123707 69f99942 ada.finalization%s
+D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
+D a-tags.ads		20140730140058 dc4d0634 ada.tags%s
+D a-unccon.ads		20070406091342 f9eb8f06 ada.unchecked_conversion%s
+D courbes.ads		20160114224258 dad9a0f5 courbes%s
+D courbes-bezier.ads	20160114224249 87ab01c9 courbes.bezier%s
+D courbes-bezier-cubiques.ads  20160114224249 66749d09 courbes.bezier.cubiques%s
+D courbes-bezier-cubiques.adb  20160114224249 3e8c4f26 courbes.bezier.cubiques%b
+D liste_generique.ads	20160114221750 97c69cab liste_generique%s
+D system.ads		20141031112219 1d274481 system%s
+D s-exctab.ads		20140225151139 54135002 system.exception_table%s
+D s-finmas.ads		20140225151139 814daec4 system.finalization_masters%s
+D s-finroo.ads		20120426095924 4ff27390 system.finalization_root%s
+D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-pooglo.ads		20110804083314 542f33d0 system.pool_global%s
+D s-secsta.ads		20140225151139 86a2856d system.secondary_stack%s
+D s-soflin.ads		20140801100131 aa763b52 system.soft_links%s
+D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
+D s-stalib.ads		20150220094550 fa0a3617 system.standard_library%s
+D s-stoele.ads		20140225151139 2dc34a04 system.storage_elements%s
+D s-stoele.adb		20140801093848 ed88f8fb system.storage_elements%b
+D s-stopoo.ads		20131010103753 b16154c2 system.storage_pools%s
+D s-stratt.ads		20131014135145 aedef97e system.stream_attributes%s
+D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20140731130224 9d58a4c0 system.unsigned_types%s
+D vecteurs.ads		20160114221750 e71f69d6 vecteurs%s
+X 7 courbes.ads
+4K9*Courbes 30e12 9|1w6 1r19 3r9 21r5 10|1r14 22r5
+5H10*Courbe 29e19 9|5r32 17r32
+8F13*Coordonnee_Normalisee{float} 9|11r53 10|14r53
+17U15*Interpolation_Lineaire
+20V14*Obtenir_Debut{28|5A13}
+23V14*Obtenir_Fin{28|5A13}
+28a13*Debut{28|5A13} 10|9m17 17r33
+28a20*Fin{28|5A13} 10|10m17 20r27
+X 8 courbes-bezier.ads
+1K17*Bezier 7|4k9 8|2e19 9|3r17 21r13 10|1r22 22r13
+X 9 courbes-bezier-cubiques.ads
+3K24*Cubiques 8|1k17 9|15E10 21l20 21e28 10|1b29 22l20 22t28
+5R10*Bezier_Cubique<7|5R10> 7|17p15 20p14 23p14 9|8p14 8r79 11P14 11r33 17c10
+. 20e19 10|2r79 8r17 14r33
+8V14*Ctor_Bezier_Cubique(5R10) 8>35 8>42 8>47 8>51 10|2b14 12t8
+8a35 Debut{28|5A13} 10|2b35 9r26
+8a42 Fin{28|5A13} 10|2b42 10r24
+8a47 C1{28|5A13} 10|2b47 4r19
+8a51 C2{28|5A13} 10|2b51 5r18
+11V14*Obtenir_Point{28|5A13}<7|14p14> 11>28 11>49 10|14b14 21t8
+11r28 BC{5R10} 10|14b28 17r30 18r42 19r42 20r24
+11f49 X{7|8F13} 10|14b49 17r20 18r21 18r32 19r21 19r37 20r15
+15A10 Bezier_Cubique_Controles(28|5A13)<integer> 19r25 10|3r30
+19a13 Controles{15A10} 10|11m17 18r45 19r45
+X 10 courbes-bezier-cubiques.adb
+3a9 Controles{9|15A10} 11r30
+X 28 vecteurs.ads
+4A10*Vecteur(float)<integer>
+5A13*Point2D{4A10}<integer> 9|8r56 11r83 15r56 10|2r56 14r83
+8K13*Liste_Points[11|4] 9|4r9
+18V15*"+"{4A10} 10|18s13 19s13 20s13
+25V15*"*"{4A10} 10|17s28 18s40 19s40 20s22
+

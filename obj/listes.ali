@@ -1,0 +1,46 @@
+V "GNAT Lib v5"
+A -fstack-check=specific
+A -gnatA
+A -g
+A -gnatwa
+A -gnato
+A -mtune=generic
+A -march=x86-64
+P ZX
+
+RN
+RV NO_ALLOCATORS
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_LOCAL_ALLOCATORS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RV SPARK_05
+
+U listes%s		listes.ads		907202fc EE OO PK
+Z ada%s			ada.ads			ada.ali
+Z ada.unchecked_deallocation%s
+W liste_generique%s	liste_generique.adb	liste_generique.ali  AD
+W vecteurs%s		vecteurs.adb		vecteurs.ali
+
+D ada.ads		20070406091342 3ffc8e18 ada%s
+D a-uncdea.ads		20070406091342 f15a5ed1 ada.unchecked_deallocation%s
+D liste_generique.ads	20160102000753 97c69cab liste_generique%s
+D liste_generique.adb	20160101223236 6e70ce73 liste_generique%b
+D listes.ads		20160112230918 6036dee2 listes%s
+D system.ads		20141031112219 1d274481 system%s
+D vecteurs.ads		20160112230856 678240b5 vecteurs%s
+X 3 liste_generique.ads
+4k9*Liste_Generique 51e4 5|1w6 5r33 7r34 9r35
+X 5 listes.ads
+4K9*Listes 10l5 10e11
+5K13*Liste_Points[3|4]
+7K13*Liste_Figures[3|4]
+9K13*Liste_Facettes[3|4]
+X 7 vecteurs.ads
+3K9*Vecteurs 5|2w6 2r20 7|26e13
+4A10*Vecteur(float)<integer>
+5A13*Point2D{4A10}<integer> 5|5r49 7r50
+8R10*Facette 5|9r51 7|10e15
+

@@ -52,7 +52,7 @@ Des tests unitaires (couverture partielle) sont présents dans \texttt{src/test\
 \subsection{Machine séquentielle à mots}
 
 Le package \texttt{Iterateur\_Mots} est une machine séquentielle pour la lecture mot à mot (séparateur paramétrable) d'une \texttt{string}.
-Il permet aussi un \texttt{look-ahead} sur le mot suivant.
+Il permet aussi un \texttt{look ahead} sur le mot suivant.
 
 \subsection{Parser SVG}
 
@@ -81,12 +81,14 @@ On supprime le positionnement relatif en y ajoutant la position courante.
 
 \subsection{Courbes} \label{courbes}
 
-On souhaite découpler la gestion des courbes de celle du SVG\@. On choisit une représentation intermédiaire en arbre (héritage) dont la classe de base \texttt{Courbe} est abstraite. Les différentes courbes supportées (incluant la droite et le point seul nommé singleton) en héritent. Cette classe \texttt{Courbe} fournit deux contrats:
+On souhaite découpler la gestion des courbes de celle du SVG\@. On choisit une représentation intermédiaire en arbre (héritage) dont la classe de base \texttt{Courbe} est abstraite. Les différentes courbes supportées (incluant la droite et le point seul nommé singleton) en héritent. Le mécanisme du polymorphisme permet au système de fonctionner avec une liste de \texttt{Courbe}. Cette classe \texttt{Courbe} fournit deux contrats:
 \begin{itemize}
     \item \texttt{Obtenir\_Point} renvoyant $(x, f(x))$ avec $f$ étant la fonction de la courbe.
     \item \texttt{Accepter} du patron de conception visiteur, permettant d'accepter une visite (cf.~\ref{interpolation}).
 \end{itemize}
 Cette représentation tente d'approcher le principe SOLID.
+
+Brièvement, une classe en Ada est un \texttt{tagged record}. Un \texttt{record} héritant est instancié avec \texttt{new}. Le polymorphisme se fait à travers une instanciation d'une variable du type donné par l'attribut \texttt{'Class} d'un \texttt{tagged record}, au quel on assigne l'instance de l'objet sur lequel on souhaite bénéficier du polymorphisme (\texttt{redispatching}).
 
 \subsection{Interpolation linéaire}\label{interpolation}
 
@@ -97,7 +99,7 @@ On choisit le patron de conception visiteur car l'interpolation:
     \item Se comporte différement selon le type de courbe et le type d'interpolation souhaitée (\texttt{double dispatch}).
 \end{itemize}
 
-Réalisée dans le package \texttt{Courbe.Interpolation\_Lineaire}, l'interpolation linéaire d'une courbe consiste à la diviser en N points équidistants l'axe des abscisses et à calculer la valeur de la courbe aux points donnés.
+Réalisée dans le package \texttt{Interpolation\_Lineaire}, l'interpolation linéaire d'une courbe consiste à la diviser en N points équidistants l'axe des abscisses et à calculer la valeur de la courbe aux points donnés.
 
 \subsubsection{Algorithme de De Casteljau}
 
@@ -110,7 +112,7 @@ L'algorithme de De Casteljau est une approche récursive de type diviser pour mi
 
 La tolérance est le seul paramètre de l'algorithme: elle définit quand un courbe de bézier peut être considérée comme étant droite.
 
-Cette méthode n'est disponible que pour les courbes de Bézier. C'est une implémentation de la méthode proposée dans \textit{Piecewise Linear Approximation of Bézier Curves}, par Kasper FISCHER (lien dans le README).
+Nous ne proposons cette que pour les courbes de Bézier. C'est une implémentation de la méthode proposée dans \textit{Piecewise Linear Approximation of Bézier Curves}, par Kasper FISCHER (lien dans le README).
 
 \subsection{Génération et Sauvegarde du STL}
 On dispose de la valeur \texttt{M}, le pas de la rotation, calculée à partir du nombre de facette souhaité.

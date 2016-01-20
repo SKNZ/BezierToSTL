@@ -1,0 +1,138 @@
+V "GNAT Lib v5"
+M P W=b
+A -fstack-check=specific
+A -gnatA
+A -g
+A -gnatwa
+A -gnato
+A -mtune=generic
+A -march=x86-64
+P SS ZX
+
+RN
+RV NO_DISPATCH
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTION_PROPAGATION
+RV NO_EXCEPTIONS
+RV NO_FLOATING_POINT
+RV NO_IO
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U main%b		main.adb		eaeed2ac NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.command_line%s	a-comlin.adb		a-comlin.ali
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W courbes%s		courbes.ads		courbes.ali
+W courbes.droites%s	courbes-droites.adb	courbes-droites.ali
+W math%s		math.adb		math.ali
+W normalisation%s	normalisation.adb	normalisation.ali
+W parser_svg%s		parser_svg.adb		parser_svg.ali
+W stl%s			stl.adb			stl.ali
+W system.concat_2%s	s-conca2.adb		s-conca2.ali
+W system.concat_3%s	s-conca3.adb		s-conca3.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W vecteurs%s		vecteurs.adb		vecteurs.ali
+
+D ada.ads		20070406091342 3ffc8e18 ada%s
+D a-comlin.ads		20140225151544 ea62afbc ada.command_line%s
+D a-except.ads		20140730140058 5250cb69 ada.exceptions%s
+D a-finali.ads		20140611123707 69f99942 ada.finalization%s
+D a-ioexce.ads		20140225151544 e4a01f64 ada.io_exceptions%s
+D a-numeri.ads		20080324174807 bb51c45a ada.numerics%s
+D a-nuelfu.ads		20070406091342 03e83d1c ada.numerics.elementary_functions%s
+D a-ngelfu.ads		20140731125134 b8fdcb46 ada.numerics.generic_elementary_functions%s
+D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
+D a-tags.ads		20140730140058 dc4d0634 ada.tags%s
+D a-textio.ads		20140717063745 386df5d4 ada.text_io%s
+D a-unccon.ads		20070406091342 f9eb8f06 ada.unchecked_conversion%s
+D courbes.ads		20160112222651 7784bef5 courbes%s
+D courbes-droites.ads	20160112224718 b8f1c985 courbes.droites%s
+D interfac.ads		20141120112812 6033a23f interfaces%s
+D i-cstrea.ads		20140801100435 e53d8b8e interfaces.c_streams%s
+D liste_generique.ads	20160102000753 97c69cab liste_generique%s
+D main.adb		20160112222642 94eda650 main%b
+D math.ads		20160112214127 4ab565c1 math%s
+D normalisation.ads	20160112214228 4b48cf9e normalisation%s
+D parser_svg.ads	20160112214100 c33633eb parser_svg%s
+D stl.ads		20160112214048 c98b01f1 stl%s
+D system.ads		20141031112219 1d274481 system%s
+D s-conca2.ads		20140225151544 02a0d7d0 system.concat_2%s
+D s-conca3.ads		20140225151544 0b705ca5 system.concat_3%s
+D s-crtl.ads		20141120112812 0ebbdb71 system.crtl%s
+D s-exctab.ads		20140225151139 54135002 system.exception_table%s
+D s-ficobl.ads		20140718105747 078245e4 system.file_control_block%s
+D s-finroo.ads		20120426095924 4ff27390 system.finalization_root%s
+D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-secsta.ads		20140225151139 86a2856d system.secondary_stack%s
+D s-soflin.ads		20140801100131 aa763b52 system.soft_links%s
+D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
+D s-stalib.ads		20150220094550 fa0a3617 system.standard_library%s
+D s-stoele.ads		20140225151139 2dc34a04 system.storage_elements%s
+D s-stopoo.ads		20131010103753 b16154c2 system.storage_pools%s
+D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20140731130224 9d58a4c0 system.unsigned_types%s
+D s-wchcon.ads		20140718092328 1b7d22d2 system.wch_con%s
+D vecteurs.ads		20160112214202 3a690ac8 vecteurs%s
+X 1 ada.ads
+16K9*Ada 19e8 18|1r6 1r28 4r6 4r23 7r6 7r26
+X 2 a-comlin.ads
+38K13*Command_Line 139e21 18|1w10 1r32
+41V13*Argument_Count{natural} 18|19s8
+48V13*Argument{string} 18|28s23 37s17
+57V13*Command_Name{string} 18|21s22
+65I9*Exit_Status<integer>
+68i4*Failure{65I9} 18|23r25 45r26 49r26
+70U14*Set_Exit_Status 18|23s9 45s9 49s9
+X 3 a-except.ads
+53K13*Exceptions 360e19 18|7w10 7r30
+93V13*Exception_Message{string} 18|48s48
+X 11 a-textio.ads
+49K13*Text_IO 471e16 18|4w10 4r27
+52P9*File_Type
+119V13*Standard_Error{52P9} 18|20s18 43s19 47s19
+259U14*Put_Line 18|20s9 43s9 47s9
+263U14*Put_Line 18|17s5
+X 13 courbes.ads
+4K9*Courbes 17e12 18|8w6 8r19 9r6 9r27
+5H10*Courbe 16e19 18|15r9
+X 14 courbes-droites.ads
+1K17*Droites 13e20 18|9w14 9r35
+5V14*Ctor_Droite{2R10} 18|15s25
+8V14*Obtenir_Point{40|5A13}<13|10p14> 18|17s27
+X 17 liste_generique.ads
+6R10*Liste 18|13r29[40|8] 14r31[22|21]
+9U15*Vider 18|39s18[40|8] 40s20[22|21]
+X 18 main.adb
+12U11*Main 12b11 50t4
+13r5 Segments{17|6R10[40|8]} 28m36 31m16 31r16 34m14 34r14 39m24 39r24
+14r5 Facettes{17|6R10[22|21]} 34m24 37r30 40m26 40r26
+15r5 d{14|2R10} 17r25
+46r10 e{3|62R9} 48r67
+X 19 math.ads
+3K9*Math 18|5w6 5r16 19|23e4
+X 20 normalisation.ads
+3K9*Normalisation 18|6w6 6r25 20|13e18
+8U15*Normaliser 18|31s5
+X 21 parser_svg.ads
+4K9*Parser_Svg 18|3w6 3r22 21|77e4
+7X5*Courbe_Abs 18|42r10
+8X5*Courbe_Illisible 18|46r13
+13U15*Chargement_Bezier 18|28s5
+X 22 stl.ads
+10K9*STL 18|2w6 2r15 22|31e4
+21K13*Liste_Facettes[17|4] 18|14r16 40r5
+25U15*Creation 18|34s5
+29U15*Sauvegarder 18|37s5
+X 40 vecteurs.ads
+3K9*Vecteurs 18|10w6 10r20 40|27e13
+4A10*Vecteur(float)<integer>
+5A13*Point2D{4A10}<integer>
+8K13*Liste_Points[17|4] 18|13r16 39r5
+24V14*To_String{string} 18|17s14
+
