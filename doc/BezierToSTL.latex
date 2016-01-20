@@ -130,4 +130,6 @@ La figure est ensuite exportée à l'aide de la procédure \texttt{Sauvegarde} v
     \item Le fichier source ne contenait pas de courbe
 \end{itemize}
 
+Les erreurs sont remontées à travers des exceptions.
+
 \end{document}
