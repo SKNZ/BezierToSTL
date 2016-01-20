@@ -97,7 +97,7 @@ On choisit le patron de conception visiteur car l'interpolation:
     \item Se comporte différement selon le type de courbe et le type d'interpolation souhaitée (\texttt{double dispatch}).
 \end{itemize}
 
-Réalisée dans le package \texttt{Courbe.Interpolation\_Lineaire}, l'interpolation linéaire d'une courbe consiste à la diviser en N points équidistants l'axe des abscisses et à calculer la valeur de la courbe aux points donnés. Les formules utilisées pour les courbes de Bézier sont \huge\textbf{REMPLIR ICI REMPLIR ICI REMPLIR ICI}\normalsize.
+Réalisée dans le package \texttt{Courbe.Interpolation\_Lineaire}, l'interpolation linéaire d'une courbe consiste à la diviser en N points équidistants l'axe des abscisses et à calculer la valeur de la courbe aux points donnés.
 
 \subsubsection{Algorithme de De Casteljau}
 
@@ -122,5 +122,12 @@ et on effectue une rotation de $\frac{2\pi}{M}$ pour chaque nouveau point.
 La figure est ensuite exportée à l'aide de la procédure \texttt{Sauvegarde} vers un fichier STL\@. Le fichier sera crée ou tronqué si nécessaire.
 
 \subsection{Cas d'erreurs}
+
+3 cas d'erreurs sont relevés:
+\begin{itemize}
+    \item Le fichier source n'a pas pu être ouvert 
+    \item Le fichier source est mal formé (suivi d'une indication)
+    \item Le fichier source ne contenait pas de courbe
+\end{itemize}
 
 \end{document}
